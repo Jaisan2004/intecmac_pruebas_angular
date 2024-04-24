@@ -1,0 +1,49 @@
+<div class="container">
+    <input type="button" class="btn btn-success" value="Agregar" routerLink="">
+    <table datatable id="example" class="table table-bordered" *ngIf="data">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Zona</th>
+            <th scope="col">Asesor</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Lote</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Documento</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Analisis</th>
+            <th scope="col">Costo</th>
+            <th scope="col">Causa Raiz</th>
+            <th scope="col">Cargo Generador</th>
+            <th scope="col">Tipologia</th>
+            <th scope="col">Fecha Respuesta</th>
+            <th scope="col">Dias Gestion</th>
+            <th scope="col">Doc. Cruce</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data">
+            <th scope="row">{{item.pqrs_id}}</th>
+            <td>{{item.cli_id}}</td>
+            <td>{{item.cli_id}}</td>
+            <td>{{item.cli_id}}</td>
+            <td>{{item.prod_id}}</td>
+            <td>{{item.pqrs_lote}}</td>
+            <td>{{item.pqrs_prod_cantidad}}</td>
+            <td>{{item.pqrs_doc}}</td>
+            <td>{{item.pqrs_descripcion}}</td>
+            <td>{{item.pqrs_analisis}}</td>
+            <td>{{item.costo}}</td>
+            <td>{{item.pqrs_causa_raiz_id}}</td>
+            <td>{{item.carg_id}}</td>
+            <td>{{item.pt_id}}</td>
+            <td>{{item.pqrs_fecha_respuesta}}</td>
+            <td>{{item.pqrs_dias_gestion}}</td>
+            <td>{{item.pqrs_documento_cruce}}</td>
+            <td>{{item.pqrs_estado}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
