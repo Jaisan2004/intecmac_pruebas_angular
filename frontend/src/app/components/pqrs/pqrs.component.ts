@@ -61,6 +61,5 @@ export class PqrsComponent {
       this.getListPqrs();
       this.$ =$;
       this.dataTable= this.$("#pqrs").DataTable(this.dataTableOptions);
-  
     }
 }
