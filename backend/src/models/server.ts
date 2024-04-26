@@ -1,6 +1,8 @@
 import express, {Application, Request, Response} from 'express';
 import cors from 'cors'
 import routesPqrs from '../routes/pqrs';
+import routesCliente from '../routes/cliente';
+import routesForms from '../routes/formsSelect';
 import db from '../db/connection'
 
 class Server{
@@ -28,7 +30,9 @@ class Server{
                 msg:'API Working'
             })
         })
-        this.app.use('/api/pqrs', routesPqrs)
+        this.app.use('/api/pqrs', routesPqrs);
+        this.app.use('/api/cliente', routesCliente);
+        this.app.use('/api/seleccione', routesForms);
     }
 
     midlewares(){

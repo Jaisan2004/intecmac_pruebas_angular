@@ -1,1 +1,96 @@
-<p>agregar-pqrs works!</p>
+<div id="cuerpo">
+    <div class="container mt-3">
+        <button class="btn btn-outline-light" routerLink="/PQRS"><i class="bi bi-box-arrow-left"></i></button>
+        <h3>Agregar PQRS</h3>
+        <br>
+        <form class="row  g-3">
+            <div class="form-floating mb-3">
+                <select id="cliente" name="cliente" class="form-select" *ngIf="dataClienteOpcion"
+                    aria-label="Default select example" [(ngModel)]="id_cli" required (change)="getInfoCliente(id_cli)">
+                    <option *ngFor="let option of dataClienteOpcion" [value]="option.cli_id">{{option.cli_nombre}}
+                    </option>
+                </select>
+                <label class="form-label" for="cliente">Cliente</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input [(ngModel)]="cli_zona" name="zona" class="form-control" type="text" id="zona" disabled>
+                <label class="form-label" for="zona">Zona</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input [(ngModel)]="cli_asesor" name="asesor" class="form-control" type="text" id="asesor" disabled>
+                <label class="form-label" for="asesor">Asesor</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select id="producto" class="form-select" *ngIf="dataProductoOption" aria-label="Default select example"
+                    [(ngModel)]="id_prod" name="producto" required>
+                    <option *ngFor="let option of dataProductoOption" [value]="option.prod_id">
+                        {{option.prod_descripcion}}</option>
+                </select>
+                <label class="form-label" for="producto">Producto</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input class="form-control" name="lote" type="text" id="lote" required>
+                <label class="form-label" for="lote">Lote</label>
+                <div class="valid-feedback">
+                    Ok
+                </div>
+                <div class="invalid-feedback">
+                    Seleccionar el cliente
+                </div>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input class="form-control" type="number" id="cantidad" errorTailor>
+                <label class="form-label" for="cantidad">Cantidad</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" type="text" id="documento" required>
+                <label class="form-label" for="documento">Documento</label>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea class="form-control" id="descripcion" (keyup)="onKeyDescripcion($event)" style="height: 100px"></textarea>
+                <label class="form-label" for="descripcion">Descripcion {{contadorDes}}/5000</label>
+                <span></span>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea class="form-control" id="analisis" (keyup)="onKeyAnalisis($event)" style="height: 100px"></textarea>
+                <label class="form-label" for="analisis">Analisis {{contadorAnalisis}}/5000</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" type="number" id="costo" required>
+                <label class="form-label" for="costo">Costo</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select id="causa" class="form-select" *ngIf="dataPqrsCausa" [(ngModel)]="id_causa" name="causa"
+                    aria-label="Default select example" required>
+                    <option *ngFor="let option of dataPqrsCausa" [value]="option.pcr_id">{{option.pcr_causa}}</option>
+                </select>
+                <label class="form-label" for="causa">Causa Raiz</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <select id="cargo" class="form-select" *ngIf="dataCargos" [(ngModel)]="id_cargo" name="cargo"
+                    aria-label="Default select example" required>
+                    <option *ngFor="let option of dataCargos" [value]="option.carg_id">{{option.carg_nombre}}</option>
+                </select>
+                <label class="form-label" for="cargo">Cargo Generador</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <select id="tipo" class="form-select" *ngIf="dataPqrsTipo" [(ngModel)]="id_tipo" name="tipo" aria-label="Default select example" required>
+                    <option *ngFor="let option of dataPqrsTipo" [value]="option.pt_id">{{option.pt_tipologia}}</option>
+                </select>
+                <label class="form-label" for="tipo">Tipologia</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" type="text" id="doc_cruce" required>
+                <label class="form-label" for="doc_cruce">Documento Cruce</label>
+            </div>
+            <div class="mb-3 col-md-6">
+                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/PQRS">Volver</button>
+            </div>
+            <div class="mb-3 col-md-6">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar</button>
+            </div>
+        </form>
+
+
+    </div>
+</div>

@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updatePQRS = exports.postPQRS = exports.getPQRS = exports.getPQRSs = void 0;
-const pqrs_1 = __importDefault(require("../models/pqrs"));
-const connection_1 = __importDefault(require("../db/connection"));
+const pqrs_1 = __importDefault(require("../../models/pqrs/pqrs"));
+const connection_1 = __importDefault(require("../../db/connection"));
 const sequelize_1 = require("sequelize");
 const getPQRSs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const query = 'SELECT pq.pqrs_id, pq.pqrs_fecha_recepcion, pq.cli_id, cli.cli_nombre, cli.cli_zona, cli.cli_asesor_nombre, pq.prod_id, pro.prod_descripcion, pq.pqrs_lote,' +

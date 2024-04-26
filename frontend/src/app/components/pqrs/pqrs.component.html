@@ -1,49 +1,53 @@
 <div class="container">
-    <input type="button" class="btn btn-success" value="Agregar" routerLink="">
-    <table datatable id="example" class="table table-bordered" *ngIf="data">
+    <input type="button" class="btn btn-success" value="Agregar" routerLink="/agregarPqrs">
+    <table id="pqrs" class="table table-bordered table-striped"  *ngIf="data">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Cliente</th>
-            <th scope="col">Zona</th>
-            <th scope="col">Asesor</th>
-            <th scope="col">Producto</th>
-            <th scope="col">Lote</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Documento</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Analisis</th>
-            <th scope="col">Costo</th>
-            <th scope="col">Causa Raiz</th>
-            <th scope="col">Cargo Generador</th>
-            <th scope="col">Tipologia</th>
-            <th scope="col">Fecha Respuesta</th>
-            <th scope="col">Dias Gestion</th>
-            <th scope="col">Doc. Cruce</th>
-            <th scope="col">Estado</th>
+            <th>#</th>
+            <th>Fecha Recepcion</th>
+            <th>Cliente</th>
+            <th>Zona</th>
+            <th>Asesor</th>
+            <th>Producto</th>
+            <th>Lote</th>
+            <th>Cantidad</th>
+            <th>Documento</th>
+            <th>Descripcion</th>
+            <th>Analisis</th>
+            <th>Costo</th>
+            <th>Causa Raiz</th>
+            <th>Cargo Generador</th>
+            <th>Tipologia</th>
+            <th>Fecha Respuesta</th>
+            <th>Dias Gestion</th>
+            <th>Doc. Cruce</th>
+            <th>Estado</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of data">
             <th scope="row">{{item.pqrs_id}}</th>
-            <td>{{item.cli_id}}</td>
-            <td>{{item.cli_id}}</td>
-            <td>{{item.cli_id}}</td>
-            <td>{{item.prod_id}}</td>
+            <td>{{item.pqrs_fecha_recepcion}}</td>
+            <td>{{item.cli_nombre}}</td>
+            <td>{{item.cli_zona}}</td>
+            <td>{{item.cli_asesor_nombre}}</td>
+            <td>{{item.prod_descripcion}}</td>
             <td>{{item.pqrs_lote}}</td>
             <td>{{item.pqrs_prod_cantidad}}</td>
             <td>{{item.pqrs_doc}}</td>
             <td>{{item.pqrs_descripcion}}</td>
             <td>{{item.pqrs_analisis}}</td>
-            <td>{{item.costo}}</td>
-            <td>{{item.pqrs_causa_raiz_id}}</td>
-            <td>{{item.carg_id}}</td>
-            <td>{{item.pt_id}}</td>
+            <td>${{item.costo}}</td>
+            <td>{{item.pcr_causa}}</td>
+            <td>{{item.carg_nombre}}</td>
+            <td>{{item.pt_tipologia}}</td>
             <td>{{item.pqrs_fecha_respuesta}}</td>
             <td>{{item.pqrs_dias_gestion}}</td>
             <td>{{item.pqrs_documento_cruce}}</td>
-            <td>{{item.pqrs_estado}}</td>
+            <td class="centered">{{item.pe_estado}}<i class="bi bi-check-circle-fill" style="color: green;" *ngIf="item.pe_estado === 'CERRADO'"></i>
+              <i class="bi bi-x-circle-fill" style="color: red;" *ngIf="item.pe_estado === 'PENDIENTE'"></i></td>
           </tr>
         </tbody>
       </table>
     </div>
+    <router-outlet></router-outlet>

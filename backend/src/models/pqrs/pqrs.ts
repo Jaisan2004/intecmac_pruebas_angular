@@ -1,5 +1,5 @@
 import {DataTypes} from 'sequelize'
-import db from '../db/connection';
+import db from '../../db/connection';
 
 const Pqrs = db.define('pqrs',{
     pqrs_id:{
@@ -60,5 +60,6 @@ const Pqrs = db.define('pqrs',{
     createdAt: false,
     updatedAt: false
 })
+
 
 export default Pqrs;
