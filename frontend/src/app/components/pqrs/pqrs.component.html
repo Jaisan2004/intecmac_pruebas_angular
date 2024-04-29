@@ -1,5 +1,6 @@
 <div id="cuerpo">
   <div class="container">
+    <br>
     <div class="row">
     <div class="col-md-11"><h3>PQRS</h3></div>
     <div class="col-md-1"><button class="btn btn-success" type="submit" routerLink="/agregarPqrs">Agregar</button></div>
@@ -8,68 +9,18 @@
       (keyup)="updateFilter($event)" />
   </div>
   <div>
-    <ngx-datatable *ngIf="rows && rows.length > 0" #table class="material" [rows]="rows" [columns]="columns"
-      [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10">
+    <ngx-datatable *ngIf="rows && rows.length > 0" #table class="material striped" [rows]="rows" [columns]="columns"
+      [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="4">
     </ngx-datatable>
+    <ng-template #buttonAccion let-row="row"> 
+        <button class="btn btn btn-outline-light" routerLink="/modificarPqrs/{{row.pqrs_id}}"><img src="../../../assets/lapiz.png"></button>
+        <button class="btn btn btn-outline-light"><img src="../../../assets/calendario.png"></button>
+    </ng-template>
+    <ng-template #estadoPqrs let-row="row" let-column="column" let-value="value" > 
+      {{value}} 
+      <br>
+      <i class="bi bi-check-circle-fill" *ngIf="value === 'CERRADO'" style="color: green;font-size: 2em;" ></i>
+      <i class="bi bi-x-circle-fill" *ngIf="value === 'PENDIENTE'" style="color: red;font-size: 2em;" ></i>
+  </ng-template>
   </div>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
 </div>
-
-
-<!-- <div class="container">
-    <input type="button" class="btn btn-success" value="Agregar" routerLink="/agregarPqrs">
-    <table id="pqrs" class="table table-bordered table-striped"  *ngIf="data">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Fecha Recepcion</th>
-            <th>Cliente</th>
-            <th>Zona</th>
-            <th>Asesor</th>
-            <th>Producto</th>
-            <th>Lote</th>
-            <th>Cantidad</th>
-            <th>Documento</th>
-            <th>Descripcion</th>
-            <th>Analisis</th>
-            <th>Costo</th>
-            <th>Causa Raiz</th>
-            <th>Cargo Generador</th>
-            <th>Tipologia</th>
-            <th>Fecha Respuesta</th>
-            <th>Dias Gestion</th>
-            <th>Doc. Cruce</th>
-            <th>Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of data">
-            <th scope="row">{{item.pqrs_id}}</th>
-            <td>{{item.pqrs_fecha_recepcion}}</td>
-            <td>{{item.cli_nombre}}</td>
-            <td>{{item.cli_zona}}</td>
-            <td>{{item.cli_asesor_nombre}}</td>
-            <td>{{item.prod_descripcion}}</td>
-            <td>{{item.pqrs_lote}}</td>
-            <td>{{item.pqrs_prod_cantidad}}</td>
-            <td>{{item.pqrs_doc}}</td>
-            <td>{{item.pqrs_descripcion}}</td>
-            <td>{{item.pqrs_analisis}}</td>
-            <td>${{item.costo}}</td>
-            <td>{{item.pcr_causa}}</td>
-            <td>{{item.carg_nombre}}</td>
-            <td>{{item.pt_tipologia}}</td>
-            <td>{{item.pqrs_fecha_respuesta}}</td>
-            <td>{{item.pqrs_dias_gestion}}</td>
-            <td>{{item.pqrs_documento_cruce}}</td>
-            <td class="centered">{{item.pe_estado}}<i class="bi bi-check-circle-fill" style="color: green;" *ngIf="item.pe_estado === 'CERRADO'"></i>
-              <i class="bi bi-x-circle-fill" style="color: red;" *ngIf="item.pe_estado === 'PENDIENTE'"></i></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <router-outlet></router-outlet> -->

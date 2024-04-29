@@ -1,0 +1,119 @@
+<div id="cuerpo">
+    <div class="container mt-3">
+        <button class="btn btn-outline-light" routerLink="/PQRS"><i class="bi bi-box-arrow-left"></i></button>
+        <h3>Agregar PQRS</h3>
+        <br>
+        <form class="row  g-3" #formAgrePqrs="ngForm">
+            <div class="form-floating mb-3">
+                <select id="cliente" name="cliente" class="form-select" *ngIf="dataClienteOpcion"
+                    aria-label="Default select example" [(ngModel)]="cli_id" required (change)="getInfoCliente(cli_id)" required
+                    #cliente="ngModel">
+                    <option disabled selected>---Seleccione un cliente---</option>
+                    <option *ngFor="let option of dataClienteOpcion" [value]="option.cli_id">{{option.cli_nombre}}
+                    </option>
+                </select>
+                <label class="form-label" for="cliente" style="color: green;" *ngIf="lote.valid">* Cliente</label>
+                <label class="form-label" for="cliente" style="color: red;" *ngIf="lote.invalid">* Cliente</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input [(ngModel)]="cli_zona" name="zona" class="form-control" type="text" id="zona" disabled>
+                <label class="form-label" for="zona">Zona</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input [(ngModel)]="cli_asesor" name="asesor" class="form-control" type="text" id="asesor" disabled>
+                <label class="form-label" for="asesor">Asesor</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select id="producto" class="form-select" *ngIf="dataProductoOption" aria-label="Default select example"
+                    [(ngModel)]="prod_id" name="producto">
+                    <option disabled selected>---Seleccione un producto---</option>
+                    <option *ngFor="let option of dataProductoOption" [value]="option.prod_id">
+                        {{option.prod_descripcion}}</option>
+                </select>
+                <label class="form-label" for="producto" style="color: green;" *ngIf="lote.valid">* Producto</label>
+                <label class="form-label" for="producto" style="color: red;" *ngIf="lote.invalid">* Producto</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input class="form-control" [(ngModel)]="pqrs_lote" name="lote" type="text" id="lote" required
+                    #lote="ngModel">
+                <label class="form-label" for="lote" style="color: green;" *ngIf="lote.valid">* Lote</label>
+                <label class="form-label" for="lote" style="color: red;" *ngIf="lote.invalid">* Lote</label>
+                <div class="alert alert-danger" [hidden]="lote.untouched || lote.valid">
+                    Por favor ingrese el lote.
+                </div>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input class="form-control" [(ngModel)]="pqrs_prod_cantidad" name="cantidad" type="number" id="cantidad"
+                    required #cantidad="ngModel">
+                <label class="form-label" for="cantidad" style="color: green;" *ngIf="cantidad.valid">* Cantidad</label>
+                <label class="form-label" for="cantidad" style="color: red;" *ngIf="cantidad.invalid">* Cantidad</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" [(ngModel)]="pqrs_doc" name="documento" type="text" id="documento" required
+                    #documento="ngModel">
+                <label class="form-label" for="documento" style="color: green;" *ngIf="documento.valid">*
+                    Documento</label>
+                <label class="form-label" for="documento" style="color: red;" *ngIf="documento.invalid">*
+                    Documento</label>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea class="form-control" [(ngModel)]="pqrs_descripcion" id="descripcion" name="descripcion"
+                    (keyup)="onKeyDescripcion($event)" style="height: 100px" required #descripcion="ngModel"></textarea>
+                <label class="form-label" for="descripcion" style="color: green;" *ngIf="descripcion.valid">* Descripcion
+                    {{contadorDes}}/5000</label>
+                <label class="form-label" for="descripcion" style="color: red;" *ngIf="descripcion.invalid">* Descripcion</label>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea class="form-control" [(ngModel)]="pqrs_analisis" name="analisis" id="analisis"
+                    (keyup)="onKeyAnalisis($event)" style="height: 100px"></textarea>
+                <label class="form-label" for="analisis">Analisis
+                    {{contadorAnalisis}}/5000</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" [(ngModel)]="costo" name="costo" type="number" id="costo">
+                <label class="form-label" for="costo">Costo</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select id="causa" class="form-select" *ngIf="dataPqrsCausa" [(ngModel)]="pqrs_causa_raiz_id"
+                    name="causa" aria-label="Default select example">
+                    <option disabled selected>---Seleccione la causa raíz---</option>
+                    <option *ngFor="let option of dataPqrsCausa" [value]="option.pcr_id">{{option.pcr_causa}}</option>
+                </select>
+                <label class="form-label" for="causa" style="color: green;" *ngIf="lote.valid">* Causa Raíz</label>
+                <label class="form-label" for="causa" style="color: red;" *ngIf="lote.invalid">* Causa Raíz</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <select id="cargo" class="form-select" *ngIf="dataCargos" [(ngModel)]="carg_id" name="cargo"
+                    aria-label="Default select example">
+                    <option disabled selected>---Seleccione el cargo responsable---</option>
+                    <option *ngFor="let option of dataCargos" [value]="option.carg_id">{{option.carg_nombre}}</option>
+                </select>
+                <label class="form-label" for="cargo" style="color: green;" *ngIf="lote.valid">* Cargo Generador</label>
+                <label class="form-label" for="cargo" style="color: red;" *ngIf="lote.invalid">* Cargo Generador</label>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <select id="tipo" class="form-select" *ngIf="dataPqrsTipo" [(ngModel)]="pt_id" name="tipo"
+                    aria-label="Default select example">
+                    <option disabled selected>---Seleccione el tipo de pqrs---</option>
+                    <option *ngFor="let option of dataPqrsTipo" [value]="option.pt_id">{{option.pt_tipologia}}</option>
+                </select>
+                <label class="form-label" for="tipo" style="color: green;" *ngIf="lote.valid">* Tipologia</label>
+                <label class="form-label" for="tipo" style="color: red;" *ngIf="lote.invalid">* Tipologia</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" [(ngModel)]="pqrs_documento_cruce" name="doc_cruce" type="text"
+                    id="doc_cruce">
+                <label class="form-label" for="doc_cruce">Documento Cruce</label>
+            </div>
+            <div class="mb-3 col-md-6">
+                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/PQRS">Volver</button>
+            </div>
+            <div class="mb-3 col-md-6">
+                <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="crearPqrs()"
+                    [disabled]="formAgrePqrs.invalid">Registrar</button>
+            </div>
+        </form>
+
+
+    </div>
+</div>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DatatableComponent } from './datatable.component';
+import { ModificarPqrsComponent } from './modificar-pqrs.component';
 
-describe('DatatableComponent', () => {
-  let component: DatatableComponent;
-  let fixture: ComponentFixture<DatatableComponent>;
+describe('ModificarPqrsComponent', () => {
+  let component: ModificarPqrsComponent;
+  let fixture: ComponentFixture<ModificarPqrsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DatatableComponent]
+      declarations: [ModificarPqrsComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DatatableComponent);
+    fixture = TestBed.createComponent(ModificarPqrsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

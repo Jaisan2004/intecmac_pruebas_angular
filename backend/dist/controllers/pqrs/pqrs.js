@@ -21,7 +21,7 @@ const getPQRSs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         'pq.pqrs_prod_cantidad, pq.pqrs_doc, pq.pqrs_descripcion, pq.pqrs_analisis,pq.pqrs_analisis, pq.costo, pq.pqrs_causa_raiz_id, pcr.pcr_causa, pq.carg_id, carg.carg_nombre,' +
         ' pq.pt_id, pt.pt_tipologia, pq.pqrs_fecha_respuesta, pq.pqrs_dias_gestion, pq.pqrs_documento_cruce, pq.pqrs_estado, pe.pe_estado from pqrs pq' +
         ' join cliente cli on pq.cli_id = cli.cli_id JOIN productos pro on pro.prod_id=pq.prod_id JOIN pqrs_causa_raiz pcr on pcr.pcr_id = pq.pqrs_causa_raiz_id' +
-        ' join cargos carg on carg.carg_id=pq.carg_id join pqrs_tipologia pt on pt.pt_id=pq.pt_id join pqrs_estado pe on pe.pe_id= pq.pqrs_estado;';
+        ' join cargos carg on carg.carg_id=pq.carg_id join pqrs_tipologia pt on pt.pt_id=pq.pt_id join pqrs_estado pe on pe.pe_id= pq.pqrs_estado ORDER BY pq.pqrs_id DESC;';
     const listPqrs = yield connection_1.default.query(query, {
         type: sequelize_1.QueryTypes.SELECT,
     });

@@ -3,32 +3,30 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DatatableComponent } from './components/datatable/datatable.component';
-import { DataTablesModule } from 'angular-datatables';
 import { PqrsComponent } from './components/pqrs/pqrs.component';
-import { AgregarPqrsComponent } from './components/agregar-pqrs/agregar-pqrs.component';
+import { AgregarPqrsComponent } from './components/pqrs/agregar-pqrs/agregar-pqrs.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Select2Module } from 'ng-select2-component';
+import { FormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ToastrModule } from 'ngx-toastr';
+import { ModificarPqrsComponent } from './components/pqrs/modificar-pqrs/modificar-pqrs.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    DatatableComponent,
     PqrsComponent,
-    AgregarPqrsComponent
+    AgregarPqrsComponent,
+    ModificarPqrsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DataTablesModule,
     HttpClientModule,
     FormsModule,
-    Select2Module,
-    NgxDatatableModule
+    NgxDatatableModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     provideClientHydration()

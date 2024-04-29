@@ -18,4 +18,16 @@ export class PqrsService {
    getListPqrs(): Observable<any>{
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}`);
    }
+
+   getPqrs(id:any): Observable<any>{
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}${id}`);
+   }
+
+   postPqrs(body: any): Observable<any>{
+    return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, body);
+   }
+
+   updatePqrs(id: any, body: any): Observable<any>{
+    return this.http.put(`${this.myAppUrl}${this.myApiUrl}${id}`, body);
+   }
 }

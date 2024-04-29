@@ -37,13 +37,14 @@
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
               "node_modules/@swimlane/ngx-datatable/themes/material.css",
+              "node_modules/@swimlane/ngx-datatable/themes/bootstrap.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "node_modules/datatables.net-dt/css/dataTables.dataTables.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
               "node_modules/select2/dist/css/select2.min.css",
               "node_modules/@swimlane/ngx-datatable/index.css",
-              "node_modules/@swimlane/ngx-datatable/themes/material.css",
               "node_modules/@swimlane/ngx-datatable/assets/icons.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],
             "scripts": [
