@@ -1,3 +1,17 @@
-<input type="button" class="btn btn-primary" value="cliente" routerLink="/tabla">
-<input type="button" class="btn btn-danger" value="PQRS" routerLink="/PQRS">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #283747;">
+    <div class="container-fluid">
+      <a class="navbar-brand"><img src="https://intecma.com.co/cdn/shop/files/intecma-sas-logo_1200x1200.png?v=1631548189" alt="" width="150px"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" aria-current="page" routerLink="/PQRS">Clientes</a>
+          <a class="nav-link" routerLink="/PQRS">Productos</a>
+          <a class="nav-link" routerLink="/PQRS">PQRS</a>
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </div>
+      </div>
+    </div>
+  </nav>
 <router-outlet></router-outlet>

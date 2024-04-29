@@ -1,65 +1,63 @@
-import { AfterViewChecked, Component } from '@angular/core';
+import {AfterViewInit, Component, ViewChild } from '@angular/core';
 import { PqrsService } from '../../services/pqrs/pqrs.service';
-import $ from "jquery";
-import jQuery from "jquery";
+import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-pqrs',
   templateUrl: './pqrs.component.html',
   styleUrl: './pqrs.component.css'
 })
-export class PqrsComponent {
+export class PqrsComponent{
 
-  $:any;
+  @ViewChild(DatatableComponent) table!: DatatableComponent;
+
+  rows:any;
+
+  temp:any;
+
+  columns = [{ name: '#', prop: 'pqrs_id' }, { name: 'Fecha Recepcion', prop: 'pqrs_fecha_recepcion' }, { name: 'Cliente', prop: 'cli_nombre' },
+  { name: 'Zona', prop: 'cli_zona' },{ name: 'Asesor', prop: 'cli_asesor_nombre' },{ name: 'Producto',prop: 'prod_descripcion' },
+  { name: 'Lote', prop: 'pqrs_lote' },{ name: 'Cantidad', prop: 'pqrs_prod_cantidad' },{ name: 'Documento', prop: 'pqrs_doc' },
+  { name: 'Descripcion', prop: 'pqrs_descripcion' },{ name: 'Analisis', prop: 'pqrs_analisis' },{ name: 'Costo', prop: 'costo' },
+  { name: 'Causa Raiz', prop: 'pcr_causa' },{ name: 'Cargo Generador', prop: 'carg_nombre' },{ name: 'Tipologia', prop: 'pt_tipologia' },
+  { name: 'Fecha Respuesta', prop: 'pqrs_fecha_respuesta' },{ name: 'Dias Gestion', prop: 'pqrs_dias_gestion' },{ name: 'Doc. Cruce',prop: 'pqrs_documento_cruce' },
+  { name: 'Estado', prop: 'pe_estado' }
+  ];
+
+
+  ColumnMode = ColumnMode;
+
   data: any;
   dataTable: any;
-  dataTableOptions: any = {
-      scrollX: "100%",
-      columnDefs: [
-        { width: "200px", targets: [2,4,5] },
-        { width: "200px", targets: [13] },
-        { width: "500px", targets: [9,10] },
-        { width: "70px", targets: [3,6,11] }
-    ],
-      destroy: true,
-      language: {
-        lengthMenu: "Mostrar _MENU_ registros por página",
-        zeroRecords: "Ningún usuario encontrado",
-        info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-        infoEmpty: "Ningún usuario encontrado",
-        infoFiltered: "(filtrados desde _MAX_ registros totales)",
-        search: "Buscar:",
-        loadingRecords: "Cargando...",
-        paginate: {
-            first: "Primero",
-            last: "Último",
-            next: "Siguiente",
-            previous: "Anterior"
-        }
-    }
-  };
 
-  // ngAfterViewChecked() {
-  //     this.initDataTable();
-
-  // }
 
   constructor(private _pqrsService: PqrsService) {}
 
-  ngOnInit(): void{
-    this.initDataTable();
-    
-    }
+  ngOnInit(): void {
+      this.getListPqrs();
+  }
 
 
     getListPqrs(){
-      this._pqrsService.getListPqrs().subscribe((data)=>{
-        this.data = data
-      })
+      setTimeout(() => {
+        this._pqrsService.getListPqrs().subscribe((data: any)=>{
+          this.rows = data
+          this.temp = [...data];
+        });
+      }, 500);
     }
-    initDataTable(){
-      this.getListPqrs();
-      this.$ =$;
-      this.dataTable= this.$("#pqrs").DataTable(this.dataTableOptions);
+
+    updateFilter(event: any) {
+      const val = event.target.value.toLowerCase();
+  
+      // filter our data
+      const temp = this.temp.filter(function (d: any) {
+        return d.cli_nombre.toLowerCase().indexOf(val) !== -1 || !val;
+      });
+  
+      // update the rows
+      this.rows = temp;
+      // Whenever the filter changes, always go back to the first page
+      this.table.offset = 0;
     }
 }

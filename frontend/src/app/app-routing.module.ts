@@ -5,6 +5,7 @@ import { PqrsComponent } from './components/pqrs/pqrs.component';
 import { AgregarPqrsComponent } from './components/agregar-pqrs/agregar-pqrs.component';
 
 const routes: Routes = [
+  {path: '', redirectTo: '/PQRS', pathMatch: 'full'},
   {path: "tabla", component: DatatableComponent},
   {path: "PQRS", component: PqrsComponent},
   {path: "agregarPqrs", component: AgregarPqrsComponent}

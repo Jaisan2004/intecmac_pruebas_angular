@@ -10,7 +10,7 @@ import { AgregarPqrsComponent } from './components/agregar-pqrs/agregar-pqrs.com
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Select2Module } from 'ng-select2-component';
-import { errorTailorImports, provideErrorTailorConfig } from '@ngneat/error-tailor';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 
 
@@ -28,21 +28,10 @@ import { errorTailorImports, provideErrorTailorConfig } from '@ngneat/error-tail
     HttpClientModule,
     FormsModule,
     Select2Module,
-    errorTailorImports,
-    ReactiveFormsModule
+    NgxDatatableModule
   ],
   providers: [
-    provideClientHydration(),
-    provideErrorTailorConfig({
-      errors: {
-        useValue: {
-          require: 'Este campo es requerido',
-          minlength: ({ requiredLength, actualLength }) =>
-            `Expect ${requiredLength} but got ${actualLength}`,
-          invalidAddress: error => `Address isn't valid`
-        }
-      }
-    })
+    provideClientHydration()
   ],
   bootstrap: [AppComponent]
 })
