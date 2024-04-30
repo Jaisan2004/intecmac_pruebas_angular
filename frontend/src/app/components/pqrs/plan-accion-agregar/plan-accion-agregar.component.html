@@ -1,0 +1,65 @@
+<div id="cuerpo">
+    <div class="container mt-3">
+
+        <button class="btn btn-outline-light" routerLink="/PQRS"><i class="bi bi-box-arrow-left"></i></button>
+        <h3>Modificar PQRS</h3>
+        <br>
+
+        <form class="row  g-3" [formGroup]="formPqrs">
+
+
+            <div class="form-floating mb-3">
+
+                <textarea class="form-control" id="descripcion" name="descripcion" formControlName="ppa_descripcion"
+                    (keyup)="onKeyDescripcion($event)" style="height: 100px"></textarea>
+
+                <label class="form-label" for="descripcion" style="color: green;" *ngIf="ppa_descripcion.valid">*
+                    Descripcion {{contadorDes}}/5000</label>
+                <label class="form-label" for="descripcion" style="color: red;" *ngIf="ppa_descripcion.invalid">*
+                    Descripcion {{contadorDes}}/5000</label>
+
+                <div class="alert alert-danger" [hidden]="ppa_descripcion.pristine || ppa_descripcion.valid">
+                    <span *ngIf="ppa_descripcion.errors?.['required']">Por favor ingrese la descripcion.</span>
+                    <span *ngIf="ppa_descripcion.errors?.['maxlength']">Hay mas de 5000 caracteres.</span>
+                </div>
+
+            </div>
+
+            <div class="form-floating mb-3 col-md-6">
+
+                <select id="cargo" class="form-select" *ngIf="dataCargos" name="cargo"
+                    aria-label="Default select example" formControlName="carg_id">
+
+                    <option disabled selected>---Seleccione el cargo responsable---</option>
+                    <option *ngFor="let option of dataCargos" [value]="option.carg_id">{{option.carg_nombre}}</option>
+
+                </select>
+
+                <label class="form-label" for="cargo" style="color: green;" *ngIf="carg_id.valid">* Cargo
+                    Generador</label>
+                <label class="form-label" for="cargo" style="color: red;" *ngIf="carg_id.invalid">* Cargo
+                    Generador</label>
+
+                <div class="alert alert-danger" [hidden]="carg_id.untouched || carg_id.valid">
+                    <span>Por favor seleccione el cargo responsable.</span>
+                </div>
+
+            </div>
+
+
+            <div class="mb-3 col-md-6">
+                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/PQRS">Volver</button>
+            </div>
+            <div class="mb-3 col-md-6">
+                <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="modificarPqrs()"
+                    [disabled]="formPqrs.invalid">Registrar</button>
+            </div>
+
+            <div class="alert alert-danger"  [hidden]="formPqrs.valid">
+                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+            </div>
+        </form>
+
+
+    </div>
+</div>

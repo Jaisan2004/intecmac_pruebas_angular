@@ -14,7 +14,7 @@
     </ngx-datatable>
     <ng-template #buttonAccion let-row="row"> 
         <button class="btn btn btn-outline-light" routerLink="/modificarPqrs/{{row.pqrs_id}}"><img src="../../../assets/lapiz.png"></button>
-        <button class="btn btn btn-outline-light"><img src="../../../assets/calendario.png"></button>
+        <button class="btn btn btn-outline-light" routerLink="/planAccionPqrs/{{row.pqrs_id}}"><img src="../../../assets/calendario.png"></button>
     </ng-template>
     <ng-template #estadoPqrs let-row="row" let-column="column" let-value="value" > 
       {{value}} 

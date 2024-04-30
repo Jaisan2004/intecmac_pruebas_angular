@@ -1,5 +1,5 @@
 import {Component, TemplateRef, ViewChild } from '@angular/core';
-import { PqrsService } from '../../services/pqrs/pqrs.service';
+import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({

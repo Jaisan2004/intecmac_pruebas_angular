@@ -14,7 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const pqrs_1 = __importDefault(require("../routes/pqrs"));
+const pqrs_1 = __importDefault(require("../routes/pqrs/pqrs"));
+const pqrs_routes_1 = __importDefault(require("../routes/pqrs/pqrs_routes"));
 const cliente_1 = __importDefault(require("../routes/cliente"));
 const formsSelect_1 = __importDefault(require("../routes/formsSelect"));
 const connection_1 = __importDefault(require("../db/connection"));
@@ -39,6 +40,7 @@ class Server {
             });
         });
         this.app.use('/api/pqrs', pqrs_1.default);
+        this.app.use('/api/pqrs_apis', pqrs_routes_1.default);
         this.app.use('/api/cliente', cliente_1.default);
         this.app.use('/api/seleccione', formsSelect_1.default);
     }

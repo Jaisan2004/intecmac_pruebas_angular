@@ -1,0 +1,17 @@
+#cuerpo {
+    justify-content: center;
+    align-items: center;
+}
+
+input{
+    height: auto;
+    padding:8px;
+    margin:15px auto;
+    width:100%;
+}
+
+.columnas {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }

@@ -3,13 +3,15 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PqrsComponent } from './components/pqrs/pqrs.component';
-import { AgregarPqrsComponent } from './components/pqrs/agregar-pqrs/agregar-pqrs.component';
+import { PqrsComponent } from './components/pqrs/pqrs/pqrs.component';
+import { AgregarPqrsComponent } from './components/pqrs/pqrs-agregar/agregar-pqrs.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastrModule } from 'ngx-toastr';
-import { ModificarPqrsComponent } from './components/pqrs/modificar-pqrs/modificar-pqrs.component';
+import { ModificarPqrsComponent } from './components/pqrs/pqrs-modificar/modificar-pqrs.component';
+import { PlanAccionComponent } from './components/pqrs/plan-accion/plan-accion.component';
+import { PlanAccionAgregarComponent } from './components/pqrs/plan-accion-agregar/plan-accion-agregar.component';
 
 
 
@@ -18,7 +20,9 @@ import { ModificarPqrsComponent } from './components/pqrs/modificar-pqrs/modific
     AppComponent,
     PqrsComponent,
     AgregarPqrsComponent,
-    ModificarPqrsComponent
+    ModificarPqrsComponent,
+    PlanAccionComponent,
+    PlanAccionAgregarComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +30,7 @@ import { ModificarPqrsComponent } from './components/pqrs/modificar-pqrs/modific
     HttpClientModule,
     FormsModule,
     NgxDatatableModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot()
   ],
   providers: [

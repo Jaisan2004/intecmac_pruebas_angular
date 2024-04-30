@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PqrsComponent } from './components/pqrs/pqrs.component';
-import { AgregarPqrsComponent } from './components/pqrs/agregar-pqrs/agregar-pqrs.component';
-import { ModificarPqrsComponent } from './components/pqrs/modificar-pqrs/modificar-pqrs.component';
+import { PqrsComponent } from './components/pqrs/pqrs/pqrs.component';
+import { AgregarPqrsComponent } from './components/pqrs/pqrs-agregar/agregar-pqrs.component';
+import { ModificarPqrsComponent } from './components/pqrs/pqrs-modificar/modificar-pqrs.component';
+import { PlanAccionComponent } from './components/pqrs/plan-accion/plan-accion.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/PQRS', pathMatch: 'full'},
   {path: "PQRS", component: PqrsComponent},
   {path: "agregarPqrs", component: AgregarPqrsComponent},
-  {path: "modificarPqrs/:id", component: ModificarPqrsComponent}
+  {path: "modificarPqrs/:id", component: ModificarPqrsComponent},
+  {path: "planAccionPqrs/:id", component: PlanAccionComponent}
 ];
 
 @NgModule({

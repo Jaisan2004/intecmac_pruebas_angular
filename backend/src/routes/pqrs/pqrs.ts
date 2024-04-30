@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { getPQRS, getPQRSs, postPQRS, updatePQRS } from '../controllers/pqrs/pqrs';
+import { getPQRS, getPQRSs, postPQRS, updatePQRS } from '../../controllers/pqrs/pqrs';
 
 
 const router = Router();

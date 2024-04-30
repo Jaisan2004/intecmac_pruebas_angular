@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormulariosService } from '../../../services/formularios/formularios.service';
-import { PqrsService } from '../../../services/pqrs/pqrs.service';
+import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-agregar-pqrs',
@@ -11,21 +12,72 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AgregarPqrsComponent {
 
+  get cliente (){
+    return this.formPqrs.get('cliente') as FormControl
+  }
 
-  cli_id: string = '';
+  get producto (){
+    return this.formPqrs.get('producto') as FormControl
+  }
+
+  get lote (){
+    return this.formPqrs.get('lote') as FormControl
+  }
+
+  get cantidad (){
+    return this.formPqrs.get('cantidad') as FormControl
+  }
+  
+  get documento (){
+    return this.formPqrs.get('documento') as FormControl
+  }
+
+  get descripcion (){
+    return this.formPqrs.get('descripcion') as FormControl
+  }
+
+  get analisis (){
+    return this.formPqrs.get('analisis') as FormControl
+  }
+
+  get costo (){
+    return this.formPqrs.get('costo') as FormControl
+  }
+
+  get causa (){
+    return this.formPqrs.get('causa') as FormControl
+  }
+
+  get cargo (){
+    return this.formPqrs.get('cargo') as FormControl
+  }
+
+  get tipo (){
+    return this.formPqrs.get('tipo') as FormControl
+  }
+
+  get doc_cruce (){
+    return this.formPqrs.get('doc_cruce') as FormControl
+  }
+
+  formPqrs = new FormGroup({
+    'cliente': new FormControl('', Validators.required),
+    'producto': new FormControl('', Validators.required),
+    'lote': new FormControl('', [Validators.required, Validators.maxLength(99)]),
+    'cantidad': new FormControl('', [Validators.required, Validators.max(9999999)]),
+    'documento': new FormControl('', [Validators.required, Validators.maxLength(99)]),
+    'descripcion': new FormControl('', [Validators.required, Validators.maxLength(5000)]),
+    'analisis': new FormControl('', Validators.maxLength(5000)),
+    'costo': new FormControl('', Validators.max(9999999999999999999)),
+    'causa': new FormControl('', Validators.required),
+    'cargo': new FormControl('', Validators.required),
+    'tipo': new FormControl('', Validators.required),
+    'doc_cruce': new FormControl('', Validators.maxLength(200))
+  });
+
+
   cli_zona: string = '';
   cli_asesor: string = '';
-  pqrs_lote: string = '';
-  pqrs_prod_cantidad: string = '';
-  pqrs_doc: string = '';
-  pqrs_descripcion: string = '';
-  pqrs_analisis: string = '';
-  costo: string = '';
-  prod_id: string = '';
-  pqrs_causa_raiz_id: string = '';
-  carg_id: string = '';
-  pt_id: string = '';
-  pqrs_documento_cruce: string = '';
 
 
   contadorDes = 0;
@@ -56,20 +108,20 @@ export class AgregarPqrsComponent {
     const body = {
     pqrs_id: null,
     pqrs_fecha_recepcion: new Date(),
-    cli_id: this.cli_id,
-    prod_id: this.prod_id,
-    pqrs_lote: this.pqrs_lote,
-    pqrs_prod_cantidad: this.pqrs_prod_cantidad,
-    pqrs_doc: this.pqrs_doc,
-    pqrs_descripcion: this.pqrs_descripcion,
-    pqrs_analisis: this.pqrs_analisis,
-    costo: this.costo,
-    pqrs_causa_raiz_id: this.pqrs_causa_raiz_id,
-    carg_id: this.carg_id,
-    pt_id: this.pt_id,
+    cli_id: this.cliente.value,
+    prod_id: this.producto.value,
+    pqrs_lote: this.lote.value,
+    pqrs_prod_cantidad: this.cantidad.value,
+    pqrs_doc: this.documento.value,
+    pqrs_descripcion: this.descripcion.value,
+    pqrs_analisis: this.analisis.value,
+    costo: this.costo.value,
+    pqrs_causa_raiz_id: this.causa.value,
+    carg_id: this.cargo.value,
+    pt_id: this.tipo.value,
     pqrs_fecha_respuesta: "",
     pqrs_dias_gestion: 0,
-    pqrs_documento_cruce: this.pqrs_documento_cruce,
+    pqrs_documento_cruce: this.doc_cruce.value,
     pqrs_estado: 1
     }
     this._pqrsService.postPqrs(body).subscribe(() => {
@@ -96,8 +148,8 @@ export class AgregarPqrsComponent {
     })
   }
 
-  getInfoCliente(cli_id: any) {
-    this._formulariosService.getInfoCliente(cli_id).subscribe((data) => {
+  getInfoCliente() {
+    this._formulariosService.getInfoCliente(this.cliente?.value).subscribe((data) => {
       this.dataCliente = data;
       if (this.dataCliente) {
         this.cli_zona = this.dataCliente.cli_zona;
