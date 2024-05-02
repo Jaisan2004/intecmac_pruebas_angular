@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import Pqrs from '../../models/pqrs/pqrs'
 import sequelize from '../../db/connection';
 import { QueryTypes } from 'sequelize';
+import PlanPqrs from '../../models/pqrs/pqrs_plan_accion';
 
 export const getPqrsPlan = async (req: Request, res: Response) => {
 
@@ -31,11 +32,11 @@ export const getPQRS = async (req: Request, res: Response) => {
 
 }
 
-export const postPQRS = async (req: Request, res: Response) => {
+export const postPlanPqrs = async (req: Request, res: Response) => {
     const { body } = req;
 
     try {
-        await Pqrs.create(body);
+        await PlanPqrs.create(body);
 
         res.json({
             msg: 'PRQS Agregados Exitosamente'

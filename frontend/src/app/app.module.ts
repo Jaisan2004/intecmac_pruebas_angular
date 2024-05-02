@@ -12,6 +12,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ModificarPqrsComponent } from './components/pqrs/pqrs-modificar/modificar-pqrs.component';
 import { PlanAccionComponent } from './components/pqrs/plan-accion/plan-accion.component';
 import { PlanAccionAgregarComponent } from './components/pqrs/plan-accion-agregar/plan-accion-agregar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -26,6 +27,7 @@ import { PlanAccionAgregarComponent } from './components/pqrs/plan-accion-agrega
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,

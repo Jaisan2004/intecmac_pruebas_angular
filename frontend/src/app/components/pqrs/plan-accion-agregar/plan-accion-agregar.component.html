@@ -1,10 +1,9 @@
 <div id="cuerpo">
     <div class="container mt-3">
 
-        <button class="btn btn-outline-light" routerLink="/PQRS"><i class="bi bi-box-arrow-left"></i></button>
-        <h3>Modificar PQRS</h3>
+        <button class="btn btn-outline-light" routerLink="/planAccionPqrs/{{pqrs_id.value}}"><i class="bi bi-box-arrow-left"></i></button>
+        <h3>Agregar Plan de Acción</h3>
         <br>
-
         <form class="row  g-3" [formGroup]="formPqrs">
 
 
@@ -25,7 +24,7 @@
 
             </div>
 
-            <div class="form-floating mb-3 col-md-6">
+            <div class="form-floating mb-3">
 
                 <select id="cargo" class="form-select" *ngIf="dataCargos" name="cargo"
                     aria-label="Default select example" formControlName="carg_id">
@@ -48,10 +47,10 @@
 
 
             <div class="mb-3 col-md-6">
-                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/PQRS">Volver</button>
+                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/planAccionPqrs/{{pqrs_id.value}}">Volver</button>
             </div>
             <div class="mb-3 col-md-6">
-                <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="modificarPqrs()"
+                <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="AgregarPlanPqrs()"
                     [disabled]="formPqrs.invalid">Registrar</button>
             </div>
 

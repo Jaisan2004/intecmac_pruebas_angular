@@ -29,6 +29,9 @@ const Pqrs = connection_1.default.define('pqrs', {
     pqrs_doc: {
         type: sequelize_1.DataTypes.STRING
     },
+    pqrs_evidencia: {
+        type: sequelize_1.DataTypes.STRING
+    },
     pqrs_descripcion: {
         type: sequelize_1.DataTypes.STRING
     },

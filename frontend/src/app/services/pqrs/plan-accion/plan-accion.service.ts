@@ -18,4 +18,8 @@ export class PlanAccionService {
    getListPqrsPlan(pqrs_id: any): Observable<any>{
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}${pqrs_id}`);
    }
+
+   postPlanPqrs(body: any): Observable<any>{
+    return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, body);
+   }
 }

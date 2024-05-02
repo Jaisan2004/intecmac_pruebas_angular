@@ -25,6 +25,9 @@ const Pqrs = db.define('pqrs',{
     pqrs_doc:{
         type: DataTypes.STRING
     },
+    pqrs_evidencia:{
+        type: DataTypes.STRING
+    },
     pqrs_descripcion:{
         type: DataTypes.STRING
     },

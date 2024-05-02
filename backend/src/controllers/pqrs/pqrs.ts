@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
 import Pqrs from '../../models/pqrs/pqrs'
 import sequelize from '../../db/connection';
-import { QueryTypes } from 'sequelize';
+import { DATE, QueryTypes } from 'sequelize';
+import multer from 'multer';
 
 export const getPQRSs = async (req: Request, res: Response) => {
 
@@ -79,3 +80,54 @@ export const updatePQRS = async (req: Request, res: Response) => {
     }
 
 }
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, '../../public');
+    }
+  });
+  
+  const upload = multer({ storage: storage });
+
+export const updatePQRSImage = async (req: Request, res: Response) => {
+
+    // const {body} = req.body;
+    // const { id } = req.params;
+    upload.single('files')(req, res, function (err) {
+        if (err) {
+          // Handle error
+          console.log(err);
+          res.json({
+            msg: 'Ha ocurrido un error hable 1 con soporte',
+            error: err
+          });
+          return;
+        }})
+
+    // try {
+    //   const file = req.file;
+    //   const pqrs = await Pqrs.findByPk(id);
+    //   if (pqrs) {
+    //     if(file){
+    //     const filePath = `/public/${file.filename}`;
+    //     pqrs.update({ pqrs_evidencia: filePath }, {
+    //       where: {
+    //         id: id,
+    //       },
+    //     });
+    //     res.json({
+    //       msg: 'El PQRS se actualizó exitosamente',
+    //       filePath: filePath,
+    //     });}
+    //   } else {
+    //     res.status(404).json({
+    //       msg: `No existe el producto con el id ${id}`,
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   res.json({
+    //     msg: 'Ha ocurrido un error hable con soporte',
+    //   });
+    // }
+  };

@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePQRS = exports.postPQRS = exports.getPQRS = exports.getPqrsPlan = void 0;
+exports.updatePQRS = exports.postPlanPqrs = exports.getPQRS = exports.getPqrsPlan = void 0;
 const pqrs_1 = __importDefault(require("../../models/pqrs/pqrs"));
 const connection_1 = __importDefault(require("../../db/connection"));
 const sequelize_1 = require("sequelize");
+const pqrs_plan_accion_1 = __importDefault(require("../../models/pqrs/pqrs_plan_accion"));
 const getPqrsPlan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const query = 'SELECT ppa.ppa_id, ppa.ppa_fecha_inicio, ppa.ppa_descripcion, ppa.ppa_fecha_cumplimiento, ppa.carg_id, car.carg_nombre, ppa.pqrs_id,' +
@@ -39,10 +40,10 @@ const getPQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getPQRS = getPQRS;
-const postPQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const postPlanPqrs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {
-        yield pqrs_1.default.create(body);
+        yield pqrs_plan_accion_1.default.create(body);
         res.json({
             msg: 'PRQS Agregados Exitosamente'
         });
@@ -54,7 +55,7 @@ const postPQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
 });
-exports.postPQRS = postPQRS;
+exports.postPlanPqrs = postPlanPqrs;
 const updatePQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const { id } = req.params;

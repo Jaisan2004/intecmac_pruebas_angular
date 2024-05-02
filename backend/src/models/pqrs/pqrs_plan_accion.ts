@@ -1,7 +1,7 @@
 import {DataTypes} from 'sequelize'
 import db from '../../db/connection';
 
-const Pqrs = db.define('pqrs_plan_accion',{
+const PlanPqrs = db.define('pqrs_plan_accion',{
     ppa_id:{
         type: DataTypes.NUMBER,
         autoIncrement: true,
@@ -29,4 +29,4 @@ const Pqrs = db.define('pqrs_plan_accion',{
 })
 
 
-export default Pqrs;
+export default PlanPqrs;

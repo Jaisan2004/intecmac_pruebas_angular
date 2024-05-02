@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePQRS = exports.postPQRS = exports.getPQRS = exports.getPQRSs = void 0;
+exports.updatePQRSImage = exports.updatePQRS = exports.postPQRS = exports.getPQRS = exports.getPQRSs = void 0;
 const pqrs_1 = __importDefault(require("../../models/pqrs/pqrs"));
 const connection_1 = __importDefault(require("../../db/connection"));
 const sequelize_1 = require("sequelize");
+const multer_1 = __importDefault(require("multer"));
 const getPQRSs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const query = 'SELECT pq.pqrs_id, pq.pqrs_fecha_recepcion, pq.cli_id, cli.cli_nombre, cli.cli_zona, cli.cli_asesor_nombre, pq.prod_id, pro.prod_descripcion, pq.pqrs_lote,' +
         'pq.pqrs_prod_cantidad, pq.pqrs_doc, pq.pqrs_descripcion, pq.pqrs_analisis,pq.pqrs_analisis, pq.costo, pq.pqrs_causa_raiz_id, pcr.pcr_causa, pq.carg_id, carg.carg_nombre,' +
@@ -82,3 +83,51 @@ const updatePQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updatePQRS = updatePQRS;
+const storage = multer_1.default.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '../../public');
+    }
+});
+const upload = (0, multer_1.default)({ storage: storage });
+const updatePQRSImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // const {body} = req.body;
+    // const { id } = req.params;
+    upload.single('files')(req, res, function (err) {
+        if (err) {
+            // Handle error
+            console.log(err);
+            res.json({
+                msg: 'Ha ocurrido un error hable 1 con soporte',
+                error: err
+            });
+            return;
+        }
+    });
+    // try {
+    //   const file = req.file;
+    //   const pqrs = await Pqrs.findByPk(id);
+    //   if (pqrs) {
+    //     if(file){
+    //     const filePath = `/public/${file.filename}`;
+    //     pqrs.update({ pqrs_evidencia: filePath }, {
+    //       where: {
+    //         id: id,
+    //       },
+    //     });
+    //     res.json({
+    //       msg: 'El PQRS se actualizó exitosamente',
+    //       filePath: filePath,
+    //     });}
+    //   } else {
+    //     res.status(404).json({
+    //       msg: `No existe el producto con el id ${id}`,
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   res.json({
+    //     msg: 'Ha ocurrido un error hable con soporte',
+    //   });
+    // }
+});
+exports.updatePQRSImage = updatePQRSImage;

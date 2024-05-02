@@ -2,8 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    background-image: linear-gradient(#380036, #0CBABA);
+    height: 100vh;
+    background-image: linear-gradient(#0CBABA, #34495E);
 }
 
 .container {

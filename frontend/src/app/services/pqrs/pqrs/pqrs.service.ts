@@ -20,7 +20,7 @@ export class PqrsService {
    }
 
    getPqrs(id:any): Observable<any>{
-    return this.http.get(`${this.myAppUrl}${this.myApiUrl}${id}`);
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}obtener/${id}`);
    }
 
    postPqrs(body: any): Observable<any>{
@@ -28,6 +28,10 @@ export class PqrsService {
    }
 
    updatePqrs(id: any, body: any): Observable<any>{
-    return this.http.put(`${this.myAppUrl}${this.myApiUrl}${id}`, body);
+    return this.http.put(`${this.myAppUrl}${this.myApiUrl}actualizar/${id}`, body);
+   }
+
+   updatePqrsImg(id: any, body: FormData): Observable<any>{
+    return this.http.put(`${this.myAppUrl}${this.myApiUrl}agregarImg/${id}`, body);
    }
 }

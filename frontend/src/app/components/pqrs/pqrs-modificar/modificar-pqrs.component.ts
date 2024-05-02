@@ -12,69 +12,69 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ModificarPqrsComponent {
 
-  get id_pqrs (){
+  get id_pqrs() {
     return this.formPqrs.get('id_pqrs') as FormControl
   }
-  
-  get fecha_recepcion (){
+
+  get fecha_recepcion() {
     return this.formPqrs.get('fecha_recepcion') as FormControl
   }
 
-  get cliente (){
+  get cliente() {
     return this.formPqrs.get('cliente') as FormControl
   }
 
-  get producto (){
+  get producto() {
     return this.formPqrs.get('producto') as FormControl
   }
 
-  get lote (){
+  get lote() {
     return this.formPqrs.get('lote') as FormControl
   }
 
-  get cantidad (){
+  get cantidad() {
     return this.formPqrs.get('cantidad') as FormControl
   }
-  
-  get documento (){
+
+  get documento() {
     return this.formPqrs.get('documento') as FormControl
   }
 
-  get descripcion (){
+  get descripcion() {
     return this.formPqrs.get('descripcion') as FormControl
   }
 
-  get analisis (){
+  get analisis() {
     return this.formPqrs.get('analisis') as FormControl
   }
 
-  get costo (){
+  get costo() {
     return this.formPqrs.get('costo') as FormControl
   }
 
-  get causa (){
+  get causa() {
     return this.formPqrs.get('causa') as FormControl
   }
 
-  get cargo (){
+  get cargo() {
     return this.formPqrs.get('cargo') as FormControl
   }
 
-  get tipo (){
+  get tipo() {
     return this.formPqrs.get('tipo') as FormControl
   }
 
-  get doc_cruce (){
+  get doc_cruce() {
     return this.formPqrs.get('doc_cruce') as FormControl
   }
 
-  get estado (){
+  get estado() {
     return this.formPqrs.get('estado') as FormControl
   }
 
   formPqrs = new FormGroup({
-    'id_pqrs': new FormControl({value:'', disabled: true}),
-    'fecha_recepcion': new FormControl({value:'', disabled: true}),
+    'id_pqrs': new FormControl({ value: '', disabled: true }),
+    'fecha_recepcion': new FormControl({ value: '', disabled: true }),
     'cliente': new FormControl('', Validators.required),
     'producto': new FormControl('', Validators.required),
     'lote': new FormControl('', [Validators.required, Validators.maxLength(99)]),
@@ -93,10 +93,13 @@ export class ModificarPqrsComponent {
 
   cli_zona: string = '';
   cli_asesor: string = '';
+  public archivos: any;
+  public previsualizacion: string | undefined;
+  public loading: boolean | any;
 
 
   contadorDes = 0;
-  contadorAnalisis = 0
+  contadorAnalisis = 0;
 
   dataClienteOpcion: any;
   dataCliente: any;
@@ -149,8 +152,64 @@ export class ModificarPqrsComponent {
     })
   }
 
-  getPqrs(){
-    this._pqrsService.getPqrs(this.id_pqrs.value).subscribe((data) =>{
+  capturarFile(event: any) {
+    const archivoCapturado = event.target.files[0];
+    console.log(archivoCapturado)
+    this.extraerBase64(archivoCapturado).then((image: any) => {
+      this.previsualizacion = image.base;
+      console.log(image)
+    })
+    this.archivos = {
+      fileRaw: archivoCapturado,
+      fileName: archivoCapturado.name
+    };
+
+  }
+  
+  subirArchivo() {
+    try {
+      this.loading = true;
+      const imagen = new FormData();
+
+      imagen.append('files', this.archivos.fileRaw, `EvidenciaPqrs${this.id_pqrs.value}`);
+      console.log(imagen.get('files'));
+      this._pqrsService.updatePqrsImg(this.id_pqrs.value, imagen).subscribe(res => {
+        console.log('Respuesta del servidor', res)
+        this.loading = false
+
+        this.toastr.success(`Se agrego la evidencia exitosamente`, `Modificacion PQRS (evidencia)`)
+        this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`])
+
+      });
+    } catch (error) {
+      this.loading = false
+      console.log('ERROR', error);
+    }
+  }
+
+  extraerBase64 = async ($event: any) => new Promise((resolve, reject): void => {
+    try {
+      const unsafeImg = window.URL.createObjectURL($event);
+      const reader = new FileReader();
+      reader.readAsDataURL($event);
+      reader.onload = () => {
+        resolve({
+          base: reader.result
+        });
+      };
+      reader.onerror = error => {
+        resolve({
+          base: null
+        })
+      };
+    } catch (error) {
+      null;
+    }
+  })
+
+
+  getPqrs() {
+    this._pqrsService.getPqrs(this.id_pqrs.value).subscribe((data) => {
       this.data = data;
       this.fecha_recepcion.setValue(this.data.pqrs_fecha_recepcion);
       this.cliente.setValue(this.data.cli_id);

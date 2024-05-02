@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../../db/connection"));
-const Pqrs = connection_1.default.define('pqrs_plan_accion', {
+const PlanPqrs = connection_1.default.define('pqrs_plan_accion', {
     ppa_id: {
         type: sequelize_1.DataTypes.NUMBER,
         autoIncrement: true,
@@ -31,4 +31,4 @@ const Pqrs = connection_1.default.define('pqrs_plan_accion', {
     createdAt: false,
     updatedAt: false
 });
-exports.default = Pqrs;
+exports.default = PlanPqrs;

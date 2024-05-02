@@ -111,6 +111,18 @@
 
             </div>
 
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Imagen</label>
+                <input class="form-control" type="file" (change)="capturarFile($event)" id="formFile">
+            </div>
+
+            <div class="mb-3 col-md-6" *ngIf="previsualizacion" style="text-align: center;">
+                <img id="evidencia" [src]="previsualizacion" alt = "" width="70%">
+            </div>
+            <div class="mb-3 col-md-6" *ngIf="previsualizacion">
+                <button class="btn btn-primary" [disabled]="loading" (click)="subirArchivo()">{{(loading)?'Cargando' : 'Subir Archivo'}}</button>
+            </div>
+
             <div class="form-floating mb-3">
 
                 <textarea class="form-control" id="descripcion" name="descripcion" formControlName="descripcion"

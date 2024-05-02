@@ -4,4 +4,5 @@ const express_1 = require("express");
 const pqrs_plan_accion_1 = require("../../controllers/pqrs/pqrs_plan_accion");
 const router = (0, express_1.Router)();
 router.get('/plan_accion/:id', pqrs_plan_accion_1.getPqrsPlan);
+router.post('/plan_accion/', pqrs_plan_accion_1.postPlanPqrs);
 exports.default = router;

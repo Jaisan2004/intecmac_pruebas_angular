@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-agregar-pqrs',
   templateUrl: './agregar-pqrs.component.html',
@@ -60,6 +61,8 @@ export class AgregarPqrsComponent {
     return this.formPqrs.get('doc_cruce') as FormControl
   }
 
+
+
   formPqrs = new FormGroup({
     'cliente': new FormControl('', Validators.required),
     'producto': new FormControl('', Validators.required),
@@ -113,6 +116,7 @@ export class AgregarPqrsComponent {
     pqrs_lote: this.lote.value,
     pqrs_prod_cantidad: this.cantidad.value,
     pqrs_doc: this.documento.value,
+    pqrs_evidencia: "",
     pqrs_descripcion: this.descripcion.value,
     pqrs_analisis: this.analisis.value,
     costo: this.costo.value,
