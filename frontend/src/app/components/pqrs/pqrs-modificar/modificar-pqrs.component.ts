@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges, TemplateRef, ViewContainerRef } from '@angular/core';
 import { FormulariosService } from '../../../services/formularios/formularios.service';
 import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,6 +38,10 @@ export class ModificarPqrsComponent {
 
   get documento() {
     return this.formPqrs.get('documento') as FormControl
+  }
+
+  get imagen() {
+    return this.formPqrs.get('imagen') as FormControl
   }
 
   get descripcion() {
@@ -80,12 +84,13 @@ export class ModificarPqrsComponent {
     'lote': new FormControl('', [Validators.required, Validators.maxLength(99)]),
     'cantidad': new FormControl('', [Validators.required, Validators.max(9999999)]),
     'documento': new FormControl('', [Validators.required, Validators.maxLength(99)]),
+    'imagen': new FormControl(''),
     'descripcion': new FormControl('', [Validators.required, Validators.maxLength(5000)]),
     'analisis': new FormControl('', Validators.maxLength(5000)),
     'costo': new FormControl('', Validators.max(9999999999999999999)),
-    'causa': new FormControl('', Validators.required),
-    'cargo': new FormControl('', Validators.required),
-    'tipo': new FormControl('', Validators.required),
+    'causa': new FormControl(''),
+    'cargo': new FormControl(''),
+    'tipo': new FormControl(''),
     'doc_cruce': new FormControl('', Validators.maxLength(200)),
     'estado': new FormControl('', Validators.required)
   });
@@ -93,10 +98,11 @@ export class ModificarPqrsComponent {
 
   cli_zona: string = '';
   cli_asesor: string = '';
-  public archivos: any;
-  public previsualizacion: string | undefined;
+  public fileTmp: any;
+  public previsualizacion: string | any;
   public loading: boolean | any;
-
+  public cambiarImg: boolean = false;
+  public recargar: boolean = false;
 
   contadorDes = 0;
   contadorAnalisis = 0;
@@ -113,7 +119,14 @@ export class ModificarPqrsComponent {
     private _pqrsService: PqrsService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+  ) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class
+  }
 
   ngOnInit(): void {
     this.id_pqrs.setValue(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -159,28 +172,47 @@ export class ModificarPqrsComponent {
       this.previsualizacion = image.base;
       console.log(image)
     })
-    this.archivos = {
+    const ext = archivoCapturado.name.split('.').pop();
+    this.fileTmp = {
       fileRaw: archivoCapturado,
-      fileName: archivoCapturado.name
+      fileName: `EvidenciaPqrs${this.id_pqrs.value}.${ext}`
     };
 
   }
-  
+  cancelarCapturarFile() {
+    this.previsualizacion = null;
+    this.cambiarImg = false;
+  }
+
   subirArchivo() {
     try {
       this.loading = true;
-      const imagen = new FormData();
+      const body = new FormData();
+      body.append('myFile', this.fileTmp.fileRaw, this.fileTmp.fileName)
+      this._pqrsService.PqrsImg(body).subscribe(res => {
+        console.log(res)
+        const body = {
+          filePath: res.url
+        }
+        if (!this.imagen.value) {
+          this._pqrsService.updatePqrsImg(this.id_pqrs.value, body).subscribe(() => {
+            
+            this.recargar = true;
+            this.toastr.success(`Imagen agregada exitosamente`, `Modificacion PQRS`)
 
-      imagen.append('files', this.archivos.fileRaw, `EvidenciaPqrs${this.id_pqrs.value}`);
-      console.log(imagen.get('files'));
-      this._pqrsService.updatePqrsImg(this.id_pqrs.value, imagen).subscribe(res => {
-        console.log('Respuesta del servidor', res)
-        this.loading = false
+            this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`])
+            this.loading = false;
 
-        this.toastr.success(`Se agrego la evidencia exitosamente`, `Modificacion PQRS (evidencia)`)
-        this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`])
-
+          })
+        } else {
+          this.previsualizacion = null;
+          this.cambiarImg = false;
+          this.imagen.setValue(res.url + '?t=' + new Date().getTime());
+          this.loading = false
+          this.toastr.success(`Imagen modificada exitosamente`, `Modificacion PQRS`)
+        }
       });
+
     } catch (error) {
       this.loading = false
       console.log('ERROR', error);
@@ -217,6 +249,7 @@ export class ModificarPqrsComponent {
       this.lote.setValue(this.data.pqrs_lote);
       this.cantidad.setValue(this.data.pqrs_prod_cantidad);
       this.documento.setValue(this.data.pqrs_doc);
+      this.imagen.setValue(this.data.pqrs_evidencia);
       this.descripcion.setValue(this.data.pqrs_descripcion);
       this.analisis.setValue(this.data.pqrs_analisis);
       this.costo.setValue(this.data.costo);

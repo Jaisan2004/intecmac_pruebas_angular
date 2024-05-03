@@ -154,12 +154,7 @@
                     <option *ngFor="let option of dataPqrsCausa" [value]="option.pcr_id">{{option.pcr_causa}}</option>
                 </select>
 
-                <label class="form-label" for="causa" style="color: green;" *ngIf="causa.valid">* Causa Raíz</label>
-                <label class="form-label" for="causa" style="color: red;" *ngIf="causa.invalid">* Causa Raíz</label>
-
-                <div class="alert alert-danger" [hidden]="causa.untouched || causa.valid">
-                    <span>Por favor seleccione la causa.</span>
-                </div>
+                <label class="form-label" for="causa">Causa Raíz</label>
 
             </div>
             <div class="form-floating mb-3 col-md-6">
@@ -172,14 +167,7 @@
 
                 </select>
 
-                <label class="form-label" for="cargo" style="color: green;" *ngIf="cargo.valid">* Cargo
-                    Generador</label>
-                <label class="form-label" for="cargo" style="color: red;" *ngIf="cargo.invalid">* Cargo
-                    Generador</label>
-
-                <div class="alert alert-danger" [hidden]="cargo.untouched || cargo.valid">
-                    <span>Por favor seleccione el cargo responsable.</span>
-                </div>
+                <label class="form-label" for="cargo">Cargo Generador</label>
 
             </div>
 
@@ -193,12 +181,7 @@
 
                 </select>
 
-                <label class="form-label" for="tipo" style="color: green;" *ngIf="tipo.valid">* Tipologia</label>
-                <label class="form-label" for="tipo" style="color: red;" *ngIf="tipo.invalid">* Tipologia</label>
-
-                <div class="alert alert-danger" [hidden]="tipo.untouched || tipo.valid">
-                    <span>Por favor seleccione el tipo de PQRS.</span>
-                </div>
+                <label class="form-label" for="tipo">Tipologia</label>
 
             </div>
 
@@ -207,7 +190,8 @@
                 <input class="form-control" name="doc_cruce" type="text" id="doc_cruce" formControlName="doc_cruce">
 
                 <label class="form-label" for="doc_cruce" *ngIf="doc_cruce.valid">Documento Cruce</label>
-                <label class="form-label" for="doc_cruce" style="color: red;" *ngIf="doc_cruce.invalid">Documento Cruce</label>
+                <label class="form-label" for="doc_cruce" style="color: red;" *ngIf="doc_cruce.invalid">Documento
+                    Cruce</label>
 
                 <div class="alert alert-danger" [hidden]="doc_cruce.pristine || doc_cruce.valid">
                     <span>El documento cruce supera los 200 caracteres.</span>
@@ -222,8 +206,9 @@
                     [disabled]="formPqrs.invalid">Registrar</button>
             </div>
 
-            <div class="alert alert-danger"  [hidden]="formPqrs.valid">
-                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+            <div class="alert alert-danger" [hidden]="formPqrs.valid">
+                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el
+                    formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
             </div>
         </form>
 

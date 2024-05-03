@@ -31,7 +31,11 @@ export class PqrsService {
     return this.http.put(`${this.myAppUrl}${this.myApiUrl}actualizar/${id}`, body);
    }
 
-   updatePqrsImg(id: any, body: FormData): Observable<any>{
+   updatePqrsImg(id: any, body: any): Observable<any>{
     return this.http.put(`${this.myAppUrl}${this.myApiUrl}agregarImg/${id}`, body);
+   }
+
+   PqrsImg(body: FormData): Observable<any>{
+    return this.http.post(`${this.myAppUrl}${this.myApiUrl}guardarImg/`, body);
    }
 }

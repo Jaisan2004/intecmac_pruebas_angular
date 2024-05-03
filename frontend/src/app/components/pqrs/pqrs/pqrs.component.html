@@ -9,7 +9,7 @@
       (keyup)="updateFilter($event)" />
   </div>
   <div>
-    <ngx-datatable *ngIf="rows && rows.length > 0" #table class="material striped" [rows]="rows" [columns]="columns"
+    <ngx-datatable *ngIf="rows && columns" #table class="material striped" [rows]="rows" [columns]="columns"
       [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="4">
     </ngx-datatable>
     <ng-template #buttonAccion let-row="row"> 

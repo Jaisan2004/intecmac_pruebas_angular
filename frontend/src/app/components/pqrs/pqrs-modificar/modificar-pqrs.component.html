@@ -111,16 +111,30 @@
 
             </div>
 
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Imagen</label>
+            <div class="form-floating mb-3" *ngIf="!imagen.value || cambiarImg">
                 <input class="form-control" type="file" (change)="capturarFile($event)" id="formFile">
+                <label for="formFile" class="form-label">Evidencia</label>
             </div>
 
             <div class="mb-3 col-md-6" *ngIf="previsualizacion" style="text-align: center;">
-                <img id="evidencia" [src]="previsualizacion" alt = "" width="70%">
+                <img id="evidencia" [src]="previsualizacion" alt="" width="70%">
             </div>
-            <div class="mb-3 col-md-6" *ngIf="previsualizacion">
-                <button class="btn btn-primary" [disabled]="loading" (click)="subirArchivo()">{{(loading)?'Cargando' : 'Subir Archivo'}}</button>
+
+            <div class="mb-3 col-md-6 d-flex flex-column align-items-center" *ngIf="previsualizacion">
+                <button class="btn btn-success" [disabled]="loading" (click)="subirArchivo()">{{(loading)?'Cargando...'
+                    : 'Subir Archivo'}}</button>
+                <br>
+                <button class="btn btn-danger" (click)="cancelarCapturarFile()">Cancelar</button>
+            </div>
+
+            <div class="mb-3 col-md-6" *ngIf="imagen.value&&!previsualizacion&&!cambiarImg" style="text-align: center;">
+                <img id="evidencia" [src]="imagen.value" alt="" width="70%">
+            </div>
+
+            <div id="buttons-image" class="mb-3 col-md-6" *ngIf="imagen.value&&!previsualizacion&&!cambiarImg">
+
+                <button class="btn btn-warning" (click)="cambiarImg = true">Cambiar Evidencia</button>
+
             </div>
 
             <div class="form-floating mb-3">
@@ -179,8 +193,7 @@
 
                 </select>
 
-                <label class="form-label" for="causa" style="color: green;" *ngIf="causa.valid">* Causa Raíz</label>
-                <label class="form-label" for="causa" style="color: red;" *ngIf="causa.invalid">* Causa Raíz</label>
+                <label class="form-label" for="causa">Causa Raíz</label>
 
                 <div class="alert alert-danger" [hidden]="causa.untouched || causa.valid">
                     <span>Por favor seleccione la causa.</span>
@@ -198,10 +211,7 @@
 
                 </select>
 
-                <label class="form-label" for="cargo" style="color: green;" *ngIf="cargo.valid">* Cargo
-                    Generador</label>
-                <label class="form-label" for="cargo" style="color: red;" *ngIf="cargo.invalid">* Cargo
-                    Generador</label>
+                <label class="form-label" for="cargo">Cargo Generador</label>
 
                 <div class="alert alert-danger" [hidden]="cargo.untouched || cargo.valid">
                     <span>Por favor seleccione el cargo responsable.</span>
@@ -219,8 +229,7 @@
 
                 </select>
 
-                <label class="form-label" for="tipo" style="color: green;" *ngIf="tipo.valid">* Tipologia</label>
-                <label class="form-label" for="tipo" style="color: red;" *ngIf="tipo.invalid">* Tipologia</label>
+                <label class="form-label" for="tipo"> Tipologia</label>
 
                 <div class="alert alert-danger" [hidden]="tipo.untouched || tipo.valid">
                     <span>Por favor seleccione el tipo de PQRS.</span>
@@ -268,11 +277,12 @@
             </div>
             <div class="mb-3 col-md-6">
                 <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="modificarPqrs()"
-                    [disabled]="formPqrs.invalid">Registrar</button>
+                    [disabled]="formPqrs.invalid">Actualizar</button>
             </div>
 
-            <div class="alert alert-danger"  [hidden]="formPqrs.valid">
-                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+            <div class="alert alert-danger" [hidden]="formPqrs.valid">
+                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el
+                    formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
             </div>
         </form>
 

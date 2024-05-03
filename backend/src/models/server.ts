@@ -41,6 +41,8 @@ class Server{
         //parseamos el body
         this.app.use(express.json());
 
+        this.app.use(express.static('./src/public'));
+
         //cors
         this.app.use(cors());
         

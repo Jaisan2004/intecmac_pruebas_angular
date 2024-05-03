@@ -6,6 +6,11 @@
     background-image: linear-gradient(#0CBABA, #34495E);
 }
 
+#buttons-image{
+    display: flex;
+    align-items: center;
+}
+
 .container {
     max-width: 650px;
     padding: 28px;

@@ -72,9 +72,9 @@ export class AgregarPqrsComponent {
     'descripcion': new FormControl('', [Validators.required, Validators.maxLength(5000)]),
     'analisis': new FormControl('', Validators.maxLength(5000)),
     'costo': new FormControl('', Validators.max(9999999999999999999)),
-    'causa': new FormControl('', Validators.required),
-    'cargo': new FormControl('', Validators.required),
-    'tipo': new FormControl('', Validators.required),
+    'causa': new FormControl(''),
+    'cargo': new FormControl(''),
+    'tipo': new FormControl(''),
     'doc_cruce': new FormControl('', Validators.maxLength(200))
   });
 
