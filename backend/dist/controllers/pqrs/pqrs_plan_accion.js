@@ -12,26 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePQRS = exports.postPlanPqrs = exports.getPQRS = exports.getPqrsPlan = void 0;
-const pqrs_1 = __importDefault(require("../../models/pqrs/pqrs"));
+exports.updatePlanPqrs = exports.postPlanPqrs = exports.getPlanPqrs = exports.getPqrsPlanes = void 0;
 const connection_1 = __importDefault(require("../../db/connection"));
 const sequelize_1 = require("sequelize");
 const pqrs_plan_accion_1 = __importDefault(require("../../models/pqrs/pqrs_plan_accion"));
-const getPqrsPlan = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getPqrsPlanes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const query = 'SELECT ppa.ppa_id, ppa.ppa_fecha_inicio, ppa.ppa_descripcion, ppa.ppa_fecha_cumplimiento, ppa.carg_id, car.carg_nombre, ppa.pqrs_id,' +
-        ' pqrs.pqrs_descripcion FROM pqrs_plan_accion ppa join cargos car ON car.carg_id = ppa.carg_id JOIN pqrs on ppa.pqrs_id = pqrs.pqrs_id WHERE pqrs.pqrs_id=' + id + ';';
+        ' pqrs.pqrs_descripcion, ppa_estado FROM pqrs_plan_accion ppa join cargos car ON car.carg_id = ppa.carg_id JOIN pqrs on ppa.pqrs_id = pqrs.pqrs_id WHERE pqrs.pqrs_id=' + id + ';';
     const listPqrsPlan = yield connection_1.default.query(query, {
         type: sequelize_1.QueryTypes.SELECT,
     });
     res.json(listPqrsPlan);
 });
-exports.getPqrsPlan = getPqrsPlan;
-const getPQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getPqrsPlanes = getPqrsPlanes;
+const getPlanPqrs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const pqrs = yield pqrs_1.default.findByPk(id);
-    if (pqrs) {
-        res.json(pqrs);
+    const planPqrs = yield pqrs_plan_accion_1.default.findByPk(id);
+    if (planPqrs) {
+        res.json(planPqrs);
     }
     else {
         res.status(404).json({
@@ -39,7 +38,7 @@ const getPQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
 });
-exports.getPQRS = getPQRS;
+exports.getPlanPqrs = getPlanPqrs;
 const postPlanPqrs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {
@@ -56,20 +55,20 @@ const postPlanPqrs = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.postPlanPqrs = postPlanPqrs;
-const updatePQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updatePlanPqrs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const { id } = req.params;
     try {
-        const pqrs = yield pqrs_1.default.findByPk(id);
-        if (pqrs) {
-            pqrs.update(body);
+        const planPqrs = yield pqrs_plan_accion_1.default.findByPk(id);
+        if (planPqrs) {
+            planPqrs.update(body);
             res.json({
-                msg: 'El PQRS se actualizo exitosamente'
+                msg: 'El Plan de accion se actualizo exitosamente'
             });
         }
         else {
             res.status(404).json({
-                msg: `No existe el producto con el id ${id}`
+                msg: `No existe el plan de accion con el id ${id}`
             });
         }
     }
@@ -80,4 +79,4 @@ const updatePQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
-exports.updatePQRS = updatePQRS;
+exports.updatePlanPqrs = updatePlanPqrs;

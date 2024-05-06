@@ -21,6 +21,9 @@ const PlanPqrs = db.define('pqrs_plan_accion',{
     },
     pqrs_id:{
         type: DataTypes.NUMBER
+    },
+    ppa_estado:{
+        type: DataTypes.STRING
     }
 },{
     freezeTableName: true,

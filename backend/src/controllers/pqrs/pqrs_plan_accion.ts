@@ -4,12 +4,12 @@ import sequelize from '../../db/connection';
 import { QueryTypes } from 'sequelize';
 import PlanPqrs from '../../models/pqrs/pqrs_plan_accion';
 
-export const getPqrsPlan = async (req: Request, res: Response) => {
+export const getPqrsPlanes = async (req: Request, res: Response) => {
 
     const id = req.params.id;
 
     const query = 'SELECT ppa.ppa_id, ppa.ppa_fecha_inicio, ppa.ppa_descripcion, ppa.ppa_fecha_cumplimiento, ppa.carg_id, car.carg_nombre, ppa.pqrs_id,'+ 
-    ' pqrs.pqrs_descripcion FROM pqrs_plan_accion ppa join cargos car ON car.carg_id = ppa.carg_id JOIN pqrs on ppa.pqrs_id = pqrs.pqrs_id WHERE pqrs.pqrs_id='+id+';';
+    ' pqrs.pqrs_descripcion, ppa_estado FROM pqrs_plan_accion ppa join cargos car ON car.carg_id = ppa.carg_id JOIN pqrs on ppa.pqrs_id = pqrs.pqrs_id WHERE pqrs.pqrs_id='+id+';';
 
     const listPqrsPlan = await sequelize.query(query, {
         type: QueryTypes.SELECT,
@@ -18,12 +18,12 @@ export const getPqrsPlan = async (req: Request, res: Response) => {
     res.json(listPqrsPlan)
 }
 
-export const getPQRS = async (req: Request, res: Response) => {
+export const getPlanPqrs = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const pqrs = await Pqrs.findByPk(id)
+    const planPqrs = await PlanPqrs.findByPk(id)
 
-    if (pqrs) {
-        res.json(pqrs)
+    if (planPqrs) {
+        res.json(planPqrs)
     } else {
         res.status(404).json({
             msg: 'No existe PQRS'
@@ -53,21 +53,21 @@ export const postPlanPqrs = async (req: Request, res: Response) => {
 
 }
 
-export const updatePQRS = async (req: Request, res: Response) => {
+export const updatePlanPqrs = async (req: Request, res: Response) => {
     const { body } = req;
     const { id } = req.params;
 
 
     try {
-        const pqrs = await Pqrs.findByPk(id)
-        if (pqrs) {
-            pqrs.update(body);
+        const planPqrs = await PlanPqrs.findByPk(id)
+        if (planPqrs) {
+            planPqrs.update(body);
             res.json({
-                msg: 'El PQRS se actualizo exitosamente'
+                msg: 'El Plan de accion se actualizo exitosamente'
             })
         } else {
             res.status(404).json({
-                msg: `No existe el producto con el id ${id}`
+                msg: `No existe el plan de accion con el id ${id}`
             })
         }
     } catch (error) {

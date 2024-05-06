@@ -25,6 +25,9 @@ const PlanPqrs = connection_1.default.define('pqrs_plan_accion', {
     },
     pqrs_id: {
         type: sequelize_1.DataTypes.NUMBER
+    },
+    ppa_estado: {
+        type: sequelize_1.DataTypes.STRING
     }
 }, {
     freezeTableName: true,

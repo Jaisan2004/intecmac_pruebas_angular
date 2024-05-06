@@ -1,6 +1,14 @@
-import { ChangeDetectorRef, Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
-import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+}
 
 @Component({
   selector: 'app-pqrs',
@@ -9,55 +17,82 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 })
 export class PqrsComponent {
 
-  @ViewChild(DatatableComponent, { static: false }) table!: DatatableComponent;
-  @ViewChild('estadoPqrs', { static: true }) estadoPqrs!: TemplateRef<any>;
-  @ViewChild('buttonAccion', { static: true }) buttonAccion!: TemplateRef<any>;
+  columns: any[] = [
+    { name: '#', prop: 'pqrs_id' },
+    { name: 'Fecha Recepcion', prop: 'pqrs_fecha_recepcion' },
+    { name: 'Cliente', prop: 'cli_nombre' },
+    { name: 'Zona', prop: 'cli_zona' },
+    { name: 'Asesor', prop: 'cli_asesor_nombre' },
+    { name: 'Producto', prop: 'prod_descripcion' },
+    { name: 'Lote', prop: 'pqrs_lote' },
+    { name: 'Cantidad', prop: 'pqrs_prod_cantidad' },
+    { name: 'Documento', prop: 'pqrs_doc' },
+    { name: 'Descripcion', prop: 'pqrs_descripcion' },
+    { name: 'Analisis', prop: 'pqrs_analisis' },
+    { name: 'Costo', prop: 'costo' },
+    { name: 'Causa Raiz', prop: 'pcr_causa' },
+    { name: 'Cargo Generador', prop: 'carg_nombre' },
+    { name: 'Tipologia', prop: 'pt_tipologia' },
+    { name: 'Fecha Respuesta', prop: 'pqrs_fecha_respuesta' },
+    { name: 'Dias Gestion', prop: 'pqrs_dias_gestion' },
+    { name: 'Doc. Cruce', prop: 'pqrs_documento_cruce' },
+  ];
 
-  rows: any[] = [];
-  temp: any[] = [];
-  columns: any[] = [];
+  displayedColumns: string[] = [
+    '#',
+    'Fecha Recepcion',
+    'Cliente',
+    'Zona',
+    'Asesor',
+    'Producto',
+    'Lote',
+    'Cantidad',
+    'Documento',
+    'Descripcion',
+    'Analisis',
+    'Costo',
+    'Causa Raiz',
+    'Cargo Generador',
+    'Tipologia',
+    'Fecha Respuesta',
+    'Dias Gestion',
+    'Doc. Cruce',
+    'Evidencia',
+    'Estado',
+    'Acciones'
+  ];
+  dataSource = new MatTableDataSource<PeriodicElement>([]);
 
-  ColumnMode = ColumnMode;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private _pqrsService: PqrsService, private cd: ChangeDetectorRef) { }
+  constructor(private _pqrsService: PqrsService) { }
 
-  ngAfterViewInit(): void {
+  image: any;
+  data: any;
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnInit(): void {
     this.getListPqrs();
   }
 
   getListPqrs() {
     this._pqrsService.getListPqrs().subscribe((data: any) => {
-      this.rows = data;
-      this.temp = [...data];
-      this.columns = [
-        { name: '#', prop: 'pqrs_id' },
-        { name: 'Fecha Recepcion', prop: 'pqrs_fecha_recepcion' },
-        { name: 'Cliente', prop: 'cli_nombre' },
-        { name: 'Zona', prop: 'cli_zona' },
-        { name: 'Asesor', prop: 'cli_asesor_nombre' },
-        { name: 'Producto', prop: 'prod_descripcion' },
-        { name: 'Lote', prop: 'pqrs_lote' },
-        { name: 'Cantidad', prop: 'pqrs_prod_cantidad' },
-        { name: 'Documento', prop: 'pqrs_doc' },
-        { name: 'Descripcion', prop: 'pqrs_descripcion' },
-        { name: 'Analisis', prop: 'pqrs_analisis' },
-        { name: 'Costo', prop: 'costo' },
-        { name: 'Causa Raiz', prop: 'pcr_causa' },
-        { name: 'Cargo Generador', prop: 'carg_nombre' },
-        { name: 'Tipologia', prop: 'pt_tipologia' },
-        { name: 'Fecha Respuesta', prop: 'pqrs_fecha_respuesta' },
-        { name: 'Dias Gestion', prop: 'pqrs_dias_gestion' },
-        { name: 'Doc. Cruce', prop: 'pqrs_documento_cruce' },
-        { name: 'Estado', prop: 'pe_estado', cellTemplate: this.estadoPqrs },
-        { name: 'Acciones', prop: 'acciones', cellTemplate: this.buttonAccion }
-      ];
-       this.cd.detectChanges();
+      this.dataSource.data = data;
+
     });
   }
 
-  updateFilter(event: any) {
-    const val = event.target.value.toLowerCase();
-    this.rows = this.temp.filter((d: any) => d.cli_nombre.toLowerCase().indexOf(val)!== -1 ||!val);
-    this.table.offset = 0;
-  }
+  // getImageUrl(evidencia: string) {
+  //   const newUrl = `${evidencia}?t=${new Date().getTime()}`;
+  //   return newUrl;
+  // }
+
+  // updateFilter(event: any) {
+  //   const val = event.target.value.toLowerCase();
+  //   this.rows = this.temp.filter((d: any) => d.cli_nombre.toLowerCase().indexOf(val)!== -1 ||!val);
+  //   this.table.offset = 0;
+  // }
 }

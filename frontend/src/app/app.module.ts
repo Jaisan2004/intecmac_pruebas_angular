@@ -7,13 +7,17 @@ import { PqrsComponent } from './components/pqrs/pqrs/pqrs.component';
 import { AgregarPqrsComponent } from './components/pqrs/pqrs-agregar/agregar-pqrs.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { DatatableComponent, NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastrModule } from 'ngx-toastr';
 import { ModificarPqrsComponent } from './components/pqrs/pqrs-modificar/modificar-pqrs.component';
 import { PlanAccionComponent } from './components/pqrs/plan-accion/plan-accion.component';
 import { PlanAccionAgregarComponent } from './components/pqrs/plan-accion-agregar/plan-accion-agregar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatIconModule} from '@angular/material/icon';
+import { PlanAccionModificarComponent } from './components/pqrs/plan-accion-modificar/plan-accion-modificar.component';
 
 
 @NgModule({
@@ -23,7 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AgregarPqrsComponent,
     ModificarPqrsComponent,
     PlanAccionComponent,
-    PlanAccionAgregarComponent
+    PlanAccionAgregarComponent,
+    PlanAccionModificarComponent
   ],
   imports: [
     BrowserModule,
@@ -31,12 +36,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgxDatatableModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

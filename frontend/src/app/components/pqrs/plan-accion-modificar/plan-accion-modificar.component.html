@@ -2,7 +2,7 @@
     <div class="container mt-3">
 
         <button class="btn btn-outline-light" routerLink="/planAccionPqrs/{{pqrs_id.value}}"><i class="bi bi-box-arrow-left"></i></button>
-        <h1>Agregar Plan de Acción</h1>
+        <h1>Modificar Plan de Acción</h1>
         <br>
         <form class="row  g-3" [formGroup]="formPqrs">
 
@@ -50,14 +50,34 @@
                 <label for="fecha_cumplimiento">Fecha Cumplimiento</label>
             </div>
 
+            <div class="form-floating mb-3">
+
+                <select id="estado" class="form-select" name="estado" aria-label="Default select example"
+                    formControlName="ppa_estado">
+
+                    <option disabled selected>---Seleccione el estado del plan---</option>
+                    <option value="PENDIENTE">PENDIENTE</option>
+                    <option value="CERRADO">CERRADO</option>
+
+                </select>
+
+                <label class="form-label" for="estado" *ngIf="ppa_estado.valid">Estado</label>
+                <label class="form-label" for="estado" style="color: red;" *ngIf="ppa_estado.invalid">Estado</label>
+
+                <div class="alert alert-danger" [hidden]="ppa_estado.pristine || ppa_estado.valid">
+                    <span>Por favor seleccione el estado del plan.</span>
+                </div>
+
+            </div>
+
 
             <div class="mb-3 col-md-6">
                 <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/planAccionPqrs/{{pqrs_id.value}}">Volver</button>
             </div>
             <div class="mb-3 col-md-6">
-                <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="AgregarPlanPqrs()"
+                <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="modificarPlanPqrs()"
                     [disabled]="formPqrs.invalid">{{(loading)?'Cargando...'
-                    : 'Registrar'}}</button>
+                    : 'Actualizar'}}</button>
             </div>
 
             <div class="alert alert-danger"  [hidden]="formPqrs.valid">

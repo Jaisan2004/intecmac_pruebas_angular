@@ -262,9 +262,8 @@
 
                 </select>
 
-                <label class="form-label" for="estado" *ngIf="estado.valid">Documento Cruce</label>
-                <label class="form-label" for="estado" style="color: red;" *ngIf="estado.invalid">Documento
-                    Cruce</label>
+                <label class="form-label" for="estado" *ngIf="estado.valid">Estado</label>
+                <label class="form-label" for="estado" style="color: red;" *ngIf="estado.invalid">Estado</label>
 
                 <div class="alert alert-danger" [hidden]="estado.pristine || estado.valid">
                     <span>Por favor seleccione el estado de la PQRS.</span>
@@ -277,7 +276,8 @@
             </div>
             <div class="mb-3 col-md-6">
                 <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="modificarPqrs()"
-                    [disabled]="formPqrs.invalid">Actualizar</button>
+                    [disabled]="formPqrs.invalid">{{(loading)?'Cargando...'
+                    : 'Actualizar'}}</button>
             </div>
 
             <div class="alert alert-danger" [hidden]="formPqrs.valid">

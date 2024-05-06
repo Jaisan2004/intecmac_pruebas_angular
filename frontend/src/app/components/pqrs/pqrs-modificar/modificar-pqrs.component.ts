@@ -139,6 +139,7 @@ export class ModificarPqrsComponent {
   }
 
   modificarPqrs() {
+    this.loading = true;
     const body = {
       pqrs_fecha_recepcion: this.fecha_recepcion.value,
       cli_id: this.cliente.value,
@@ -158,7 +159,7 @@ export class ModificarPqrsComponent {
       pqrs_estado: this.estado.value
     }
     this._pqrsService.updatePqrs(this.id_pqrs.value, body).subscribe(() => {
-
+      this.loading = false;
       this.toastr.success(`PQRS del asesor ${this.cli_asesor} se modifico exitosamente`, `Modificacion PQRS`)
       this.router.navigate(['/PQRS'])
 
@@ -192,25 +193,18 @@ export class ModificarPqrsComponent {
       this._pqrsService.PqrsImg(body).subscribe(res => {
         console.log(res)
         const body = {
-          filePath: res.url
+          filePath: res.url + '?t=' + new Date().getTime()
         }
-        if (!this.imagen.value) {
           this._pqrsService.updatePqrsImg(this.id_pqrs.value, body).subscribe(() => {
-            
-            this.recargar = true;
+
+            this.previsualizacion = null;
+            this.cambiarImg = false;
             this.toastr.success(`Imagen agregada exitosamente`, `Modificacion PQRS`)
 
             this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`])
             this.loading = false;
 
           })
-        } else {
-          this.previsualizacion = null;
-          this.cambiarImg = false;
-          this.imagen.setValue(res.url + '?t=' + new Date().getTime());
-          this.loading = false
-          this.toastr.success(`Imagen modificada exitosamente`, `Modificacion PQRS`)
-        }
       });
 
     } catch (error) {
