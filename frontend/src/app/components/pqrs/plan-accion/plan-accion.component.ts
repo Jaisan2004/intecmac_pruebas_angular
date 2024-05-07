@@ -3,8 +3,8 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { PlanAccionService } from '../../../services/pqrs/plan-accion/plan-accion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
-import { PeriodicElement } from '../pqrs/pqrs.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-plan-accion',
@@ -13,10 +13,10 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class PlanAccionComponent {
 
-  @ViewChild(DatatableComponent) table!: DatatableComponent;
+  resultsLength = 0;
+  isLoadingResults = true;
+  isRateLimitReached = false;
 
-  @ViewChild('estadoPqrs', { static: true }) estadoPqrs!: TemplateRef<any>;
-  @ViewChild('buttonAccion', { static: true }) buttonAccion!: TemplateRef<any>;
 
   rows: any;
 
@@ -34,18 +34,19 @@ export class PlanAccionComponent {
 
   pqrs_id: any;
 
-  ColumnMode = ColumnMode;
 
-  displayedColumns: string[] = ['#', 'Fecha Inicio', 'Descripcion Plan', 
-  'Fecha del Cumplimiento', 
-  'Persona a cargo', 
-  'Descripción PQRS', 
-  'Estado',
-  'Acciones'
+  displayedColumns: string[] = ['#', 'Fecha Inicio', 'Descripcion Plan',
+    'Fecha del Cumplimiento',
+    'Persona a cargo',
+    'Descripción PQRS',
+    'Estado',
+    'Acciones'
   ];
-  dataSource = new MatTableDataSource<PeriodicElement>([]);
+  dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
 
   constructor(private _planAccion: PlanAccionService,
     private activatedRoute: ActivatedRoute,
@@ -53,25 +54,31 @@ export class PlanAccionComponent {
   ) { }
 
   ngAfterViewInit() {
-    this.paginator._intl.itemsPerPageLabel = "Registros por página";
-    this.dataSource.paginator = this.paginator;
+    if (this.paginator) {
+      this.paginator._intl.itemsPerPageLabel = "Registros por página";
+      this.dataSource.paginator = this.paginator;
+    }
     
   }
 
   ngOnInit(): void {
     this.pqrs_id = this.activatedRoute.snapshot.paramMap.get('id');
-    
     this.getListPqrsPlan();
-
+    if (this.paginator) {
+      this.paginator._intl.itemsPerPageLabel = "Registros por página";
+      this.dataSource.paginator = this.paginator;
+    }
   }
 
 
   getListPqrsPlan() {
-      this._planAccion.getListPqrsPlan(this.pqrs_id).subscribe((data: any) => {
-        this.dataSource.data = data;
-        this.temp = [...data]
-      });
-    }
+    this.isLoadingResults = true;
+    this._planAccion.getListPqrsPlan(this.pqrs_id).subscribe((data: any) => {
+      this.isLoadingResults = false;
+      this.dataSource.data = data;
+      this.temp = [...data]
+    });
+  }
 
   updateFilter(event: any) {
     const val = event.target.value.toLowerCase();
@@ -81,10 +88,7 @@ export class PlanAccionComponent {
       return d.carg_nombre.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
-    // update the rows
     this.dataSource.data = temp;
-    // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
   }
 
 

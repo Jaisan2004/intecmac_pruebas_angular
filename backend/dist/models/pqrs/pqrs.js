@@ -53,9 +53,6 @@ const Pqrs = connection_1.default.define('pqrs', {
     pqrs_fecha_respuesta: {
         type: sequelize_1.DataTypes.DATE
     },
-    pqrs_dias_gestion: {
-        type: sequelize_1.DataTypes.NUMBER
-    },
     pqrs_documento_cruce: {
         type: sequelize_1.DataTypes.STRING
     },

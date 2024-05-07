@@ -2,13 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import moment from 'moment';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
 
 @Component({
   selector: 'app-pqrs',
@@ -19,7 +14,7 @@ export class PqrsComponent {
 
   columns: any[] = [
     { name: '#', prop: 'pqrs_id' },
-    { name: 'Fecha Recepcion', prop: 'pqrs_fecha_recepcion' },
+    { name: 'Fecha Recepción', prop: 'pqrs_fecha_recepcion' },
     { name: 'Cliente', prop: 'cli_nombre' },
     { name: 'Zona', prop: 'cli_zona' },
     { name: 'Asesor', prop: 'cli_asesor_nombre' },
@@ -27,20 +22,19 @@ export class PqrsComponent {
     { name: 'Lote', prop: 'pqrs_lote' },
     { name: 'Cantidad', prop: 'pqrs_prod_cantidad' },
     { name: 'Documento', prop: 'pqrs_doc' },
-    { name: 'Descripcion', prop: 'pqrs_descripcion' },
+    { name: 'Descripción', prop: 'pqrs_descripcion' },
     { name: 'Analisis', prop: 'pqrs_analisis' },
     { name: 'Costo', prop: 'costo' },
-    { name: 'Causa Raiz', prop: 'pcr_causa' },
+    { name: 'Causa Raíz', prop: 'pcr_causa' },
     { name: 'Cargo Generador', prop: 'carg_nombre' },
     { name: 'Tipologia', prop: 'pt_tipologia' },
     { name: 'Fecha Respuesta', prop: 'pqrs_fecha_respuesta' },
-    { name: 'Dias Gestion', prop: 'pqrs_dias_gestion' },
-    { name: 'Doc. Cruce', prop: 'pqrs_documento_cruce' },
+    { name: 'Doc. Cruce', prop: 'pqrs_documento_cruce' }
   ];
 
   displayedColumns: string[] = [
     '#',
-    'Fecha Recepcion',
+    'Fecha Recepción',
     'Cliente',
     'Zona',
     'Asesor',
@@ -48,20 +42,20 @@ export class PqrsComponent {
     'Lote',
     'Cantidad',
     'Documento',
-    'Descripcion',
+    'Descripción',
+    'Evidencia',
     'Analisis',
     'Costo',
-    'Causa Raiz',
+    'Causa Raíz',
     'Cargo Generador',
     'Tipologia',
     'Fecha Respuesta',
-    'Dias Gestion',
+    'Días Gestión',
     'Doc. Cruce',
-    'Evidencia',
     'Estado',
     'Acciones'
   ];
-  dataSource = new MatTableDataSource<PeriodicElement>([]);
+  dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -69,6 +63,10 @@ export class PqrsComponent {
 
   image: any;
   data: any;
+
+  fecha_actual= new Date();
+
+  isLoadingResults = true;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -79,16 +77,26 @@ export class PqrsComponent {
   }
 
   getListPqrs() {
+    this.isLoadingResults = true;
     this._pqrsService.getListPqrs().subscribe((data: any) => {
+      this.isLoadingResults = false;
       this.dataSource.data = data;
 
     });
   }
 
-  // getImageUrl(evidencia: string) {
-  //   const newUrl = `${evidencia}?t=${new Date().getTime()}`;
-  //   return newUrl;
-  // }
+  diasProceso(fecha_recepcion:any, fecha_respuesta: any){
+    if(fecha_respuesta==='0000-00-00'){
+    const dbFechaRecepcion = new Date(fecha_recepcion.replace(/-/g, '/'));
+    const diff = moment(this.fecha_actual).diff(moment(dbFechaRecepcion), 'days');
+    return diff
+    }else{
+      const dbFechaRecepcion = new Date(fecha_recepcion.replace(/-/g, '/'));
+      const dbFechaRespuesta = new Date(fecha_respuesta.replace(/-/g, '/'));
+      const diff = moment(dbFechaRespuesta).diff(moment(dbFechaRecepcion), 'days');
+      return diff
+    }
+  }
 
   // updateFilter(event: any) {
   //   const val = event.target.value.toLowerCase();

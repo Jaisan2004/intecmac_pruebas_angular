@@ -14,7 +14,8 @@ const routes: Routes = [
   {path: "modificarPqrs/:id", component: ModificarPqrsComponent},
   {path: "planAccionPqrs/:id", component: PlanAccionComponent},
   {path: "AgregarPlanAccionPqrs/:id", component: PlanAccionAgregarComponent},
-  {path: "ModificarPlanAccionPqrs/:id", component: PlanAccionModificarComponent}
+  {path: "ModificarPlanAccionPqrs/:id", component: PlanAccionModificarComponent},
+  {path: '**', component: PqrsComponent}
 
 ];
 

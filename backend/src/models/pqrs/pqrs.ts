@@ -49,9 +49,6 @@ const Pqrs = db.define('pqrs',{
     pqrs_fecha_respuesta:{
         type: DataTypes.DATE
     },
-    pqrs_dias_gestion:{
-        type: DataTypes.NUMBER
-    },
     pqrs_documento_cruce:{
         type: DataTypes.STRING
     },
