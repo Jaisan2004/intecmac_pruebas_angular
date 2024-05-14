@@ -1,8 +1,9 @@
 <div id="cuerpo">
     <div class="container mt-3">
 
-        <button class="btn btn-outline-light" routerLink="/PQRS"><i class="bi bi-box-arrow-left"></i></button>
-        <h3>Modificar PQRS</h3>
+        <button title="Volver al listado PQRS" class="btn btn-outline-light" routerLink="/PQRS"><i
+                class="bi bi-box-arrow-left"></i></button>
+        <h1>Modificar PQRS</h1>
         <br>
 
         <form class="row  g-3" [formGroup]="formPqrs">
@@ -121,10 +122,10 @@
             </div>
 
             <div class="mb-3 col-md-6 d-flex flex-column align-items-center" *ngIf="previsualizacion">
-                <button class="btn btn-success" [disabled]="loading" (click)="subirArchivo()">{{(loading)?'Cargando...'
+                <button class="btn btn-success"  title="Subir imagen de evidencia" [disabled]="loading" (click)="subirArchivo()">{{(loading)?'Cargando...'
                     : 'Subir Archivo'}}</button>
                 <br>
-                <button class="btn btn-danger" (click)="cancelarCapturarFile()">Cancelar</button>
+                <button class="btn btn-danger" title="Cancelar" (click)="cancelarCapturarFile()">Cancelar</button>
             </div>
 
             <div class="mb-3 col-md-6" *ngIf="imagen.value&&!previsualizacion&&!cambiarImg" style="text-align: center;">
@@ -133,14 +134,14 @@
 
             <div id="buttons-image" class="mb-3 col-md-6" *ngIf="imagen.value&&!previsualizacion&&!cambiarImg">
 
-                <button class="btn btn-warning" (click)="cambiarImg = true">Cambiar Evidencia</button>
+                <button title="Cambiar la imagen de evidencia" class="btn btn-warning" (click)="cambiarImg = true">Cambiar Evidencia</button>
 
             </div>
 
             <div class="form-floating mb-3">
 
                 <textarea class="form-control" id="descripcion" name="descripcion" formControlName="descripcion"
-                    (keyup)="onKeyDescripcion($event)" style="height: 100px"></textarea>
+                    (keyup)="onKeyDescripcion($event)" style="height: 200px"></textarea>
 
                 <label class="form-label" for="descripcion" style="color: green;" *ngIf="descripcion.valid">*
                     Descripcion {{contadorDes}}/5000</label>
@@ -157,7 +158,7 @@
             <div class="form-floating mb-3">
 
                 <textarea class="form-control" name="analisis" id="analisis" formControlName="analisis"
-                    (keyup)="onKeyAnalisis($event)" style="height: 100px"></textarea>
+                    (keyup)="onKeyAnalisis($event)" style="height: 200px"></textarea>
 
                 <label class="form-label" for="analisis" *ngIf="analisis.valid">Analisis
                     {{contadorAnalisis}}/5000</label>
@@ -239,6 +240,14 @@
 
             <div class="form-floating mb-3">
 
+                <input name="fecha_respuesta" class="form-control" type="text" id="fecha_respuesta"
+                    formControlName="fecha_respuesta">
+                <label class="form-label" for="fecha_respuesta">Fecha Respuesta</label>
+
+            </div>
+
+            <div class="form-floating mb-3">
+
                 <input class="form-control" name="doc_cruce" type="text" id="doc_cruce" formControlName="doc_cruce">
 
                 <label class="form-label" for="doc_cruce" *ngIf="doc_cruce.valid">Documento Cruce</label>
@@ -272,11 +281,12 @@
             </div>
 
             <div class="mb-3 col-md-6">
-                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/PQRS">Volver</button>
+                <button title="Volver al listado PQRS" type="submit" class="btn btn-secondary" style="width: 100%;"
+                    routerLink="/PQRS">Volver</button>
             </div>
             <div class="mb-3 col-md-6">
                 <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="modificarPqrs()"
-                    [disabled]="formPqrs.invalid">{{(loading)?'Cargando...'
+                    title="Modificar la PQRS" [disabled]="formPqrs.invalid||loading">{{(loading)?'Cargando...'
                     : 'Actualizar'}}</button>
             </div>
 

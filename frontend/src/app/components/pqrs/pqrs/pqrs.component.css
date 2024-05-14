@@ -1,52 +1,15 @@
 .example-container {
+    position: relative;
+    
+}
+.example-table-container {
     width: 100%;
+    max-height: 70vh;
     overflow: auto;
     position: relative;
-}
-
+  }
 table {
     width: 100%;
-}
-
-.example-loading-shade {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 56px;
-    right: 0;
-    background: rgba(0, 0, 0, 0.15);
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.example-rate-limit-reached {
-    max-width: 360px;
-    text-align: center;
-}
-
-/* Column Widths */
-.mat-column-number,
-.mat-column-state {
-    max-width: 64px;
-}
-
-.mat-column-created {
-    max-width: 124px;
-}
-
-th.mat-column-position,
-td.mat-column-position {
-    padding-left: 8px;
-}
-
-.mat-mdc-table-sticky-border-elem-right {
-    border-left: 1px solid #e0e0e0;
-}
-
-.mat-mdc-table-sticky-border-elem-left {
-    border-right: 1px solid #e0e0e0;
 }
 
 input {
@@ -55,3 +18,8 @@ input {
     margin: 15px auto;
     width: 100%;
 }
+
+#Estado {
+    text-align: center;
+}
+

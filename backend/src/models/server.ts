@@ -5,7 +5,6 @@ import routesPqrsRoutes from '../routes/pqrs/pqrs_routes';
 import routesCliente from '../routes/cliente';
 import routesForms from '../routes/formsSelect';
 import db from '../db/connection'
-import { createProxyMiddleware } from 'http-proxy-middleware';
 
 class Server{
     private app: Application;

@@ -68,6 +68,11 @@ export class ModificarPqrsComponent {
     return this.formPqrs.get('tipo') as FormControl
   }
 
+  get fecha_respuesta() {
+    return this.formPqrs.get('fecha_respuesta') as FormControl
+  }
+
+
   get doc_cruce() {
     return this.formPqrs.get('doc_cruce') as FormControl
   }
@@ -91,6 +96,7 @@ export class ModificarPqrsComponent {
     'causa': new FormControl(''),
     'cargo': new FormControl(''),
     'tipo': new FormControl(''),
+    'fecha_respuesta': new FormControl({ value: '', disabled: true }),
     'doc_cruce': new FormControl('', Validators.maxLength(200)),
     'estado': new FormControl('', Validators.required)
   });
@@ -123,11 +129,6 @@ export class ModificarPqrsComponent {
   ) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class
-  }
-
   ngOnInit(): void {
     this.id_pqrs.setValue(this.activatedRoute.snapshot.paramMap.get('id'));
     this.getPqrs();
@@ -140,24 +141,47 @@ export class ModificarPqrsComponent {
 
   modificarPqrs() {
     this.loading = true;
-    const body = {
-      pqrs_fecha_recepcion: this.fecha_recepcion.value,
-      cli_id: this.cliente.value,
-      prod_id: this.producto.value,
-      pqrs_lote: this.lote.value,
-      pqrs_prod_cantidad: this.cantidad.value,
-      pqrs_doc: this.documento.value,
-      pqrs_descripcion: this.descripcion.value,
-      pqrs_analisis: this.analisis.value,
-      costo: this.costo.value,
-      pqrs_causa_raiz_id: this.causa.value,
-      carg_id: this.cargo.value,
-      pt_id: this.tipo.value,
-      pqrs_fecha_respuesta: "",
-      pqrs_dias_gestion: 0,
-      pqrs_documento_cruce: this.doc_cruce.value,
-      pqrs_estado: this.estado.value
+    let body = {};
+    if (this.estado.value == 2) {
+      if (this.fecha_respuesta.value == '0000-00-00'){
+        body = {
+          pqrs_fecha_recepcion: this.fecha_recepcion.value,
+          cli_id: this.cliente.value,
+          prod_id: this.producto.value,
+          pqrs_lote: this.lote.value,
+          pqrs_prod_cantidad: this.cantidad.value,
+          pqrs_doc: this.documento.value,
+          pqrs_descripcion: this.descripcion.value,
+          pqrs_analisis: this.analisis.value,
+          costo: this.costo.value,
+          pqrs_causa_raiz_id: this.causa.value,
+          carg_id: this.cargo.value,
+          pt_id: this.tipo.value,
+          pqrs_fecha_respuesta: new Date(),
+          pqrs_documento_cruce: this.doc_cruce.value,
+          pqrs_estado: this.estado.value
+        }
+      }
+    } else if (this.estado.value == 1) {
+      body = {
+        pqrs_fecha_recepcion: this.fecha_recepcion.value,
+        cli_id: this.cliente.value,
+        prod_id: this.producto.value,
+        pqrs_lote: this.lote.value,
+        pqrs_prod_cantidad: this.cantidad.value,
+        pqrs_doc: this.documento.value,
+        pqrs_descripcion: this.descripcion.value,
+        pqrs_analisis: this.analisis.value,
+        costo: this.costo.value,
+        pqrs_causa_raiz_id: this.causa.value,
+        carg_id: this.cargo.value,
+        pt_id: this.tipo.value,
+        pqrs_fecha_respuesta: '',
+        pqrs_documento_cruce: this.doc_cruce.value,
+        pqrs_estado: this.estado.value
+      }
     }
+    
     this._pqrsService.updatePqrs(this.id_pqrs.value, body).subscribe(() => {
       this.loading = false;
       this.toastr.success(`PQRS del asesor ${this.cli_asesor} se modifico exitosamente`, `Modificacion PQRS`)
@@ -195,16 +219,16 @@ export class ModificarPqrsComponent {
         const body = {
           filePath: res.url + '?t=' + new Date().getTime()
         }
-          this._pqrsService.updatePqrsImg(this.id_pqrs.value, body).subscribe(() => {
+        this._pqrsService.updatePqrsImg(this.id_pqrs.value, body).subscribe(() => {
 
-            this.previsualizacion = null;
-            this.cambiarImg = false;
-            this.toastr.success(`Imagen agregada exitosamente`, `Modificacion PQRS`)
+          this.previsualizacion = null;
+          this.cambiarImg = false;
+          this.toastr.success(`Imagen agregada exitosamente`, `Modificacion PQRS`)
 
-            this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`])
-            this.loading = false;
+          this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`])
+          this.loading = false;
 
-          })
+        })
       });
 
     } catch (error) {
@@ -250,6 +274,7 @@ export class ModificarPqrsComponent {
       this.causa.setValue(this.data.pqrs_causa_raiz_id);
       this.cargo.setValue(this.data.carg_id);
       this.tipo.setValue(this.data.pt_id);
+      this.fecha_respuesta.setValue(this.data.pqrs_fecha_respuesta);
       this.doc_cruce.setValue(this.data.pqrs_documento_cruce);
       this.estado.setValue(this.data.pqrs_estado);
 
@@ -276,8 +301,8 @@ export class ModificarPqrsComponent {
     this._formulariosService.getInfoCliente(this.cliente.value).subscribe((data) => {
       this.dataCliente = data;
       if (this.dataCliente) {
-        this.cli_zona = this.dataCliente.cli_zona;
-        this.cli_asesor = this.dataCliente.cli_asesor_nombre;
+        this.cli_zona = this.dataCliente[0].zona;
+        this.cli_asesor = this.dataCliente[0].cli_asesor_nombre;
       }
     })
   }

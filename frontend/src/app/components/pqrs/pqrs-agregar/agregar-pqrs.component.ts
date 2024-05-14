@@ -83,6 +83,7 @@ export class AgregarPqrsComponent {
   cli_asesor: string = '';
 
 
+  public loading: boolean | any;
   contadorDes = 0;
   contadorAnalisis = 0
 
@@ -108,6 +109,7 @@ export class AgregarPqrsComponent {
   }
 
   crearPqrs() {
+    this.loading = true;
     const body = {
     pqrs_id: null,
     pqrs_fecha_recepcion: new Date(),
@@ -129,6 +131,7 @@ export class AgregarPqrsComponent {
     pqrs_estado: 1
     }
     this._pqrsService.postPqrs(body).subscribe(() => {
+      this.loading = false;
       this.toastr.success(`PQRS del asesor ${this.cli_asesor} se registro exitosamente`, `Registro PQRS`)
       this.router.navigate(['/PQRS'])
     },
@@ -153,11 +156,11 @@ export class AgregarPqrsComponent {
   }
 
   getInfoCliente() {
-    this._formulariosService.getInfoCliente(this.cliente?.value).subscribe((data) => {
+    this._formulariosService.getInfoCliente(this.cliente.value).subscribe((data) => {
       this.dataCliente = data;
       if (this.dataCliente) {
-        this.cli_zona = this.dataCliente.cli_zona;
-        this.cli_asesor = this.dataCliente.cli_asesor_nombre;
+        this.cli_zona = this.dataCliente[0].zona;
+        this.cli_asesor = this.dataCliente[0].cli_asesor_nombre;
       }
     })
   }

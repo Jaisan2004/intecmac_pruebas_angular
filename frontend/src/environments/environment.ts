@@ -1,4 +1,4 @@
 export const environment = {
-        endpoint: 'http://localhost:3000/'
+        endpoint: 'http://192.168.1.17:3000/'
 
 };

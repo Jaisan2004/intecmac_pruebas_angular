@@ -20,7 +20,8 @@ const cargos_1 = __importDefault(require("../models/cargos"));
 const pqrs_tipologia_1 = __importDefault(require("../models/pqrs/pqrs_tipologia"));
 const getClienteOption = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listCliente = yield cliente_1.default.findAll({
-        attributes: ['cli_id', 'cli_nombre']
+        attributes: ['cli_id', 'cli_nombre'],
+        order: [['cli_nombre', 'ASC']]
     });
     res.json(listCliente);
 });
@@ -28,7 +29,7 @@ exports.getClienteOption = getClienteOption;
 const getInfoCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const pqrs = yield cliente_1.default.findByPk(id, {
-        attributes: ['cli_zona', 'cli_asesor_nombre']
+        attributes: ['cli_nombre', 'cli_zona', 'cli_asesor_nombre']
     });
     if (pqrs) {
         res.json(pqrs);
@@ -42,18 +43,23 @@ const getInfoCliente = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.getInfoCliente = getInfoCliente;
 const getProductoOption = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listProducto = yield producto_1.default.findAll({
-        attributes: ['prod_id', 'prod_descripcion']
+        attributes: ['prod_id', 'prod_descripcion'],
+        order: [['prod_descripcion', 'ASC']]
     });
     res.json(listProducto);
 });
 exports.getProductoOption = getProductoOption;
 const getPqrsCausaOption = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listCausas = yield pqrs_causa_raiz_1.default.findAll();
+    const listCausas = yield pqrs_causa_raiz_1.default.findAll({
+        order: [['pcr_causa', 'ASC']]
+    });
     res.json(listCausas);
 });
 exports.getPqrsCausaOption = getPqrsCausaOption;
 const getCargosOption = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listCargos = yield cargos_1.default.findAll();
+    const listCargos = yield cargos_1.default.findAll({
+        order: [['carg_nombre', 'ASC']]
+    });
     res.json(listCargos);
 });
 exports.getCargosOption = getCargosOption;

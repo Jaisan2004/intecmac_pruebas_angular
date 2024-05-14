@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PlanAccionService } from '../../../services/pqrs/plan-accion/plan-accion.service';
+import { CargosService } from '../../../services/cargos/cargos.service';
 
 @Component({
   selector: 'app-plan-accion-agregar',
@@ -48,13 +49,16 @@ export class PlanAccionAgregarComponent {
 
   public loading: boolean | any;
 
+  carg_correo: any;
   contadorDes = 0;
 
+  dataCargo: any;
   dataCargos: any;
   data: any;
 
   constructor(private _formulariosService: FormulariosService,
     private _PlanAccionPqrs: PlanAccionService,
+    private _CargoService: CargosService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService) { }
@@ -66,6 +70,22 @@ export class PlanAccionAgregarComponent {
 
   AgregarPlanPqrs() {
     this.loading = true;
+
+    const fecha = new Date();
+    const isoString = fecha.toISOString();
+    const dateString = isoString.slice(0, 10);
+
+    const hora = fecha.getHours();
+    let saludo = '';
+
+    if (hora < 12) {
+      saludo = 'Buenos días';
+    } else if (hora < 18) {
+      saludo = 'Buenas tardes';
+    } else {
+      saludo = 'Buenas noches';
+    }
+
     const body = {
       ppa_id: null,
       ppa_fecha_inicio: new Date(),
@@ -75,14 +95,27 @@ export class PlanAccionAgregarComponent {
       pqrs_id: this.pqrs_id.value,
       ppa_estado: 'PENDIENTE'
     }
+
+    const bodyCorreo={
+      saludos: saludo,
+      cargo:this.dataCargo.carg_nombre,
+      ppa_fecha_inicio: dateString,
+      ppa_descripcion: this.ppa_descripcion.value,
+      ppa_fecha_cumplimiento: this.ppa_fecha_cumplimiento.value,
+      carg_correo: this.carg_correo,
+      pqrs_id: this.pqrs_id.value,
+    }
+
     this._PlanAccionPqrs.postPlanPqrs(body).subscribe(() => {
       this.loading = false;
+      this._PlanAccionPqrs.postCorreoPlanPqrs(bodyCorreo).subscribe(()=>{
+        this.toastr.success(`Correo Enviado a ${this.dataCargo.carg_nombre}`, `Notificación de Plan de Acción`)
+      });
       this.toastr.success(`Plan de acción agregado exitosamente`, `Registro Plan de Acción`)
       this.router.navigate([`/planAccionPqrs/${this.pqrs_id.value}`])
 
     })
   }
-
 
   onKeyDescripcion(event: any) {
     this.contadorDes = event.target.value.length
@@ -91,6 +124,14 @@ export class PlanAccionAgregarComponent {
   getCargosOption() {
     this._formulariosService.getCargosOpcion().subscribe((data) => {
       this.dataCargos = data;
+    })
+  }
+
+  getCargo(id:any){
+    this._CargoService.getCargo(id).subscribe((data)=>{
+      this.dataCargo = data;
+      this.carg_correo = this.dataCargo.carg_correo
+      console.log(this.carg_correo)
     })
   }
 

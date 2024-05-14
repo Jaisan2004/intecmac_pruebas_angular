@@ -8,7 +8,8 @@ import Pqrs_Tipologia from '../models/pqrs/pqrs_tipologia';
 
 export const getClienteOption = async (req: Request, res: Response) => {
     const listCliente = await Cliente.findAll({
-        attributes: ['cli_id', 'cli_nombre']
+        attributes: ['cli_id', 'cli_nombre'],
+        order: [['cli_nombre', 'ASC']]
     })
 
     res.json(listCliente)
@@ -17,7 +18,7 @@ export const getClienteOption = async (req: Request, res: Response) => {
 export const getInfoCliente = async (req: Request, res: Response) => {
     const { id } = req.params;
     const pqrs = await Cliente.findByPk(id, {
-        attributes: ['cli_zona', 'cli_asesor_nombre']
+        attributes: ['cli_nombre','cli_zona', 'cli_asesor_nombre']
     })
 
     if (pqrs) {
@@ -31,20 +32,25 @@ export const getInfoCliente = async (req: Request, res: Response) => {
 }
 export const getProductoOption = async (req: Request, res: Response) => {
     const listProducto = await Producto.findAll({
-        attributes: ['prod_id', 'prod_descripcion']
+        attributes: ['prod_id', 'prod_descripcion'],
+        order: [['prod_descripcion','ASC']]
     })
 
     res.json(listProducto)
 }
 
 export const getPqrsCausaOption = async (req: Request, res: Response) => {
-    const listCausas = await Pqrs_Causa.findAll()
+    const listCausas = await Pqrs_Causa.findAll({
+        order: [['pcr_causa', 'ASC']]
+    })
 
     res.json(listCausas)
 }
 
 export const getCargosOption = async (req: Request, res: Response) => {
-    const listCargos = await Cargo.findAll()
+    const listCargos = await Cargo.findAll({
+        order: [['carg_nombre', 'ASC']]
+    })
 
     res.json(listCargos)
 }

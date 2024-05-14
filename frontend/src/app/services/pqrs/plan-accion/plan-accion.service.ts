@@ -32,4 +32,8 @@ export class PlanAccionService {
    putPlanPqrs(ppa_id: any,body: any): Observable<any>{
     return this.http.put(`${this.myAppUrl}${this.myApiUrl}${ppa_id}`, body);
    }
+
+   postCorreoPlanPqrs(body: any): Observable<any>{
+    return this.http.post(`${this.myAppUrl}api/pqrs_apis/plan_accion_correo/`, body);
+   }
 }

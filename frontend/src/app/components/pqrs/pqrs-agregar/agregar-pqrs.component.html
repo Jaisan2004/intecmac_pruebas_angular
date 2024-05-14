@@ -1,7 +1,7 @@
 <div id="cuerpo">
     <div class="container mt-3">
-        <button class="btn btn-outline-light" routerLink="/PQRS"><i class="bi bi-box-arrow-left"></i></button>
-        <h3>Agregar PQRS</h3>
+        <button title="Volver al listado PQRS" class="btn btn-outline-light" routerLink="/PQRS"><i class="bi bi-box-arrow-left"></i></button>
+        <h1>Agregar PQRS</h1>
         <br>
         <form class="row  g-3" [formGroup]="formPqrs">
 
@@ -102,7 +102,7 @@
             <div class="form-floating mb-3">
 
                 <textarea class="form-control" id="descripcion" name="descripcion" (keyup)="onKeyDescripcion($event)"
-                    style="height: 100px" formControlName="descripcion"></textarea>
+                    style="height: 200px" formControlName="descripcion"></textarea>
 
                 <label class="form-label" for="descripcion" style="color: green;" *ngIf="descripcion.valid">*
                     Descripcion
@@ -120,7 +120,7 @@
             <div class="form-floating mb-3">
 
                 <textarea class="form-control" name="analisis" id="analisis" (keyup)="onKeyAnalisis($event)"
-                    style="height: 100px" formControlName="analisis"></textarea>
+                    style="height: 200px" formControlName="analisis"></textarea>
 
                 <label class="form-label" for="analisis" *ngIf="analisis.valid">Analisis
                     {{contadorAnalisis}}/5000</label>
@@ -199,11 +199,12 @@
 
             </div>
             <div class="mb-3 col-md-6">
-                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/PQRS">Volver</button>
+                <button title="Volver al listado PQRS" type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/PQRS">Volver</button>
             </div>
             <div class="mb-3 col-md-6">
-                <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="crearPqrs()"
-                    [disabled]="formPqrs.invalid">Registrar</button>
+                <button title="Registrar la PQRS" type="submit" class="btn btn-primary" style="width: 100%;" (click)="crearPqrs()"
+                    [disabled]="formPqrs.invalid || loading">{{(loading)?'Cargando...'
+                    : 'Registrar'}}</button>
             </div>
 
             <div class="alert alert-danger" [hidden]="formPqrs.valid">

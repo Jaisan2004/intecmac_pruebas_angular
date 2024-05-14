@@ -1,10 +1,11 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { Component, ViewChild } from '@angular/core';
 import { PlanAccionService } from '../../../services/pqrs/plan-accion/plan-accion.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
+import { FormulariosService } from '../../../services/formularios/formularios.service';
 
 @Component({
   selector: 'app-plan-accion',
@@ -18,7 +19,8 @@ export class PlanAccionComponent {
   isRateLimitReached = false;
 
 
-  rows: any;
+  data: any;
+  dataCliente: any;
 
   temp: any;
 
@@ -27,8 +29,7 @@ export class PlanAccionComponent {
     { name: 'Fecha Inicio', prop: 'ppa_fecha_inicio' },
     { name: 'Descripcion Plan', prop: 'ppa_descripcion' },
     { name: 'Fecha del Cumplimiento', prop: 'ppa_fecha_cumplimiento' },
-    { name: 'Persona a cargo', prop: 'carg_nombre' },
-    { name: 'Descripción PQRS', prop: 'pqrs_descripcion' },
+    { name: 'Persona a cargo', prop: 'carg_nombre' }
   ];
 
 
@@ -38,7 +39,6 @@ export class PlanAccionComponent {
   displayedColumns: string[] = ['#', 'Fecha Inicio', 'Descripcion Plan',
     'Fecha del Cumplimiento',
     'Persona a cargo',
-    'Descripción PQRS',
     'Estado',
     'Acciones'
   ];
@@ -50,7 +50,8 @@ export class PlanAccionComponent {
 
   constructor(private _planAccion: PlanAccionService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private _pqrsService: PqrsService,
+    private _formulariosService: FormulariosService
   ) { }
 
   ngAfterViewInit() {
@@ -63,6 +64,7 @@ export class PlanAccionComponent {
 
   ngOnInit(): void {
     this.pqrs_id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.getPqrs();
     this.getListPqrsPlan();
     if (this.paginator) {
       this.paginator._intl.itemsPerPageLabel = "Registros por página";
@@ -78,6 +80,19 @@ export class PlanAccionComponent {
       this.dataSource.data = data;
       this.temp = [...data]
     });
+  }
+
+  getPqrs() {
+    this._pqrsService.getPqrs(this.pqrs_id).subscribe((data) => {
+      this.data = data;
+      this.getInfoCliente(this.data.cli_id);
+    })
+  }
+
+  getInfoCliente(cli_id:any) {
+    this._formulariosService.getInfoCliente(cli_id).subscribe((data) => {
+      this.dataCliente = data;
+    })
   }
 
   updateFilter(event: any) {

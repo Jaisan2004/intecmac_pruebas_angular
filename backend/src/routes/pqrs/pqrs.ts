@@ -10,7 +10,7 @@ router.post('/', postPQRS);
 router.put('/agregarImg/:id', updatePQRSImage);
 router.post('/guardarImg/', upload.single('myFile'),(req, res)=>{
     const file = req.file?.filename
-    res.json({data:'Imagen Cargada', url:`http://localhost:${process.env.PORT||3001}/${file}`})
+    res.json({data:'Imagen Cargada', url:`http://192.168.1.17:${process.env.PORT||3001}/${file}`})
 });
 router.put('/actualizar/:id', updatePQRS);
 
