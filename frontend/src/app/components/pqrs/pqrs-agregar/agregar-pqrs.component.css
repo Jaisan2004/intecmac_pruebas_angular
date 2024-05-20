@@ -3,22 +3,21 @@
     justify-content: center;
     align-items: center;
 
-    background-image: linear-gradient(#0CBABA, #34495E);
+    background-color: #04643921;
 }
-
 .container {
-    max-width: 650px;
+    max-width: 50%;
     padding: 28px;
     margin: 0 28px;
     border-radius: 10px;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255);
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.6);
 }
 
 h1{
     text-align: center;
-    color: #E0FFFF;
+    color: black;
 }
 
 #valido{

@@ -29,15 +29,15 @@
                 <select id="cargo" class="form-select" *ngIf="dataCargos" name="cargo"
                     aria-label="Default select example" (change)="getCargo(carg_id.value)" formControlName="carg_id">
 
-                    <option disabled selected>---Seleccione el cargo responsable---</option>
+                    <option disabled selected>---Seleccione el Cargo responsable---</option>
                     <option *ngFor="let option of dataCargos" [value]="option.carg_id">{{option.carg_nombre}}</option>
 
                 </select>
 
                 <label class="form-label" for="cargo" style="color: green;" *ngIf="carg_id.valid">* Cargo
-                    Generador</label>
+                    Responsable</label>
                 <label class="form-label" for="cargo" style="color: red;" *ngIf="carg_id.invalid">* Cargo
-                    Generador</label>
+                    Responsable</label>
 
                 <div class="alert alert-danger" [hidden]="carg_id.untouched || carg_id.valid">
                     <span>Por favor seleccione el cargo responsable.</span>

@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
 import { FormulariosService } from '../../../services/formularios/formularios.service';
+import {  NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-plan-accion',
@@ -29,7 +30,7 @@ export class PlanAccionComponent {
     { name: 'Fecha Inicio', prop: 'ppa_fecha_inicio' },
     { name: 'Descripcion Plan', prop: 'ppa_descripcion' },
     { name: 'Fecha del Cumplimiento', prop: 'ppa_fecha_cumplimiento' },
-    { name: 'Persona a cargo', prop: 'carg_nombre' }
+    { name: 'Cargo Responsable', prop: 'carg_nombre' }
   ];
 
 
@@ -38,7 +39,7 @@ export class PlanAccionComponent {
 
   displayedColumns: string[] = ['#', 'Fecha Inicio', 'Descripcion Plan',
     'Fecha del Cumplimiento',
-    'Persona a cargo',
+    'Cargo Responsable',
     'Estado',
     'Acciones'
   ];
@@ -51,34 +52,31 @@ export class PlanAccionComponent {
   constructor(private _planAccion: PlanAccionService,
     private activatedRoute: ActivatedRoute,
     private _pqrsService: PqrsService,
-    private _formulariosService: FormulariosService
+    private _formulariosService: FormulariosService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
     if (this.paginator) {
       this.paginator._intl.itemsPerPageLabel = "Registros por página";
       this.dataSource.paginator = this.paginator;
     }
-    
   }
 
   ngOnInit(): void {
     this.pqrs_id = this.activatedRoute.snapshot.paramMap.get('id');
     this.getPqrs();
     this.getListPqrsPlan();
-    if (this.paginator) {
-      this.paginator._intl.itemsPerPageLabel = "Registros por página";
-      this.dataSource.paginator = this.paginator;
-    }
   }
 
 
   getListPqrsPlan() {
-    this.isLoadingResults = true;
+    this.spinner.show();
     this._planAccion.getListPqrsPlan(this.pqrs_id).subscribe((data: any) => {
-      this.isLoadingResults = false;
       this.dataSource.data = data;
       this.temp = [...data]
+      this.spinner.hide();
     });
   }
 

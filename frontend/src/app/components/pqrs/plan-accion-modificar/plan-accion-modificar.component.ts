@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PlanAccionService } from '../../../services/pqrs/plan-accion/plan-accion.service';
+import {NgxSpinnerService } from 'ngx-spinner'
 
 
 @Component({
@@ -63,7 +64,8 @@ export class PlanAccionModificarComponent {
     private _PlanAccionPqrs: PlanAccionService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.id_ppa.setValue(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -72,6 +74,7 @@ export class PlanAccionModificarComponent {
   }
 
   modificarPlanPqrs() {
+    this.spinner.show()
     this.loading = true;
     const body = {
       ppa_fecha_inicio: this.ppa_fecha_inicio.value,
@@ -85,19 +88,25 @@ export class PlanAccionModificarComponent {
       this.loading = false;
       this.toastr.success(`Plan de acción modificado exitosamente`, `Registro Plan de Acción`)
       this.router.navigate([`/planAccionPqrs/${this.pqrs_id.value}`])
-
+      this.spinner.hide();
+    },
+    (error) => {
+      this.toastr.error(`Error al Modificar Plan de accion: ${error.message}`, `Error`)
+      this.spinner.hide();
     })
   }
 
   getPlanPqrs(){
+    this.spinner.show();
     this._PlanAccionPqrs.getPqrsPlan(this.id_ppa.value).subscribe((data)=>{
       this.data = data;
-      this.ppa_fecha_inicio.setValue(this.data.ppa_fecha_inicio)
+      this.ppa_fecha_inicio.setValue(this.data.ppa_fecha_inicio);
       this.ppa_descripcion.setValue(this.data.ppa_descripcion);
       this.ppa_fecha_cumplimiento.setValue(this.data.ppa_fecha_cumplimiento);
       this.carg_id.setValue(this.data.carg_id);
       this.pqrs_id.setValue(this.data.pqrs_id);
       this.ppa_estado.setValue(this.data.ppa_estado);
+      this.spinner.hide();
     })
   }
 

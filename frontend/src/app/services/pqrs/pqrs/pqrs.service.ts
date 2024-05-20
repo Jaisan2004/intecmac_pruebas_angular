@@ -23,6 +23,10 @@ export class PqrsService {
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}obtener/${id}`);
    }
 
+   getLastPqrs(): Observable<any>{
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}ultimo_pqrs/`);
+   }
+
    postPqrs(body: any): Observable<any>{
     return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, body);
    }

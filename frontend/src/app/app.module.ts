@@ -7,7 +7,6 @@ import { PqrsComponent } from './components/pqrs/pqrs/pqrs.component';
 import { AgregarPqrsComponent } from './components/pqrs/pqrs-agregar/agregar-pqrs.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DatatableComponent, NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastrModule } from 'ngx-toastr';
 import { ModificarPqrsComponent } from './components/pqrs/pqrs-modificar/modificar-pqrs.component';
 import { PlanAccionComponent } from './components/pqrs/plan-accion/plan-accion.component';
@@ -18,7 +17,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 import { PlanAccionModificarComponent } from './components/pqrs/plan-accion-modificar/plan-accion-modificar.component';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -34,6 +34,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    NgxSpinnerModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
@@ -42,7 +43,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatSortModule
   ],
   providers: [
     provideClientHydration(),

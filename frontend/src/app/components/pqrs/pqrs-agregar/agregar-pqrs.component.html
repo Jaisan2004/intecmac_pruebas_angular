@@ -1,6 +1,8 @@
+<ngx-spinner size = "medium" color = "#fff" type="square-jelly-box" ><p style="color: white" > Cargando... </p></ngx-spinner>
+
 <div id="cuerpo">
     <div class="container mt-3">
-        <button title="Volver al listado PQRS" class="btn btn-outline-light" routerLink="/PQRS"><i class="bi bi-box-arrow-left"></i></button>
+        <button title="Volver al listado PQRS" class="btn btn-outline-dark" routerLink="/PQRS"><i class="bi bi-box-arrow-left"></i></button>
         <h1>Agregar PQRS</h1>
         <br>
         <form class="row  g-3" [formGroup]="formPqrs">
@@ -39,52 +41,6 @@
 
             <div class="form-floating mb-3">
 
-                <select id="producto" class="form-select" *ngIf="dataProductoOption" aria-label="Default select example"
-                    formControlName="producto">
-                    <option disabled selected>---Seleccione un producto---</option>
-                    <option *ngFor="let option of dataProductoOption" [value]="option.prod_id">
-                        {{option.prod_descripcion}}</option>
-                </select>
-
-                <label class="form-label" for="producto" style="color: green;" *ngIf="producto.valid">* Producto</label>
-                <label class="form-label" for="producto" style="color: red;" *ngIf="producto.invalid">* Producto</label>
-
-                <div class="alert alert-danger" [hidden]="producto.untouched || producto.valid">
-                    <span>Por favor seleccione el producto.</span>
-                </div>
-
-            </div>
-
-            <div class="form-floating mb-3 col-md-6">
-
-                <input class="form-control" type="text" formControlName="lote">
-
-                <label class="form-label" for="lote" style="color: green;" *ngIf="lote.valid">* Lote</label>
-                <label class="form-label" for="lote" style="color: red;" *ngIf="lote.invalid">* Lote</label>
-
-                <div class="alert alert-danger" [hidden]="lote.pristine || lote.valid">
-                    <span *ngIf="lote.errors?.['required']">Por favor ingrese el lote.</span>
-                    <span *ngIf="lote.errors?.['maxlength']">El lote supera los 99 caracteres.</span>
-                </div>
-
-            </div>
-
-            <div class="form-floating mb-3 col-md-6">
-
-                <input class="form-control" name="cantidad" type="number" id="cantidad" formControlName="cantidad">
-
-                <label class="form-label" for="cantidad" style="color: green;" *ngIf="cantidad.valid">* Cantidad</label>
-                <label class="form-label" for="cantidad" style="color: red;" *ngIf="cantidad.invalid">* Cantidad</label>
-
-                <div class="alert alert-danger" [hidden]="cantidad.pristine || cantidad.valid">
-                    <span *ngIf="cantidad.errors?.['required']">Por favor ingrese la cantidad.</span>
-                    <span *ngIf="cantidad.errors?.['max']">la cantidad supera los 8 caracteres.</span>
-                </div>
-
-            </div>
-
-            <div class="form-floating mb-3">
-
                 <input class="form-control" name="documento" type="text" id="documento" formControlName="documento">
 
                 <label class="form-label" for="documento" style="color: green;" *ngIf="documento.valid">*
@@ -116,95 +72,13 @@
                 </div>
 
             </div>
-
-            <div class="form-floating mb-3">
-
-                <textarea class="form-control" name="analisis" id="analisis" (keyup)="onKeyAnalisis($event)"
-                    style="height: 200px" formControlName="analisis"></textarea>
-
-                <label class="form-label" for="analisis" *ngIf="analisis.valid">Analisis
-                    {{contadorAnalisis}}/5000</label>
-                <label class="form-label" for="analisis" style="color: red;" *ngIf="analisis.invalid">Analisis
-                    {{contadorAnalisis}}/5000</label>
-
-                <div class="alert alert-danger" [hidden]="analisis.pristine || analisis.valid">
-                    <span>Hay mas de 5000 caracteres.</span>
-                </div>
-
-            </div>
-
-            <div class="form-floating mb-3">
-
-                <input class="form-control" name="costo" type="number" id="costo" formControlName="costo">
-
-                <label class="form-label" for="costo" *ngIf="costo.valid">Costo</label>
-                <label class="form-label" for="costo" style="color: red;" *ngIf="costo.invalid">Costo</label>
-
-                <div class="alert alert-danger" [hidden]="costo.pristine || costo.valid">
-                    <span>El costo supera los 20 caracteres</span>
-                </div>
-
-            </div>
-
-            <div class="form-floating mb-3">
-
-                <select id="causa" class="form-select" *ngIf="dataPqrsCausa" name="causa"
-                    aria-label="Default select example" formControlName="causa">
-                    <option disabled selected>---Seleccione la causa raíz---</option>
-                    <option *ngFor="let option of dataPqrsCausa" [value]="option.pcr_id">{{option.pcr_causa}}</option>
-                </select>
-
-                <label class="form-label" for="causa">Causa Raíz</label>
-
-            </div>
-            <div class="form-floating mb-3 col-md-6">
-
-                <select id="cargo" class="form-select" *ngIf="dataCargos" name="cargo"
-                    aria-label="Default select example" formControlName="cargo">
-
-                    <option disabled selected>---Seleccione el cargo responsable---</option>
-                    <option *ngFor="let option of dataCargos" [value]="option.carg_id">{{option.carg_nombre}}</option>
-
-                </select>
-
-                <label class="form-label" for="cargo">Cargo Generador</label>
-
-            </div>
-
-            <div class="form-floating mb-3 col-md-6">
-
-                <select id="tipo" class="form-select" *ngIf="dataPqrsTipo" name="tipo"
-                    aria-label="Default select example" formControlName="tipo">
-
-                    <option disabled selected>---Seleccione el tipo de pqrs---</option>
-                    <option *ngFor="let option of dataPqrsTipo" [value]="option.pt_id">{{option.pt_tipologia}}</option>
-
-                </select>
-
-                <label class="form-label" for="tipo">Tipologia</label>
-
-            </div>
-
-            <div class="form-floating mb-3">
-
-                <input class="form-control" name="doc_cruce" type="text" id="doc_cruce" formControlName="doc_cruce">
-
-                <label class="form-label" for="doc_cruce" *ngIf="doc_cruce.valid">Documento Cruce</label>
-                <label class="form-label" for="doc_cruce" style="color: red;" *ngIf="doc_cruce.invalid">Documento
-                    Cruce</label>
-
-                <div class="alert alert-danger" [hidden]="doc_cruce.pristine || doc_cruce.valid">
-                    <span>El documento cruce supera los 200 caracteres.</span>
-                </div>
-
-            </div>
             <div class="mb-3 col-md-6">
                 <button title="Volver al listado PQRS" type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/PQRS">Volver</button>
             </div>
             <div class="mb-3 col-md-6">
                 <button title="Registrar la PQRS" type="submit" class="btn btn-primary" style="width: 100%;" (click)="crearPqrs()"
                     [disabled]="formPqrs.invalid || loading">{{(loading)?'Cargando...'
-                    : 'Registrar'}}</button>
+                    : 'Registrar y Continuar'}}</button>
             </div>
 
             <div class="alert alert-danger" [hidden]="formPqrs.valid">

@@ -17,15 +17,6 @@ const Pqrs = connection_1.default.define('pqrs', {
     cli_id: {
         type: sequelize_1.DataTypes.NUMBER
     },
-    prod_id: {
-        type: sequelize_1.DataTypes.NUMBER
-    },
-    pqrs_lote: {
-        type: sequelize_1.DataTypes.STRING
-    },
-    pqrs_prod_cantidad: {
-        type: sequelize_1.DataTypes.NUMBER
-    },
     pqrs_doc: {
         type: sequelize_1.DataTypes.STRING
     },

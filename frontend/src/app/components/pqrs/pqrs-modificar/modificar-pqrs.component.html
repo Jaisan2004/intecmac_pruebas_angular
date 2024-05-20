@@ -1,13 +1,18 @@
+<ngx-spinner size="medium" color="#fff" type="square-jelly-box">
+    <p style="color: white"> Cargando... </p>
+</ngx-spinner>
+
+
 <div id="cuerpo">
     <div class="container mt-3">
 
-        <button title="Volver al listado PQRS" class="btn btn-outline-light" routerLink="/PQRS"><i
+        <button title="Volver al listado PQRS" class="btn btn-outline-dark" routerLink="/PQRS"><i
                 class="bi bi-box-arrow-left"></i></button>
         <h1>Modificar PQRS</h1>
         <br>
 
         <form class="row  g-3" [formGroup]="formPqrs">
-
+            <!-- fecha recepcion -->
             <div class="form-floating mb-3">
 
                 <input name="fecha_recepcion" class="form-control" type="text" id="fecha_recepcion"
@@ -15,7 +20,7 @@
                 <label class="form-label" for="fecha_recepcion">Fecha Recepcion</label>
 
             </div>
-
+            <!-- Cliente -->
             <div class="form-floating mb-3">
 
                 <select id="cliente" name="cliente" class="form-select" *ngIf="dataClienteOpcion"
@@ -35,67 +40,22 @@
                 </div>
 
             </div>
-
+            <!-- Zona -->
             <div class="form-floating mb-3 col-md-6">
 
                 <input name="zona" class="form-control" type="text" id="zona" [value]="cli_zona" disabled>
                 <label class="form-label" for="zona">Zona</label>
 
             </div>
+            <!-- Asesor -->
             <div class="form-floating mb-3 col-md-6">
 
                 <input name="asesor" class="form-control" type="text" id="asesor" [value]="cli_asesor" disabled>
                 <label class="form-label" for="asesor">Asesor</label>
 
             </div>
-            <div class="form-floating mb-3">
 
-                <select id="producto" class="form-select" *ngIf="dataProductoOption" aria-label="Default select example"
-                    name="producto" formControlName="producto">
-
-                    <option disabled selected>---Seleccione un producto---</option>
-                    <option *ngFor="let option of dataProductoOption" [value]="option.prod_id">
-                        {{option.prod_descripcion}}</option>
-
-                </select>
-
-                <label class="form-label" for="producto" style="color: green;" *ngIf="producto.valid">* Producto</label>
-                <label class="form-label" for="producto" style="color: red;" *ngIf="producto.invalid">* Producto</label>
-
-                <div class="alert alert-danger" [hidden]="producto.untouched || producto.valid">
-                    <span>Por favor seleccione el producto.</span>
-                </div>
-
-            </div>
-
-            <div class="form-floating mb-3 col-md-6">
-
-                <input class="form-control" name="lote" type="text" id="lote" formControlName="lote">
-
-                <label class="form-label" for="lote" style="color: green;" *ngIf="lote.valid">* Lote</label>
-                <label class="form-label" for="lote" style="color: red;" *ngIf="lote.invalid">* Lote</label>
-
-                <div class="alert alert-danger" [hidden]="lote.pristine || lote.valid">
-                    <span *ngIf="lote.errors?.['required']">Por favor ingrese el lote.</span>
-                    <span *ngIf="lote.errors?.['maxlength']">El lote supera los 99 caracteres.</span>
-                </div>
-
-            </div>
-
-            <div class="form-floating mb-3 col-md-6">
-
-                <input class="form-control" name="cantidad" type="number" id="cantidad" formControlName="cantidad">
-
-                <label class="form-label" for="cantidad" style="color: green;" *ngIf="cantidad.valid">* Cantidad</label>
-                <label class="form-label" for="cantidad" style="color: red;" *ngIf="cantidad.invalid">* Cantidad</label>
-
-                <div class="alert alert-danger" [hidden]="cantidad.pristine || cantidad.valid">
-                    <span *ngIf="cantidad.errors?.['required']">Por favor ingrese la cantidad.</span>
-                    <span *ngIf="cantidad.errors?.['max']">la cantidad supera los 8 caracteres.</span>
-                </div>
-
-            </div>
-
+            <!-- Documento -->
             <div class="form-floating mb-3">
 
                 <input class="form-control" name="documento" type="text" id="documento" formControlName="documento">
@@ -111,33 +71,35 @@
                 </div>
 
             </div>
-
+            <!-- evidencia (previsualizacion evidencia, subir archivo, evidencia ya cargada, cambiar evidencia)-->
             <div class="form-floating mb-3" *ngIf="!imagen.value || cambiarImg">
                 <input class="form-control" type="file" (change)="capturarFile($event)" id="formFile">
                 <label for="formFile" class="form-label">Evidencia</label>
             </div>
-
+            <!-- previsualizacion evidencia -->
             <div class="mb-3 col-md-6" *ngIf="previsualizacion" style="text-align: center;">
                 <img id="evidencia" [src]="previsualizacion" alt="" width="70%">
             </div>
-
+            <!-- subir archivo -->
             <div class="mb-3 col-md-6 d-flex flex-column align-items-center" *ngIf="previsualizacion">
-                <button class="btn btn-success"  title="Subir imagen de evidencia" [disabled]="loading" (click)="subirArchivo()">{{(loading)?'Cargando...'
+                <button class="btn btn-success" title="Subir imagen de evidencia" [disabled]="loading"
+                    (click)="subirArchivo()">{{(loading)?'Cargando...'
                     : 'Subir Archivo'}}</button>
                 <br>
                 <button class="btn btn-danger" title="Cancelar" (click)="cancelarCapturarFile()">Cancelar</button>
             </div>
-
+            <!-- evidencia ya cargada -->
             <div class="mb-3 col-md-6" *ngIf="imagen.value&&!previsualizacion&&!cambiarImg" style="text-align: center;">
                 <img id="evidencia" [src]="imagen.value" alt="" width="70%">
             </div>
-
+            <!-- cambiar evidencia -->
             <div id="buttons-image" class="mb-3 col-md-6" *ngIf="imagen.value&&!previsualizacion&&!cambiarImg">
 
-                <button title="Cambiar la imagen de evidencia" class="btn btn-warning" (click)="cambiarImg = true">Cambiar Evidencia</button>
+                <button title="Cambiar la imagen de evidencia" class="btn btn-warning"
+                    (click)="cambiarImg = true">Cambiar Evidencia</button>
 
             </div>
-
+            <!-- Descripcion -->
             <div class="form-floating mb-3">
 
                 <textarea class="form-control" id="descripcion" name="descripcion" formControlName="descripcion"
@@ -155,6 +117,144 @@
 
             </div>
 
+            <!-- Tabla Productos(producto, lote, cantidad) -->
+            <section class="example-container mat-elevation-z8" tabindex="0">
+                <div class="row">
+                    <div class="mb-3 col-md-3">
+                        <button class="btn btn-success btn-sm" (click)="agregarProductoBoton()"><i
+                                class="bi bi-plus-square-fill"></i> Agregar Producto</button>
+                    </div>
+                    <div class="mb-3 col-md-8">
+                    </div>
+                    <div class="mb-3 col-md-1">
+                        <button class="btn btn-light" (click)="getInfoProducto()"><i
+                                class="bi bi-arrow-clockwise"></i></button>
+                    </div>
+                </div>
+
+                <form class="row  g-3" [formGroup]="formProductoPqrs"
+                    *ngIf="productoNuevo == true|| productoModificar == true">
+
+                    <div class="form-floating mb-3">
+
+                        <select id="producto" class="form-select" *ngIf="dataProductoOption"
+                            aria-label="Default select example" name="producto" formControlName="producto">
+
+                            <option disabled selected>---Seleccione un producto---</option>
+                            <option *ngFor="let option of dataProductoOption" [value]="option.prod_id">
+                                {{option.prod_descripcion}}</option>
+
+                        </select>
+
+                        <label class="form-label" for="producto" style="color: green;" *ngIf="producto.valid">*
+                            Producto</label>
+                        <label class="form-label" for="producto" style="color: red;" *ngIf="producto.invalid">*
+                            Producto</label>
+
+                        <div class="alert alert-danger" [hidden]="producto.untouched || producto.valid">
+                            <span>Por favor seleccione el producto.</span>
+                        </div>
+
+                    </div>
+                    <div class="form-floating mb-3 col-md-6">
+
+                        <input class="form-control" name="lote" type="text" id="lote" formControlName="lote">
+
+                        <label class="form-label" for="lote" style="color: green;" *ngIf="lote.valid">*
+                            Lote</label>
+                        <label class="form-label" for="lote" style="color: red;" *ngIf="lote.invalid">*
+                            Lote</label>
+
+                        <div class="alert alert-danger" [hidden]="lote.pristine || lote.valid">
+                            <span *ngIf="lote.errors?.['required']">Por favor ingrese el lote.</span>
+                            <span *ngIf="lote.errors?.['maxlength']">El lote supera los 99 caracteres.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-3 col-md-6">
+
+                        <input class="form-control" name="cantidad" type="number" id="cantidad"
+                            formControlName="cantidad">
+
+                        <label class="form-label" for="cantidad" style="color: green;" *ngIf="cantidad.valid">*
+                            Cantidad</label>
+                        <label class="form-label" for="cantidad" style="color: red;" *ngIf="cantidad.invalid">*
+                            Cantidad</label>
+
+                        <div class="alert alert-danger" [hidden]="cantidad.pristine || cantidad.valid">
+                            <span *ngIf="cantidad.errors?.['required']">Por favor ingrese la cantidad.</span>
+                            <span *ngIf="cantidad.errors?.['max']">la cantidad supera los 8 caracteres.</span>
+                        </div>
+
+                    </div>
+
+                    <!-- Cancelar -->
+                    <div class="mb-3 col-md-6">
+                        <button title="Volver al listado PQRS" type="submit" class="btn btn-secondary btn-sm"
+                            style="width: 100%;"
+                            (click)="cancelarProductoBoton()">Cancelar</button>
+                    </div>
+                    <!-- Registrar Prodcuto -->
+                    <div class="mb-3 col-md-6" *ngIf="productoNuevo">
+                        <button type="submit" class="btn btn-primary btn-sm" style="width: 100%;"
+                            (click)="agregarProductoPqrs()" title="Registrar Producto de la PQRS"
+                            [disabled]="formProductoPqrs.invalid||loading">{{(loading)?'Cargando...'
+                            : 'Registrar Producto'}}</button>
+                    </div>
+
+                    <div class="mb-3 col-md-6" *ngIf="productoModificar">
+                        <button type="submit" class="btn btn-primary btn-sm" style="width: 100%;"
+                            (click)="modificarProductoPqrs()" title="Modificar Producto de la PQRS"
+                            [disabled]="formProductoPqrs.invalid||loading">{{(loading)?'Cargando...'
+                            : 'Modificar Producto'}}</button>
+                    </div>
+
+                    <div class="alert alert-danger" [hidden]="formProductoPqrs.valid">
+                        <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de
+                            registrar el
+                            Producto. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+                    </div>
+                </form>
+                <div class="example-table-container">
+                    <table mat-table [dataSource]="dataSource" class="example-table" matSort>
+
+                        <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
+                            <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.prop"> {{column.titulo}}
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element[column.prop]}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Acciones" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                            <td mat-cell *matCellDef="let element">
+
+                                <button class="btn btn btn-outline-light" title="Modificar PQRS"
+                                    (click)="traerProducto(element.pqrs_productos_id)">
+
+                                    <img src="../../../assets/lapiz.png">
+
+                                </button>
+
+                                <button class="btn btn btn-outline-light" title="Planes de Mejora de la PQRS"
+                                    routerLink="/planAccionPqrs/{{element.pqrs_id}}">
+
+                                    <img src="../../../assets/calendario.png">
+
+                                </button>
+
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <mat-paginator [pageSizeOptions]="[3, 5, 7]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </section>
+
+            <!-- Analisis -->
             <div class="form-floating mb-3">
 
                 <textarea class="form-control" name="analisis" id="analisis" formControlName="analisis"
@@ -170,7 +270,7 @@
                 </div>
 
             </div>
-
+            <!-- Costo -->
             <div class="form-floating mb-3">
 
                 <input class="form-control" name="costo" type="number" id="costo" formControlName="costo">
@@ -183,7 +283,7 @@
                 </div>
 
             </div>
-
+            <!-- Causa Raíz -->
             <div class="form-floating mb-3">
 
                 <select id="causa" class="form-select" *ngIf="dataPqrsCausa" name="causa"
@@ -201,7 +301,7 @@
                 </div>
 
             </div>
-
+            <!-- Cargo Generador -->
             <div class="form-floating mb-3 col-md-6">
 
                 <select id="cargo" class="form-select" *ngIf="dataCargos" name="cargo"
@@ -219,7 +319,7 @@
                 </div>
 
             </div>
-
+            <!-- Tipologia -->
             <div class="form-floating mb-3 col-md-6">
 
                 <select id="tipo" class="form-select" *ngIf="dataPqrsTipo" name="tipo"
@@ -237,7 +337,7 @@
                 </div>
 
             </div>
-
+            <!-- Fecha Respuesta -->
             <div class="form-floating mb-3">
 
                 <input name="fecha_respuesta" class="form-control" type="text" id="fecha_respuesta"
@@ -245,7 +345,7 @@
                 <label class="form-label" for="fecha_respuesta">Fecha Respuesta</label>
 
             </div>
-
+            <!-- Documento Cruce -->
             <div class="form-floating mb-3">
 
                 <input class="form-control" name="doc_cruce" type="text" id="doc_cruce" formControlName="doc_cruce">
@@ -259,7 +359,7 @@
                 </div>
 
             </div>
-
+            <!-- Estado -->
             <div class="form-floating mb-3">
 
                 <select id="estado" class="form-select" name="estado" aria-label="Default select example"
@@ -279,17 +379,19 @@
                 </div>
 
             </div>
-
+            <!-- Botones -->
+            <!-- Volver -->
             <div class="mb-3 col-md-6">
                 <button title="Volver al listado PQRS" type="submit" class="btn btn-secondary" style="width: 100%;"
                     routerLink="/PQRS">Volver</button>
             </div>
+            <!-- Actualizar -->
             <div class="mb-3 col-md-6">
                 <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="modificarPqrs()"
                     title="Modificar la PQRS" [disabled]="formPqrs.invalid||loading">{{(loading)?'Cargando...'
                     : 'Actualizar'}}</button>
             </div>
-
+            <!-- Texto de la descripción -->
             <div class="alert alert-danger" [hidden]="formPqrs.valid">
                 <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el
                     formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>

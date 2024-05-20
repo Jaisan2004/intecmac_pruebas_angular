@@ -4,6 +4,7 @@ import routesPqrs from '../routes/pqrs/pqrs';
 import routesPqrsRoutes from '../routes/pqrs/pqrs_routes';
 import routesCliente from '../routes/cliente';
 import routesForms from '../routes/formsSelect';
+import routesCargo from '../routes/cargo';
 import db from '../db/connection'
 
 class Server{
@@ -13,6 +14,7 @@ class Server{
     constructor(){
         this.app = express();
         this.port = process.env.PORT||'3001';
+        
         this.listen();
         this.midlewares();
         this.routes();
@@ -34,10 +36,12 @@ class Server{
         this.app.use('/api/pqrs', routesPqrs);
         this.app.use('/api/pqrs_apis', routesPqrsRoutes);
         this.app.use('/api/cliente', routesCliente);
+        this.app.use('/api/cargo', routesCargo);
         this.app.use('/api/seleccione', routesForms);
     }
 
     midlewares(){
+
         //parseamos el body
         this.app.use(express.json());
 

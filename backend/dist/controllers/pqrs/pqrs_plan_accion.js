@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePlanPqrs = exports.postPlanPqrs = exports.getPlanPqrs = exports.getPqrsPlanes = void 0;
+exports.envioCorreoPlan = exports.updatePlanPqrs = exports.postPlanPqrs = exports.getPlanPqrs = exports.getPqrsPlanes = void 0;
 const connection_1 = __importDefault(require("../../db/connection"));
 const sequelize_1 = require("sequelize");
 const pqrs_plan_accion_1 = __importDefault(require("../../models/pqrs/pqrs_plan_accion"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
 const getPqrsPlanes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const query = 'SELECT ppa.ppa_id, ppa.ppa_fecha_inicio, ppa.ppa_descripcion, ppa.ppa_fecha_cumplimiento, ppa.carg_id, car.carg_nombre, ppa.pqrs_id,' +
@@ -44,7 +45,7 @@ const postPlanPqrs = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         yield pqrs_plan_accion_1.default.create(body);
         res.json({
-            msg: 'PRQS Agregados Exitosamente'
+            msg: 'Plan de accion Agregado Exitosamente'
         });
     }
     catch (error) {
@@ -80,3 +81,13 @@ const updatePlanPqrs = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.updatePlanPqrs = updatePlanPqrs;
+exports.envioCorreoPlan = nodemailer_1.default.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
+    }
+});

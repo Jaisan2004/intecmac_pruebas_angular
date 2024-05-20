@@ -1,15 +1,15 @@
-import { Request, Response } from 'express'
-import Pqrs from '../../models/pqrs/pqrs'
+import { Request, Response, text } from 'express'
 import sequelize from '../../db/connection';
 import { QueryTypes } from 'sequelize';
 import PlanPqrs from '../../models/pqrs/pqrs_plan_accion';
+import nodeMailer from 'nodemailer';
 
 export const getPqrsPlanes = async (req: Request, res: Response) => {
 
     const id = req.params.id;
 
-    const query = 'SELECT ppa.ppa_id, ppa.ppa_fecha_inicio, ppa.ppa_descripcion, ppa.ppa_fecha_cumplimiento, ppa.carg_id, car.carg_nombre, ppa.pqrs_id,'+ 
-    ' pqrs.pqrs_descripcion, ppa_estado FROM pqrs_plan_accion ppa join cargos car ON car.carg_id = ppa.carg_id JOIN pqrs on ppa.pqrs_id = pqrs.pqrs_id WHERE pqrs.pqrs_id='+id+';';
+    const query = 'SELECT ppa.ppa_id, ppa.ppa_fecha_inicio, ppa.ppa_descripcion, ppa.ppa_fecha_cumplimiento, ppa.carg_id, car.carg_nombre, ppa.pqrs_id,' +
+        ' pqrs.pqrs_descripcion, ppa_estado FROM pqrs_plan_accion ppa join cargos car ON car.carg_id = ppa.carg_id JOIN pqrs on ppa.pqrs_id = pqrs.pqrs_id WHERE pqrs.pqrs_id=' + id + ';';
 
     const listPqrsPlan = await sequelize.query(query, {
         type: QueryTypes.SELECT,
@@ -39,7 +39,7 @@ export const postPlanPqrs = async (req: Request, res: Response) => {
         await PlanPqrs.create(body);
 
         res.json({
-            msg: 'PRQS Agregados Exitosamente'
+            msg: 'Plan de accion Agregado Exitosamente'
         })
 
     } catch (error) {
@@ -79,3 +79,14 @@ export const updatePlanPqrs = async (req: Request, res: Response) => {
     }
 
 }
+
+export const envioCorreoPlan = nodeMailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.EMAIL_PASSWORD
+        }
+    });

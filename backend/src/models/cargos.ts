@@ -9,6 +9,9 @@ const Cargo = db.define('cargos',{
     },
     carg_nombre:{
         type: DataTypes.STRING
+    },
+    carg_correo:{
+        type: DataTypes.STRING
     }
 },{
     freezeTableName: true,

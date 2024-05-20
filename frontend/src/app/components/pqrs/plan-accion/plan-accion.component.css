@@ -28,6 +28,7 @@ h3{
   position: relative;
   min-height: 200px;
   max-height: 400px;
+  text-align: center;
   overflow: auto;
 }
 

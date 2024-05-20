@@ -12,17 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.upload = exports.updatePQRSImage = exports.updatePQRS = exports.postPQRS = exports.getPQRS = exports.getPQRSs = void 0;
+exports.upload = exports.updatePQRSImage = exports.updatePQRS = exports.postPQRS = exports.getLastPQRS = exports.getPQRS = exports.getPQRSs = void 0;
 const pqrs_1 = __importDefault(require("../../models/pqrs/pqrs"));
 const connection_1 = __importDefault(require("../../db/connection"));
 const sequelize_1 = require("sequelize");
 const multer_1 = __importDefault(require("multer"));
 const getPQRSs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = 'SELECT pq.pqrs_id, pq.pqrs_fecha_recepcion, pq.cli_id, cli.cli_nombre, cli.cli_zona, cli.cli_asesor_nombre, pq.prod_id, pro.prod_descripcion, pq.pqrs_lote,' +
-        'pq.pqrs_prod_cantidad, pq.pqrs_doc, pq.pqrs_evidencia,pq.pqrs_descripcion, pq.pqrs_analisis,pq.pqrs_analisis, pq.costo, pq.pqrs_causa_raiz_id, pcr.pcr_causa, pq.carg_id, carg.carg_nombre,' +
+    const query = 'SELECT pq.pqrs_id, pq.pqrs_fecha_recepcion, pq.cli_id, cli.cli_nombre, cli.cli_zona, concat(cc.c_c_nombre,"/",cz.cz_nombre) as zona, cli.cli_asesor_nombre,' +
+        'pq.pqrs_doc, pq.pqrs_evidencia,pq.pqrs_descripcion, pq.pqrs_analisis,pq.pqrs_analisis, pq.costo, pq.pqrs_causa_raiz_id, pcr.pcr_causa, pq.carg_id, carg.carg_nombre,' +
         ' pq.pt_id, pt.pt_tipologia, pq.pqrs_fecha_respuesta, pq.pqrs_documento_cruce, pq.pqrs_estado, pe.pe_estado from pqrs pq' +
-        ' join cliente cli on pq.cli_id = cli.cli_id JOIN productos pro on pro.prod_id=pq.prod_id JOIN pqrs_causa_raiz pcr on pcr.pcr_id = pq.pqrs_causa_raiz_id' +
-        ' join cargos carg on carg.carg_id=pq.carg_id join pqrs_tipologia pt on pt.pt_id=pq.pt_id join pqrs_estado pe on pe.pe_id= pq.pqrs_estado ORDER BY pq.pqrs_id DESC;';
+        ' join cliente cli on pq.cli_id = cli.cli_id JOIN pqrs_causa_raiz pcr on pcr.pcr_id = pq.pqrs_causa_raiz_id' +
+        ' join cargos carg on carg.carg_id=pq.carg_id join pqrs_tipologia pt on pt.pt_id=pq.pt_id join pqrs_estado pe on pe.pe_id= pq.pqrs_estado INNER JOIN cliente_ciudad cc ON cli.cli_ciudad = cc.c_c_id INNER JOIN cliente_zona cz on cz.cz_id=cli.cli_zona ORDER BY pq.pqrs_id DESC;';
     const listPqrs = yield connection_1.default.query(query, {
         type: sequelize_1.QueryTypes.SELECT,
     });
@@ -42,6 +42,18 @@ const getPQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getPQRS = getPQRS;
+const getLastPQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const pqrs = yield pqrs_1.default.findAll({ attributes: [[connection_1.default.fn('MAX', connection_1.default.col('pqrs_id')), 'pqrs_id']] });
+    if (pqrs) {
+        res.json(pqrs);
+    }
+    else {
+        res.status(404).json({
+            msg: 'No existe PQRS'
+        });
+    }
+});
+exports.getLastPQRS = getLastPQRS;
 const postPQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {

@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PlanAccionService } from '../../../services/pqrs/plan-accion/plan-accion.service';
 import { CargosService } from '../../../services/cargos/cargos.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-plan-accion-agregar',
@@ -61,7 +62,8 @@ export class PlanAccionAgregarComponent {
     private _CargoService: CargosService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.pqrs_id.setValue(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -69,6 +71,7 @@ export class PlanAccionAgregarComponent {
   }
 
   AgregarPlanPqrs() {
+    this.spinner.show()
     this.loading = true;
 
     const fecha = new Date();
@@ -110,10 +113,18 @@ export class PlanAccionAgregarComponent {
       this.loading = false;
       this._PlanAccionPqrs.postCorreoPlanPqrs(bodyCorreo).subscribe(()=>{
         this.toastr.success(`Correo Enviado a ${this.dataCargo.carg_nombre}`, `Notificación de Plan de Acción`)
+      },
+      (error) => {
+        this.toastr.error(`Error al enviar correo a ${this.dataCargo.carg_nombre}: ${error.message}`, `Error`)
+        this.spinner.hide();
       });
       this.toastr.success(`Plan de acción agregado exitosamente`, `Registro Plan de Acción`)
       this.router.navigate([`/planAccionPqrs/${this.pqrs_id.value}`])
-
+      this.spinner.hide();
+    },
+    (error) => {
+      this.toastr.error(`Error al registrar Plan de acción: ${error.message}`, `Error`)
+      this.spinner.hide();
     })
   }
 

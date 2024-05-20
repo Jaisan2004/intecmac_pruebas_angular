@@ -1,9 +1,15 @@
-import { Component, Input, SimpleChanges, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Component, Input, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormulariosService } from '../../../services/formularios/formularios.service';
 import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { PqrsProductoService } from '../../../services/pqrs/pqrs-producto/pqrs-producto.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-modificar-pqrs',
@@ -11,6 +17,25 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './modificar-pqrs.component.css'
 })
 export class ModificarPqrsComponent {
+
+  columns: any[] = [
+    { name: 'Ref. Producto', titulo: 'Ref. Producto', prop: 'prod_ref' },
+    { name: 'Producto', titulo: 'Producto', prop: 'prod_descripcion' },
+    { name: 'lote', titulo: 'Lote', prop: 'lote' },
+    { name: 'cantidad', titulo: 'Cant.', prop: 'cantidad' },
+  ];
+
+  displayedColumns: string[] = [
+    'Ref. Producto',
+    'Producto',
+    'lote',
+    'cantidad',
+    'Acciones'
+  ];
+  dataSource = new MatTableDataSource<any>([]);
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   get id_pqrs() {
     return this.formPqrs.get('id_pqrs') as FormControl
@@ -22,18 +47,6 @@ export class ModificarPqrsComponent {
 
   get cliente() {
     return this.formPqrs.get('cliente') as FormControl
-  }
-
-  get producto() {
-    return this.formPqrs.get('producto') as FormControl
-  }
-
-  get lote() {
-    return this.formPqrs.get('lote') as FormControl
-  }
-
-  get cantidad() {
-    return this.formPqrs.get('cantidad') as FormControl
   }
 
   get documento() {
@@ -85,9 +98,6 @@ export class ModificarPqrsComponent {
     'id_pqrs': new FormControl({ value: '', disabled: true }),
     'fecha_recepcion': new FormControl({ value: '', disabled: true }),
     'cliente': new FormControl('', Validators.required),
-    'producto': new FormControl('', Validators.required),
-    'lote': new FormControl('', [Validators.required, Validators.maxLength(99)]),
-    'cantidad': new FormControl('', [Validators.required, Validators.max(9999999)]),
     'documento': new FormControl('', [Validators.required, Validators.maxLength(99)]),
     'imagen': new FormControl(''),
     'descripcion': new FormControl('', [Validators.required, Validators.maxLength(5000)]),
@@ -101,6 +111,29 @@ export class ModificarPqrsComponent {
     'estado': new FormControl('', Validators.required)
   });
 
+  get pqrs_prod_id(){
+    return this.formProductoPqrs.get('pqrs_prod_id') as FormControl
+  }
+
+  get producto() {
+    return this.formProductoPqrs.get('producto') as FormControl
+  }
+
+  get lote() {
+    return this.formProductoPqrs.get('lote') as FormControl
+  }
+
+  get cantidad() {
+    return this.formProductoPqrs.get('cantidad') as FormControl
+  }
+
+  formProductoPqrs = new FormGroup({
+    'pqrs_prod_id': new FormControl({ value: '', disabled: true }),
+    'producto': new FormControl('', Validators.required),
+    'lote': new FormControl('', [Validators.required, Validators.maxLength(99)]),
+    'cantidad': new FormControl('', [Validators.required, Validators.max(9999999)])
+  });
+
 
   cli_zona: string = '';
   cli_asesor: string = '';
@@ -108,7 +141,9 @@ export class ModificarPqrsComponent {
   public previsualizacion: string | any;
   public loading: boolean | any;
   public cambiarImg: boolean = false;
-  public recargar: boolean = false;
+  public productoNuevo: boolean = false;
+  public productoModificar: boolean = false;
+
 
   contadorDes = 0;
   contadorAnalisis = 0;
@@ -116,6 +151,7 @@ export class ModificarPqrsComponent {
   dataClienteOpcion: any;
   dataCliente: any;
   dataProductoOption: any;
+  dataProducto: any;
   dataPqrsCausa: any;
   dataCargos: any;
   dataPqrsTipo: any;
@@ -123,10 +159,20 @@ export class ModificarPqrsComponent {
 
   constructor(private _formulariosService: FormulariosService,
     private _pqrsService: PqrsService,
+    private _pqrsProducto: PqrsProductoService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
+    private spinner: NgxSpinnerService
   ) {
+  }
+
+  ngAfterViewInit() {
+    if (this.paginator) {
+      this.paginator._intl.itemsPerPageLabel = "Registros por página";
+      this.dataSource.paginator = this.paginator;
+    }
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
@@ -137,19 +183,24 @@ export class ModificarPqrsComponent {
     this.getPqrsCausaOption();
     this.getCargosOption();
     this.getPqrsTipoOption();
+    this.getInfoProducto();
+
+    if (this.paginator) {
+      this.paginator._intl.itemsPerPageLabel = "Registros por página";
+      this.dataSource.paginator = this.paginator;
+    }
+    this.dataSource.sort = this.sort;
   }
 
   modificarPqrs() {
+    this.spinner.show()
     this.loading = true;
     let body = {};
     if (this.estado.value == 2) {
-      if (this.fecha_respuesta.value == '0000-00-00'){
+      if (this.fecha_respuesta.value == '0000-00-00') {
         body = {
           pqrs_fecha_recepcion: this.fecha_recepcion.value,
           cli_id: this.cliente.value,
-          prod_id: this.producto.value,
-          pqrs_lote: this.lote.value,
-          pqrs_prod_cantidad: this.cantidad.value,
           pqrs_doc: this.documento.value,
           pqrs_descripcion: this.descripcion.value,
           pqrs_analisis: this.analisis.value,
@@ -161,14 +212,26 @@ export class ModificarPqrsComponent {
           pqrs_documento_cruce: this.doc_cruce.value,
           pqrs_estado: this.estado.value
         }
+      } else {
+        body = {
+          pqrs_fecha_recepcion: this.fecha_recepcion.value,
+          cli_id: this.cliente.value,
+          pqrs_doc: this.documento.value,
+          pqrs_descripcion: this.descripcion.value,
+          pqrs_analisis: this.analisis.value,
+          costo: this.costo.value,
+          pqrs_causa_raiz_id: this.causa.value,
+          carg_id: this.cargo.value,
+          pt_id: this.tipo.value,
+          pqrs_fecha_respuesta: this.fecha_respuesta.value,
+          pqrs_documento_cruce: this.doc_cruce.value,
+          pqrs_estado: this.estado.value
+        }
       }
     } else if (this.estado.value == 1) {
       body = {
         pqrs_fecha_recepcion: this.fecha_recepcion.value,
         cli_id: this.cliente.value,
-        prod_id: this.producto.value,
-        pqrs_lote: this.lote.value,
-        pqrs_prod_cantidad: this.cantidad.value,
         pqrs_doc: this.documento.value,
         pqrs_descripcion: this.descripcion.value,
         pqrs_analisis: this.analisis.value,
@@ -181,13 +244,96 @@ export class ModificarPqrsComponent {
         pqrs_estado: this.estado.value
       }
     }
-    
+
     this._pqrsService.updatePqrs(this.id_pqrs.value, body).subscribe(() => {
       this.loading = false;
       this.toastr.success(`PQRS del asesor ${this.cli_asesor} se modifico exitosamente`, `Modificacion PQRS`)
       this.router.navigate(['/PQRS'])
+      this.spinner.hide();
 
+    },
+      (error) => {
+        this.toastr.error(`Error al Modificar PQRS: ${error.message}`, `Error`)
+        this.spinner.hide();
+      })
+  }
+
+  agregarProductoPqrs() {
+    this.spinner.show();
+
+    const body = {
+      pqrs_id: this.id_pqrs.value,
+      prod_id: this.producto.value,
+      lote: this.lote.value,
+      cantidad: this.cantidad.value
+    }
+    this._pqrsProducto.postProductoPqrs(body).subscribe(() => {
+      this.toastr.success(`Producto Agregado a la PQRS ${this.id_pqrs.value}`, `Producto Agregado`);
+      this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`]);
+      this.productoNuevo = false;
+      this.id_pqrs.setValue('');
+      this.producto.setValue('');
+      this.lote.setValue('');
+      this.cantidad.setValue('');
+      this.spinner.hide();
+    },
+      (error) => {
+        this.toastr.error(`Error al Agregar Producto a la PQRS: ${error.message}`, `Error`);
+        this.spinner.hide();
+      })
+  }
+
+  modificarProductoPqrs() {
+    this.spinner.show();
+
+    const body = {
+      pqrs_id: this.id_pqrs.value,
+      prod_id: this.producto.value,
+      lote: this.lote.value,
+      cantidad: this.cantidad.value
+    }
+
+    this._pqrsProducto.updateProductoPqrs(this.pqrs_prod_id.value, body).subscribe(() => {
+      this.toastr.success(`Producto Actualizado Exitosamente en la PQRS ${this.id_pqrs.value}`, `Producto Actualizado`);
+      this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`]);
+      this.productoModificar = false;
+      this.id_pqrs.setValue('');
+      this.producto.setValue('');
+      this.lote.setValue('');
+      this.cantidad.setValue('');
+      this.spinner.hide();
+    },
+      (error) => {
+        this.toastr.error(`Error al Modificar el Producto de la PQRS: ${error.message}`, `Error`);
+        this.spinner.hide();
+      })
+  }
+
+  traerProducto(pp_id: any){
+    this.productoModificar = true;
+    this.productoNuevo = false;
+    this._pqrsProducto.getProductoPqrs(pp_id).subscribe((data) =>{
+      this.dataProducto = data;
+
+      this.pqrs_prod_id.setValue(this.dataProducto.pqrs_productos_id);
+      this.producto.setValue(this.dataProducto.prod_id);
+      this.lote.setValue(this.dataProducto.lote);
+      this.cantidad.setValue(this.dataProducto.cantidad);
     })
+  }
+
+  agregarProductoBoton(){
+    this.productoModificar = false;
+    this.productoNuevo =  true;
+  }
+
+  cancelarProductoBoton(){
+    this.productoModificar =  false;
+    this.productoNuevo = false;
+    this.id_pqrs.setValue('');
+    this.producto.setValue('');
+    this.lote.setValue('');
+    this.cantidad.setValue('');
   }
 
   capturarFile(event: any) {
@@ -259,13 +405,11 @@ export class ModificarPqrsComponent {
 
 
   getPqrs() {
+    this.spinner.show()
     this._pqrsService.getPqrs(this.id_pqrs.value).subscribe((data) => {
       this.data = data;
       this.fecha_recepcion.setValue(this.data.pqrs_fecha_recepcion);
       this.cliente.setValue(this.data.cli_id);
-      this.producto.setValue(this.data.prod_id);
-      this.lote.setValue(this.data.pqrs_lote);
-      this.cantidad.setValue(this.data.pqrs_prod_cantidad);
       this.documento.setValue(this.data.pqrs_doc);
       this.imagen.setValue(this.data.pqrs_evidencia);
       this.descripcion.setValue(this.data.pqrs_descripcion);
@@ -279,6 +423,13 @@ export class ModificarPqrsComponent {
       this.estado.setValue(this.data.pqrs_estado);
 
       this.getInfoCliente();
+      this.spinner.hide()
+    })
+  }
+
+  getInfoProducto() {
+    this._pqrsProducto.getProductosPqrs(this.id_pqrs.value).subscribe((data: any) => {
+      this.dataSource.data = data;
     })
   }
 

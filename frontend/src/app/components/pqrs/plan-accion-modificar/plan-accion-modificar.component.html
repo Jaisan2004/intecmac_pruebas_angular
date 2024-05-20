@@ -1,3 +1,5 @@
+<ngx-spinner size = "medium" color = "#fff" type="square-jelly-box" ><p style="color: white" > Cargando... </p></ngx-spinner>
+
 <div id="cuerpo">
     <div class="container mt-3">
 
@@ -35,9 +37,9 @@
                 </select>
 
                 <label class="form-label" for="cargo" style="color: green;" *ngIf="carg_id.valid">* Cargo
-                    Generador</label>
+                    Responsable</label>
                 <label class="form-label" for="cargo" style="color: red;" *ngIf="carg_id.invalid">* Cargo
-                    Generador</label>
+                    Responsable</label>
 
                 <div class="alert alert-danger" [hidden]="carg_id.untouched || carg_id.valid">
                     <span>Por favor seleccione el cargo responsable.</span>

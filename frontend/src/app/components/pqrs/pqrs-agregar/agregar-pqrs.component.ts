@@ -4,6 +4,7 @@ import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -13,69 +14,22 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class AgregarPqrsComponent {
 
-  get cliente (){
+  get cliente() {
     return this.formPqrs.get('cliente') as FormControl
   }
-
-  get producto (){
-    return this.formPqrs.get('producto') as FormControl
-  }
-
-  get lote (){
-    return this.formPqrs.get('lote') as FormControl
-  }
-
-  get cantidad (){
-    return this.formPqrs.get('cantidad') as FormControl
-  }
-  
-  get documento (){
+  get documento() {
     return this.formPqrs.get('documento') as FormControl
   }
 
-  get descripcion (){
+  get descripcion() {
     return this.formPqrs.get('descripcion') as FormControl
   }
-
-  get analisis (){
-    return this.formPqrs.get('analisis') as FormControl
-  }
-
-  get costo (){
-    return this.formPqrs.get('costo') as FormControl
-  }
-
-  get causa (){
-    return this.formPqrs.get('causa') as FormControl
-  }
-
-  get cargo (){
-    return this.formPqrs.get('cargo') as FormControl
-  }
-
-  get tipo (){
-    return this.formPqrs.get('tipo') as FormControl
-  }
-
-  get doc_cruce (){
-    return this.formPqrs.get('doc_cruce') as FormControl
-  }
-
 
 
   formPqrs = new FormGroup({
     'cliente': new FormControl('', Validators.required),
-    'producto': new FormControl('', Validators.required),
-    'lote': new FormControl('', [Validators.required, Validators.maxLength(99)]),
-    'cantidad': new FormControl('', [Validators.required, Validators.max(9999999)]),
     'documento': new FormControl('', [Validators.required, Validators.maxLength(99)]),
     'descripcion': new FormControl('', [Validators.required, Validators.maxLength(5000)]),
-    'analisis': new FormControl('', Validators.maxLength(5000)),
-    'costo': new FormControl('', Validators.max(9999999999999999999)),
-    'causa': new FormControl(''),
-    'cargo': new FormControl(''),
-    'tipo': new FormControl(''),
-    'doc_cruce': new FormControl('', Validators.maxLength(200))
   });
 
 
@@ -89,55 +43,48 @@ export class AgregarPqrsComponent {
 
   dataClienteOpcion: any;
   dataCliente: any;
-  dataProductoOption: any;
-  dataPqrsCausa: any;
-  dataCargos: any;
-  dataPqrsTipo: any;
+  data: any;
+  pqrs_id: any;
 
-  constructor(private _formulariosService: FormulariosService, 
-    private _pqrsService: PqrsService, 
+  constructor(private _formulariosService: FormulariosService,
+    private _pqrsService: PqrsService,
     private router: Router,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    
+
     this.getClienteOpcion();
-    this.getProductoOpcion();
-    this.getPqrsCausaOption();
-    this.getCargosOption();
-    this.getPqrsTipoOption();
   }
 
   crearPqrs() {
+    this.spinner.show();
     this.loading = true;
     const body = {
-    pqrs_id: null,
-    pqrs_fecha_recepcion: new Date(),
-    cli_id: this.cliente.value,
-    prod_id: this.producto.value,
-    pqrs_lote: this.lote.value,
-    pqrs_prod_cantidad: this.cantidad.value,
-    pqrs_doc: this.documento.value,
-    pqrs_evidencia: "",
-    pqrs_descripcion: this.descripcion.value,
-    pqrs_analisis: this.analisis.value,
-    costo: this.costo.value,
-    pqrs_causa_raiz_id: this.causa.value,
-    carg_id: this.cargo.value,
-    pt_id: this.tipo.value,
-    pqrs_fecha_respuesta: "",
-    pqrs_dias_gestion: 0,
-    pqrs_documento_cruce: this.doc_cruce.value,
-    pqrs_estado: 1
+      pqrs_id: null,
+      pqrs_fecha_recepcion: new Date(),
+      cli_id: this.cliente.value,
+      pqrs_doc: this.documento.value,
+      pqrs_evidencia: "",
+      pqrs_descripcion: this.descripcion.value,
+      pqrs_fecha_respuesta: "",
+      pqrs_estado: 1
     }
     this._pqrsService.postPqrs(body).subscribe(() => {
       this.loading = false;
       this.toastr.success(`PQRS del asesor ${this.cli_asesor} se registro exitosamente`, `Registro PQRS`)
-      this.router.navigate(['/PQRS'])
+      this._pqrsService.getLastPqrs().subscribe((data: any) => {
+        this.data = data;
+        this.pqrs_id = this.data[0].pqrs_id;
+        this.spinner.hide();
+        this.router.navigate([`modificarPqrs/${this.pqrs_id}`]);
+      })
     },
-    (error) => {
-      this.toastr.error(`Error al registrar PQRS: ${error.message}`, `Error`)
-    })
+      (error) => {
+        this.toastr.error(`Error al registrar PQRS: ${error.message}`, `Error`)
+        this.spinner.hide();
+      });
+
   }
 
   onKeyDescripcion(event: any) {
@@ -162,30 +109,6 @@ export class AgregarPqrsComponent {
         this.cli_zona = this.dataCliente[0].zona;
         this.cli_asesor = this.dataCliente[0].cli_asesor_nombre;
       }
-    })
-  }
-
-  getProductoOpcion() {
-    this._formulariosService.getProductosOpcion().subscribe((data) => {
-      this.dataProductoOption = data
-    })
-  }
-
-  getPqrsCausaOption() {
-    this._formulariosService.getPqrsCausaOpcion().subscribe((data) => {
-      this.dataPqrsCausa = data;
-    })
-  }
-
-  getCargosOption() {
-    this._formulariosService.getCargosOpcion().subscribe((data) => {
-      this.dataCargos = data;
-    })
-  }
-
-  getPqrsTipoOption() {
-    this._formulariosService.getPqrsTipoOpcion().subscribe((data) => {
-      this.dataPqrsTipo = data;
     })
   }
 

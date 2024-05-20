@@ -1,22 +1,42 @@
+<ngx-spinner size="medium" color="#fff" type="square-jelly-box">
+  <p style="color: white"> Cargando... </p>
+</ngx-spinner>
+<br>
 <div id="cuerpo">
   <div class="container">
-    <br>
     <div class="row">
       <div class="col-md-11">
         <h1>PQRS</h1>
+        <h5>Sistema de Peticiones, Quejas, Reclamos y Sugerencias</h5>
       </div>
-      <div class="col-md-1"><button class="btn btn-success" title="Agregar PQRS Nueva" type="submit" routerLink="/agregarPqrs">Agregar</button>
+      <div class="col-md-1"><button class="btn btn-success" title="Agregar PQRS Nueva" type="submit"
+          routerLink="/agregarPqrs">Agregar</button>
       </div>
     </div>
-    <input type="text" title="filtrar por cliente" placeholder="Flitar por client" (keyup)="updateFilter($event)" />
+    <form [formGroup]="formFiltros">
+      <div class="row">
+        <div class="col-md-10">
+          <input type="text" class="form-control" title="filtrar por cliente" placeholder="Flitrar por cliente" formControlName="cliente"
+            (keyup)="updateFilter()" />
+        </div>
+        <div class=col-md-2>
+          <select class="form-select" aria-label="Default select example" formControlName="estado"
+            (change)="updateFilter()">
+            <option value="0">---Filtrar por Estado---</option>
+            <option value="1">PENDIENTE</option>
+            <option value="2">CERRRADO</option>
+          </select>
+        </div>
+      </div>
+    </form>
   </div>
-
+  <br>
   <section class="example-container mat-elevation-z8" tabindex="0">
     <div class="example-table-container">
-      <table mat-table [dataSource]="dataSource" class="example-table">
+      <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="example-table" matSort>
 
         <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
-          <th mat-header-cell *matHeaderCellDef> {{column.titulo}} </th>
+          <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.prop"> {{column.titulo}} </th>
           <td mat-cell *matCellDef="let element"> {{element[column.prop]}} </td>
         </ng-container>
 
@@ -33,13 +53,14 @@
         <ng-container matColumnDef="Evidencia">
           <th mat-header-cell *matHeaderCellDef> Evidencia </th>
           <td mat-cell *matCellDef="let element">
-            <a *ngIf="element.pqrs_evidencia" title="Evidencia de la PQRS {{element.pqrs_id}}" [href]="element.pqrs_evidencia" target="_blank"
-              rel="noopener noreferrer"><img [src]="element.pqrs_evidencia" alt="" width="100%"></a>
+            <a *ngIf="element.pqrs_evidencia" title="Evidencia de la PQRS {{element.pqrs_id}}"
+              [href]="element.pqrs_evidencia" target="_blank" rel="noopener noreferrer"><img
+                [src]="element.pqrs_evidencia" alt="" width="100%"></a>
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="estado" stickyEnd>
-          <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <ng-container matColumnDef="Estado" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="Estado"> Estado </th>
           <td id="Estado" mat-cell *matCellDef="let element"> {{element.pe_estado}}
             <i class="bi bi-check-circle-fill" *ngIf="element.pe_estado === 'CERRADO'"
               style="color: green;font-size: 2em;"></i>
@@ -52,18 +73,20 @@
           <th mat-header-cell *matHeaderCellDef> Acciones </th>
           <td mat-cell *matCellDef="let element">
 
-            <button class="btn btn btn-outline-light" title="Modificar PQRS" routerLink="/modificarPqrs/{{element.pqrs_id}}">
+            <button class="btn btn btn-outline-light" title="Modificar PQRS"
+              routerLink="/modificarPqrs/{{element.pqrs_id}}">
 
               <img src="../../../assets/lapiz.png">
 
             </button>
 
-            <button class="btn btn btn-outline-light" title="Planes de Mejora de la PQRS" routerLink="/planAccionPqrs/{{element.pqrs_id}}">
+            <button class="btn btn btn-outline-light" title="Planes de Mejora de la PQRS"
+              routerLink="/planAccionPqrs/{{element.pqrs_id}}">
 
               <img src="../../../assets/calendario.png">
 
             </button>
-            
+
             <button class="btn btn btn-outline-light" title="Actualizar la informacion" (click)="getListPqrs()">
 
               <img src="../../../../assets/actualizar.png" alt="actualizar">
@@ -73,8 +96,34 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+              <br>
+              <ul class="list-group list-group-horizontal">
+                <li id="productos" class="list-group-item">Productos</li>
+                <li id="lote" class="list-group-item">lote</li>
+                <li id="cantidad" class="list-group-item">Cantidad</li>
+              </ul>
+              <ul class="list-group list-group-horizontal" *ngFor="let item of dataProducto">
+                <li id="productos" class="list-group-item">{{item.prod_descripcion}}</li>
+                <li id="lote" class="list-group-item">{{item.lote}}</li>
+                <li id="cantidad" class="list-group-item">{{item.cantidad}}</li>
+              </ul>
+              <ul class="list-group list-group-horizontal" *ngIf="dataProducto?.length === 0">
+                <li id="productos" class="list-group-item">No hay Productos</li>
+                <li id="lote" class="list-group-item">0</li>
+                <li id="cantidad" class="list-group-item">0</li>
+              </ul>
+              <br>
+            </div>
+          </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+          [class.example-expanded-row]="expandedElement === row" (click)="getPqrsProducto(row.pqrs_id, row)"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
       </table>
     </div>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">

@@ -13,15 +13,6 @@ const Pqrs = db.define('pqrs',{
     cli_id:{
         type: DataTypes.NUMBER
     },
-    prod_id:{
-        type: DataTypes.NUMBER
-    },
-    pqrs_lote:{
-        type: DataTypes.STRING
-    },
-    pqrs_prod_cantidad:{
-        type: DataTypes.NUMBER
-    },
     pqrs_doc:{
         type: DataTypes.STRING
     },

@@ -13,6 +13,9 @@ const Cargo = connection_1.default.define('cargos', {
     },
     carg_nombre: {
         type: sequelize_1.DataTypes.STRING
+    },
+    carg_correo: {
+        type: sequelize_1.DataTypes.STRING
     }
 }, {
     freezeTableName: true,
