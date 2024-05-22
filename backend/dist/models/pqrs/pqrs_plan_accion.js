@@ -23,6 +23,9 @@ const PlanPqrs = connection_1.default.define('pqrs_plan_accion', {
     carg_id: {
         type: sequelize_1.DataTypes.NUMBER
     },
+    ppa_observaciones: {
+        type: sequelize_1.DataTypes.STRING
+    },
     pqrs_id: {
         type: sequelize_1.DataTypes.NUMBER
     },

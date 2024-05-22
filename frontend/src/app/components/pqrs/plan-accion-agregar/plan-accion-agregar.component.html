@@ -1,7 +1,7 @@
 <div id="cuerpo">
     <div class="container mt-3">
 
-        <button class="btn btn-outline-light" routerLink="/planAccionPqrs/{{pqrs_id.value}}"><i class="bi bi-box-arrow-left"></i></button>
+        <button class="btn btn-outline-dark" routerLink="/planAccionPqrs/{{pqrs_id.value}}"><i class="bi bi-box-arrow-left"></i></button>
         <h1>Agregar Plan de Acción</h1>
         <br>
         <form class="row  g-3" [formGroup]="formPqrs">
@@ -41,6 +41,20 @@
 
                 <div class="alert alert-danger" [hidden]="carg_id.untouched || carg_id.valid">
                     <span>Por favor seleccione el cargo responsable.</span>
+                </div>
+
+            </div>
+
+            <div class="form-floating mb-3">
+
+                <textarea class="form-control" id="observaciones" name="observaciones" formControlName="ppa_observaciones"
+                    (keyup)="onKeyObservaciones($event)" style="height: 100px"></textarea>
+
+                <label class="form-label" for="observaciones" *ngIf="ppa_observaciones.valid">Observaciones {{contadorObs}}/5000</label>
+                <label class="form-label" for="observaciones" style="color: red;" *ngIf="ppa_observaciones.invalid">Observaciones {{contadorObs}}/5000</label>
+
+                <div class="alert alert-danger" [hidden]="ppa_observaciones.pristine || ppa_observaciones.valid">
+                    <span *ngIf="ppa_descripcion.errors?.['maxlength']">Hay mas de 5000 caracteres.</span>
                 </div>
 
             </div>

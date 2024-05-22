@@ -8,7 +8,7 @@ export const getPqrsPlanes = async (req: Request, res: Response) => {
 
     const id = req.params.id;
 
-    const query = 'SELECT ppa.ppa_id, ppa.ppa_fecha_inicio, ppa.ppa_descripcion, ppa.ppa_fecha_cumplimiento, ppa.carg_id, car.carg_nombre, ppa.pqrs_id,' +
+    const query = 'SELECT ppa.ppa_id, ppa.ppa_fecha_inicio, ppa.ppa_descripcion, ppa.ppa_fecha_cumplimiento, ppa.carg_id, car.carg_nombre, ppa.ppa_observaciones,ppa.pqrs_id,' +
         ' pqrs.pqrs_descripcion, ppa_estado FROM pqrs_plan_accion ppa join cargos car ON car.carg_id = ppa.carg_id JOIN pqrs on ppa.pqrs_id = pqrs.pqrs_id WHERE pqrs.pqrs_id=' + id + ';';
 
     const listPqrsPlan = await sequelize.query(query, {

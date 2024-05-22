@@ -19,6 +19,9 @@ const PlanPqrs = db.define('pqrs_plan_accion',{
     carg_id:{
         type: DataTypes.NUMBER
     },
+    ppa_observaciones:{
+        type: DataTypes.STRING
+    },
     pqrs_id:{
         type: DataTypes.NUMBER
     },

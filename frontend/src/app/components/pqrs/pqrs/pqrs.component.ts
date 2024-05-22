@@ -104,8 +104,9 @@ export class PqrsComponent {
   }
 
   ngOnInit(): void {
-
     this.getListPqrs();
+
+    this.estado.setValue(0);
 
     if (this.paginator) {
       this.paginator._intl.itemsPerPageLabel = "Registros por página";

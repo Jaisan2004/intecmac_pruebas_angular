@@ -19,7 +19,7 @@ const pqrs_producto_1 = __importDefault(require("../../models/pqrs/pqrs_producto
 const getPqrsProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const query = 'SELECT pp.pqrs_productos_id, p.pqrs_id, pr.prod_id,pr.prod_ref, pr.prod_descripcion, pp.lote, pp.cantidad FROM pqrs_productos pp INNER JOIN pqrs p on pp.pqrs_id = p.pqrs_id '
-        + 'INNER JOIN productos pr on pp.prod_id = pr.prod_id where p.pqrs_id = ' + id + ';';
+        + 'INNER JOIN productos pr on pp.prod_id = pr.prod_id;';
     const listProducto = yield connection_1.default.query(query, {
         type: sequelize_1.QueryTypes.SELECT
     });

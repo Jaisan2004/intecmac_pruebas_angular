@@ -26,11 +26,12 @@ export class PlanAccionComponent {
   temp: any;
 
   columns: any[] = [
-    { name: '#', prop: 'ppa_id' },
+    { name: '#', prop: 'index' },
     { name: 'Fecha Inicio', prop: 'ppa_fecha_inicio' },
     { name: 'Descripcion Plan', prop: 'ppa_descripcion' },
     { name: 'Fecha del Cumplimiento', prop: 'ppa_fecha_cumplimiento' },
-    { name: 'Cargo Responsable', prop: 'carg_nombre' }
+    { name: 'Cargo Responsable', prop: 'carg_nombre' },
+    { name: 'Observaciones', prop: 'ppa_observaciones' }
   ];
 
 
@@ -40,6 +41,7 @@ export class PlanAccionComponent {
   displayedColumns: string[] = ['#', 'Fecha Inicio', 'Descripcion Plan',
     'Fecha del Cumplimiento',
     'Cargo Responsable',
+    'Observaciones',
     'Estado',
     'Acciones'
   ];
@@ -74,7 +76,7 @@ export class PlanAccionComponent {
   getListPqrsPlan() {
     this.spinner.show();
     this._planAccion.getListPqrsPlan(this.pqrs_id).subscribe((data: any) => {
-      this.dataSource.data = data;
+      this.dataSource.data = data.map((item: any, index: any) => ({ ...item, index: index + 1 }));
       this.temp = [...data]
       this.spinner.hide();
     });

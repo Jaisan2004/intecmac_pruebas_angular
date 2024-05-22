@@ -33,6 +33,10 @@ export class PlanAccionModificarComponent {
     return this.formPqrs.get('carg_id') as FormControl
   }
 
+  get ppa_observaciones (){
+    return this.formPqrs.get('ppa_observaciones') as FormControl
+  }
+
   get pqrs_id (){
     return this.formPqrs.get('pqrs_id') as FormControl
   }
@@ -48,6 +52,7 @@ export class PlanAccionModificarComponent {
     'ppa_descripcion': new FormControl('', [Validators.required, Validators.maxLength(5000)]),
     'ppa_fecha_cumplimiento': new FormControl(''),
     'carg_id': new FormControl('', Validators.required),
+    'ppa_observaciones': new FormControl('', Validators.maxLength(5000)),
     'pqrs_id': new FormControl('', Validators.required),
     'ppa_estado': new FormControl('', Validators.required)
 
@@ -56,6 +61,7 @@ export class PlanAccionModificarComponent {
   public loading: boolean | any;
 
   contadorDes = 0;
+  contadorObs = 0;
 
   dataCargos: any;
   data: any;
@@ -81,6 +87,7 @@ export class PlanAccionModificarComponent {
       ppa_descripcion: this.ppa_descripcion.value,
       ppa_fecha_cumplimiento: this.ppa_fecha_cumplimiento.value,
       carg_id: this.carg_id.value,
+      ppa_observaciones: this.ppa_observaciones.value,
       pqrs_id: this.pqrs_id.value,
       ppa_estado: this.ppa_estado.value
     }
@@ -104,8 +111,11 @@ export class PlanAccionModificarComponent {
       this.ppa_descripcion.setValue(this.data.ppa_descripcion);
       this.ppa_fecha_cumplimiento.setValue(this.data.ppa_fecha_cumplimiento);
       this.carg_id.setValue(this.data.carg_id);
+      this.ppa_observaciones.setValue(this.data.ppa_observaciones);
       this.pqrs_id.setValue(this.data.pqrs_id);
       this.ppa_estado.setValue(this.data.ppa_estado);
+      this.contadorDes = this.ppa_descripcion.value.length;
+      this.contadorObs =  this.ppa_observaciones.value.length;
       this.spinner.hide();
     })
   }
@@ -113,6 +123,10 @@ export class PlanAccionModificarComponent {
 
   onKeyDescripcion(event: any) {
     this.contadorDes = event.target.value.length
+  }
+
+  onKeyObservaciones(event: any) {
+    this.contadorObs = event.target.value.length
   }
 
   getCargosOption() {

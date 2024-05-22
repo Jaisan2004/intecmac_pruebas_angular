@@ -34,6 +34,10 @@ export class PlanAccionAgregarComponent {
     return this.formPqrs.get('carg_id') as FormControl
   }
 
+  get ppa_observaciones (){
+    return this.formPqrs.get('ppa_observaciones') as FormControl
+  }
+
   get pqrs_id (){
     return this.formPqrs.get('pqrs_id') as FormControl
   }
@@ -45,6 +49,7 @@ export class PlanAccionAgregarComponent {
     'ppa_descripcion': new FormControl('', [Validators.required, Validators.maxLength(5000)]),
     'ppa_fecha_cumplimiento': new FormControl(''),
     'carg_id': new FormControl('', Validators.required),
+    'ppa_observaciones': new FormControl('', Validators.maxLength(5000)),
     'pqrs_id': new FormControl('', Validators.required)
   });
 
@@ -52,6 +57,7 @@ export class PlanAccionAgregarComponent {
 
   carg_correo: any;
   contadorDes = 0;
+  contadorObs = 0;
 
   dataCargo: any;
   dataCargos: any;
@@ -95,6 +101,7 @@ export class PlanAccionAgregarComponent {
       ppa_descripcion: this.ppa_descripcion.value,
       ppa_fecha_cumplimiento: this.ppa_fecha_cumplimiento.value,
       carg_id: this.carg_id.value,
+      ppa_observaciones: this.ppa_observaciones.value,
       pqrs_id: this.pqrs_id.value,
       ppa_estado: 'PENDIENTE'
     }
@@ -104,6 +111,7 @@ export class PlanAccionAgregarComponent {
       cargo:this.dataCargo.carg_nombre,
       ppa_fecha_inicio: dateString,
       ppa_descripcion: this.ppa_descripcion.value,
+      ppa_observaciones: this.ppa_observaciones.value,
       ppa_fecha_cumplimiento: this.ppa_fecha_cumplimiento.value,
       carg_correo: this.carg_correo,
       pqrs_id: this.pqrs_id.value,
@@ -130,6 +138,10 @@ export class PlanAccionAgregarComponent {
 
   onKeyDescripcion(event: any) {
     this.contadorDes = event.target.value.length
+  }
+
+  onKeyObservaciones(event: any) {
+    this.contadorObs = event.target.value.length
   }
 
   getCargosOption() {

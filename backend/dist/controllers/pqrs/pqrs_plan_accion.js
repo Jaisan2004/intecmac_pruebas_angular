@@ -19,7 +19,7 @@ const pqrs_plan_accion_1 = __importDefault(require("../../models/pqrs/pqrs_plan_
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const getPqrsPlanes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const query = 'SELECT ppa.ppa_id, ppa.ppa_fecha_inicio, ppa.ppa_descripcion, ppa.ppa_fecha_cumplimiento, ppa.carg_id, car.carg_nombre, ppa.pqrs_id,' +
+    const query = 'SELECT ppa.ppa_id, ppa.ppa_fecha_inicio, ppa.ppa_descripcion, ppa.ppa_fecha_cumplimiento, ppa.carg_id, car.carg_nombre, ppa.ppa_observaciones,ppa.pqrs_id,' +
         ' pqrs.pqrs_descripcion, ppa_estado FROM pqrs_plan_accion ppa join cargos car ON car.carg_id = ppa.carg_id JOIN pqrs on ppa.pqrs_id = pqrs.pqrs_id WHERE pqrs.pqrs_id=' + id + ';';
     const listPqrsPlan = yield connection_1.default.query(query, {
         type: sequelize_1.QueryTypes.SELECT,

@@ -271,7 +271,6 @@ export class ModificarPqrsComponent {
       this.toastr.success(`Producto Agregado a la PQRS ${this.id_pqrs.value}`, `Producto Agregado`);
       this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`]);
       this.productoNuevo = false;
-      this.id_pqrs.setValue('');
       this.producto.setValue('');
       this.lote.setValue('');
       this.cantidad.setValue('');
@@ -297,7 +296,6 @@ export class ModificarPqrsComponent {
       this.toastr.success(`Producto Actualizado Exitosamente en la PQRS ${this.id_pqrs.value}`, `Producto Actualizado`);
       this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`]);
       this.productoModificar = false;
-      this.id_pqrs.setValue('');
       this.producto.setValue('');
       this.lote.setValue('');
       this.cantidad.setValue('');
@@ -330,7 +328,6 @@ export class ModificarPqrsComponent {
   cancelarProductoBoton(){
     this.productoModificar =  false;
     this.productoNuevo = false;
-    this.id_pqrs.setValue('');
     this.producto.setValue('');
     this.lote.setValue('');
     this.cantidad.setValue('');
@@ -421,7 +418,8 @@ export class ModificarPqrsComponent {
       this.fecha_respuesta.setValue(this.data.pqrs_fecha_respuesta);
       this.doc_cruce.setValue(this.data.pqrs_documento_cruce);
       this.estado.setValue(this.data.pqrs_estado);
-
+      this.contadorDes = this.descripcion.value.length;
+      this.contadorAnalisis = this.analisis.value.length;
       this.getInfoCliente();
       this.spinner.hide()
     })
