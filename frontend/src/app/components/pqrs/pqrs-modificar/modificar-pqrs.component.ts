@@ -418,8 +418,8 @@ export class ModificarPqrsComponent {
       this.fecha_respuesta.setValue(this.data.pqrs_fecha_respuesta);
       this.doc_cruce.setValue(this.data.pqrs_documento_cruce);
       this.estado.setValue(this.data.pqrs_estado);
-      this.contadorDes = this.descripcion.value.length;
-      this.contadorAnalisis = this.analisis.value.length;
+      this.contadorDes = this.descripcion.value?.length||0;
+      this.contadorAnalisis = this.analisis.value?.length||0;
       this.getInfoCliente();
       this.spinner.hide()
     })

@@ -16,8 +16,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './pqrs.component.css',
   animations: [
     trigger('detailExpand', [
-      state('collapsed,void', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed,void', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ]
@@ -67,8 +67,20 @@ export class PqrsComponent {
   @ViewChild(MatSort) sort!: MatSort;
   expandedElement: any;
 
-  get cliente(){
-    return this.formFiltros.get('cliente') as FormControl
+  get filtroSelect() {
+    return this.formFiltros.get('filtroSelect') as FormControl
+  }
+
+  get filtros() {
+    return this.formFiltros.get('filtros') as FormControl
+  }
+
+  get fecha_recepcion_inicio() {
+    return this.formFiltros.get('fecha_recepcion_inicio') as FormControl
+  }
+
+  get fecha_recepcion_fin() {
+    return this.formFiltros.get('fecha_recepcion_fin') as FormControl
   }
 
   get estado() {
@@ -76,19 +88,23 @@ export class PqrsComponent {
   }
 
   formFiltros = new FormGroup({
-    'cliente': new FormControl(''),
+    'filtroSelect': new FormControl(''),
+    'filtros': new FormControl(''),
+    'fecha_recepcion_inicio': new FormControl(''),
+    'fecha_recepcion_fin': new FormControl(''),
     'estado': new FormControl(''),
-
   });
 
 
   constructor(private _pqrsService: PqrsService,
-    private _pqrsProductoService: PqrsProductoService, 
+    private _pqrsProductoService: PqrsProductoService,
     private spinner: NgxSpinnerService) { }
 
   image: any;
   data: any;
   dataProducto: any;
+  placeholderFiltro: string = 'Filtrar por Cliente';
+  campoFiltro: string = 'cli_nombre';
   temp: any;
 
   selectEstado: number = 0;
@@ -106,6 +122,8 @@ export class PqrsComponent {
   ngOnInit(): void {
     this.getListPqrs();
 
+    this.filtroSelect.setValue('1');
+
     this.estado.setValue(0);
 
     if (this.paginator) {
@@ -115,9 +133,9 @@ export class PqrsComponent {
     this.dataSource.sort = this.sort;
   }
 
-  getPqrsProducto(pqrs_id: any, row: any){
+  getPqrsProducto(pqrs_id: any, row: any) {
     this.expandedElement = this.expandedElement === row ? null : row;
-    this._pqrsProductoService.getProductosPqrs(pqrs_id).subscribe((data)=>{
+    this._pqrsProductoService.getProductosPqrs(pqrs_id).subscribe((data) => {
       this.dataProducto = data
     })
   }
@@ -129,6 +147,39 @@ export class PqrsComponent {
       this.temp = [...data]
       this.spinner.hide();
     });
+  }
+
+  borrarFiltros(){
+    this.filtroSelect.setValue('1');
+    this.filtros.setValue('');
+    this.fecha_recepcion_fin.setValue(0);
+    this.fecha_recepcion_inicio.setValue(0);
+    this.estado.setValue(0);
+    this.getListPqrs();
+  }
+
+  placeholderFiltroTexto(option: any) {
+    switch (option) {
+      case '1':
+        this.placeholderFiltro = 'Filtrar por Cliente';
+        this.campoFiltro = 'cli_nombre';
+        break;
+      case '2':
+        this.placeholderFiltro = 'Filtrar por Asesor';
+        this.campoFiltro = 'cli_asesor_nombre';
+        break;
+      case '3':
+        this.placeholderFiltro = 'Filtrar por Cargo Generador';
+        this.campoFiltro = 'carg_nombre';
+        break;
+      case '4':
+        this.placeholderFiltro = 'Filtrar por Tipología';
+        this.campoFiltro = 'pt_tipologia'
+        break;
+      default:
+        this.placeholderFiltro = 'No hay filtro';
+        break;
+    }
   }
 
   diasProceso(fecha_recepcion: any, fecha_respuesta: any) {
@@ -145,33 +196,49 @@ export class PqrsComponent {
   }
 
   updateFilter() {
-    const cli = this.cliente.value.toLowerCase();
+    const filtro = this.filtros.value.toLowerCase();
     const est = this.estado.value;
-    if(cli||est){
-      if(est== 0){
-        const temp = this.temp.filter((d: any)=>d.cli_nombre.toLowerCase().indexOf(cli) !== -1 || !cli);
-        this.dataSource.data = temp;
-      }else{
-        const temp = this.temp.filter((d: any)=>d.cli_nombre.toLowerCase().indexOf(cli) !== -1 || !cli);
-        const temp2 = temp.filter((d:any)=>d.pqrs_estado == est || !est);
-        this.dataSource.data = temp2;
+    const val = this.campoFiltro;
+    const fecha_inicio = this.fecha_recepcion_inicio.value;
+    const fecha_fin = this.fecha_recepcion_fin.value;
+
+    if (filtro || est || fecha_inicio || fecha_fin) {
+      if (est == 0) {
+        if (filtro) {
+          const temp = this.temp.filter((d: any) => d[val].toLowerCase().indexOf(filtro) !== -1 || !filtro);
+          if (fecha_inicio || fecha_fin) {
+            if (fecha_fin) {
+              const temp2 = temp.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio && d.pqrs_fecha_recepcion <= fecha_fin);
+              this.dataSource.data = temp2;
+            } else {
+              const temp2 = temp.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio);
+              this.dataSource.data = temp2;
+            }
+          } else {
+            this.dataSource.data = temp;
+          }
+        }
+      } else {
+        if (filtro) {
+          const temp = this.temp.filter((d: any) => d[val].toLowerCase().indexOf(filtro) !== -1 || !filtro);
+          const temp2 = temp.filter((d: any) => d.pqrs_estado == est || !est);
+          if (fecha_inicio || fecha_fin) {
+            if (fecha_fin) {
+              const temp3 = temp2.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio && d.pqrs_fecha_recepcion <= fecha_fin);
+              this.dataSource.data = temp3;
+            } else {
+              const temp3 = temp2.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio);
+              this.dataSource.data = temp3;
+            }
+          } else {
+            this.dataSource.data = temp2;
+          }
+        }
       }
-    }
-    // const temp = this.temp.filter(function (d: any) {
-    //   return d.cli_nombre.toLowerCase().indexOf(cli) !== -1 || !cli;
-    // });
 
-    
-  }
-
-  updateFilterEstado() {
-    const val = this.estado.value;
-    if(val==0){
+    } else {
       this.getListPqrs();
-    }else{
-      const temp = this.temp.filter((d:any) => d.pqrs_estado == val || !val);
-      this.dataSource.data = temp;
     }
-    
   }
+
 }

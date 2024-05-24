@@ -11,13 +11,40 @@
       </div>
       <div class="col-md-1"><button class="btn btn-success" title="Agregar PQRS Nueva" type="submit"
           routerLink="/agregarPqrs">Agregar</button>
+          <button class="btn btn-light" title="Borrar Filtro Y Actualizar" type="submit"
+          (click)="borrarFiltros()"><img src="../../../../assets/codigo-limpio.png" alt="Limpiar Filtros"></button>
       </div>
     </div>
     <form [formGroup]="formFiltros">
       <div class="row">
-        <div class="col-md-10">
-          <input type="text" class="form-control" title="filtrar por cliente" placeholder="Flitrar por cliente" formControlName="cliente"
-            (keyup)="updateFilter()" />
+        <div class="col-md-6">
+          <div class="input-group mb-3">
+            <div class=col-md-2>
+              <select class="form-select" (change)="placeholderFiltroTexto(filtroSelect.value)"
+                formControlName="filtroSelect">
+                <option value="1">Cliente</option>
+                <option value="2">Asesor</option>
+                <option value="3">Cargo Generador</option>
+                <option value="4">Tipología</option>
+              </select>
+            </div>
+            <div class="col-md-10">
+              <input type="text" class="form-control" [title]="placeholderFiltro" [placeholder]="placeholderFiltro"
+                formControlName="filtros" (keyup)="updateFilter()" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group mb-3">
+            <div class="form-floating">
+              <input type="date" class="form-control" (change)="updateFilter()" formControlName="fecha_recepcion_inicio">
+              <label for="fecha_recepcion_inicio">Fecha de Recepción Inicio</label>
+            </div>
+            <div class="form-floating">
+              <input type="date" class="form-control" (change)="updateFilter()" formControlName="fecha_recepcion_fin">
+              <label for="fecha_recepcion_fin">Fecha de Recepción Fin</label>
+            </div>
+          </div>
         </div>
         <div class=col-md-2>
           <select class="form-select" aria-label="Default select example" formControlName="estado"
@@ -30,7 +57,6 @@
       </div>
     </form>
   </div>
-  <br>
   <section class="example-container mat-elevation-z8" tabindex="0">
     <div class="example-table-container">
       <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="example-table" matSort>

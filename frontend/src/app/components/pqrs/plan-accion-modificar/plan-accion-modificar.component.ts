@@ -114,8 +114,8 @@ export class PlanAccionModificarComponent {
       this.ppa_observaciones.setValue(this.data.ppa_observaciones);
       this.pqrs_id.setValue(this.data.pqrs_id);
       this.ppa_estado.setValue(this.data.ppa_estado);
-      this.contadorDes = this.ppa_descripcion.value.length;
-      this.contadorObs =  this.ppa_observaciones.value.length;
+      this.contadorDes = this.ppa_descripcion.value?.length||0;
+      this.contadorObs =  this.ppa_observaciones.value?.length||0;
       this.spinner.hide();
     })
   }
