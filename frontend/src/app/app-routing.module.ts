@@ -6,6 +6,7 @@ import { ModificarPqrsComponent } from './components/pqrs/pqrs-modificar/modific
 import { PlanAccionComponent } from './components/pqrs/plan-accion/plan-accion.component';
 import { PlanAccionAgregarComponent } from './components/pqrs/plan-accion-agregar/plan-accion-agregar.component';
 import { PlanAccionModificarComponent } from './components/pqrs/plan-accion-modificar/plan-accion-modificar.component';
+import { ClienteComponent } from './components/cliente/cliente/cliente.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/PQRS', pathMatch: 'full'},
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: "planAccionPqrs/:id", component: PlanAccionComponent},
   {path: "AgregarPlanAccionPqrs/:id", component: PlanAccionAgregarComponent},
   {path: "ModificarPlanAccionPqrs/:id", component: PlanAccionModificarComponent},
+  {path: "Clientes", component: ClienteComponent},
   {path: '**', component: PqrsComponent}
 
 ];

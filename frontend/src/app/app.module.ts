@@ -20,6 +20,9 @@ import { PlanAccionModificarComponent } from './components/pqrs/plan-accion-modi
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { ClienteComponent } from './components/cliente/cliente/cliente.component';
+import { ClienteAgregarComponent } from './components/cliente/cliente-agregar/cliente-agregar.component';
+import { ClienteModificarComponent } from './components/cliente/cliente-modificar/cliente-modificar.component';
 
 
 @NgModule({
@@ -30,7 +33,10 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     ModificarPqrsComponent,
     PlanAccionComponent,
     PlanAccionAgregarComponent,
-    PlanAccionModificarComponent
+    PlanAccionModificarComponent,
+    ClienteComponent,
+    ClienteAgregarComponent,
+    ClienteModificarComponent
   ],
   imports: [
     BrowserModule,

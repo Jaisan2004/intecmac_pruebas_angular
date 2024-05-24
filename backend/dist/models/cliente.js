@@ -26,8 +26,11 @@ const Cliente = connection_1.default.define('cliente', {
     cli_telefono: {
         type: sequelize_1.DataTypes.STRING
     },
+    cli_ciudad: {
+        type: sequelize_1.DataTypes.INTEGER
+    },
     cli_zona: {
-        type: sequelize_1.DataTypes.STRING
+        type: sequelize_1.DataTypes.INTEGER
     },
     cli_asesor_nombre: {
         type: sequelize_1.DataTypes.STRING
