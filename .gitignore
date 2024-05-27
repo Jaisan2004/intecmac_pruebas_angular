@@ -3,3 +3,6 @@
 /backend/node_modules
 backend/.env
 /frontend/intecma_comercial
+/frontend/intecma_comercial
+frontend/src/environments/environment.development.ts
+/frontend/src/environments

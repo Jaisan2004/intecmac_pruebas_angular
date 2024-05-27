@@ -150,6 +150,7 @@ export class PqrsComponent {
   }
 
   borrarFiltros(){
+    this.placeholderFiltro = 'Filtrar por Cliente';
     this.filtroSelect.setValue('1');
     this.filtros.setValue('');
     this.fecha_recepcion_fin.setValue(0);

@@ -16,7 +16,8 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const pqrs_1 = __importDefault(require("../routes/pqrs/pqrs"));
 const pqrs_routes_1 = __importDefault(require("../routes/pqrs/pqrs_routes"));
-const cliente_1 = __importDefault(require("../routes/cliente"));
+const cliente_1 = __importDefault(require("../routes/cliente/cliente"));
+const cliente_routes_1 = __importDefault(require("../routes/cliente/cliente_routes"));
 const formsSelect_1 = __importDefault(require("../routes/formsSelect"));
 const cargo_1 = __importDefault(require("../routes/cargo"));
 const connection_1 = __importDefault(require("../db/connection"));
@@ -43,6 +44,7 @@ class Server {
         this.app.use('/api/pqrs', pqrs_1.default);
         this.app.use('/api/pqrs_apis', pqrs_routes_1.default);
         this.app.use('/api/cliente', cliente_1.default);
+        this.app.use('/api/cliente_apis', cliente_routes_1.default);
         this.app.use('/api/cargo', cargo_1.default);
         this.app.use('/api/seleccione', formsSelect_1.default);
     }

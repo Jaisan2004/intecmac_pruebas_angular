@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import Cliente from '../models/cliente';
+import Cliente from '../models/cliente/cliente';
 import Producto from '../models/producto';
 import Pqrs_Causa from '../models/pqrs/pqrs_causa_raiz';
 import Cargo from '../models/cargos';

@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPqrsTipologiaOption = exports.getCargosOption = exports.getPqrsCausaOption = exports.getInfoProducto = exports.getProductoOption = exports.getInfoCliente = exports.getClienteOption = void 0;
-const cliente_1 = __importDefault(require("../models/cliente"));
+const cliente_1 = __importDefault(require("../models/cliente/cliente"));
 const producto_1 = __importDefault(require("../models/producto"));
 const pqrs_causa_raiz_1 = __importDefault(require("../models/pqrs/pqrs_causa_raiz"));
 const cargos_1 = __importDefault(require("../models/cargos"));

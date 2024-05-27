@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { ClienteService } from '../../../services/cliente/cliente.service';
+import { ClienteService } from '../../../services/cliente/cliente/cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -26,11 +26,12 @@ export class ClienteComponent {
     { name: '#', prop: 'cli_id' },
     { name: 'Nombre', prop: 'cli_nombre' },
     { name: 'NIT', prop: 'cli_nit' },
-    { name: 'Clasificación', prop: 'id_clasificacion' },
+    { name: 'Clasificación', prop: 'cli_cla_clasificacion' },
+    { name: 'Zona', prop: 'zona' },
     { name: 'Dirección', prop: 'cli_direccion' },
     { name: 'Telefono', prop: 'cli_telefono' },
-    { name: 'Dirección', prop: 'cli_direccion' },
     { name: 'Asesor', prop: 'cli_asesor_nombre' },
+    { name: 'pp_sistema', prop: 'cli_pp_sistema' }
   ];
 
 
@@ -39,10 +40,11 @@ export class ClienteComponent {
 
   displayedColumns: string[] = ['#', 'Nombre', 'NIT',
     'Clasificación',
+    'Zona',
     'Dirección',
     'Telefono',
     'Asesor',
-    'Estado',
+    'pp_sistema',
     'Acciones'
   ];
   dataSource = new MatTableDataSource<any>([]);
@@ -65,14 +67,13 @@ export class ClienteComponent {
   }
 
   ngOnInit(): void {
-    this.pqrs_id = this.activatedRoute.snapshot.paramMap.get('id');
     this.getListCliente();
   }
 
 
   getListCliente() {
     this.spinner.show();
-    this._clienteService.getCliente().subscribe((data: any) => {
+    this._clienteService.getClientes().subscribe((data: any) => {
       this.dataSource.data = data;
       this.temp = [...data];
       this.spinner.hide();

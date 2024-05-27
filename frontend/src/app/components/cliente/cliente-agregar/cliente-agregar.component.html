@@ -1,1 +1,193 @@
-<p>cliente-agregar works!</p>
+<ngx-spinner size="medium" color="#fff" type="square-jelly-box">
+    <p style="color: white"> Cargando... </p>
+  </ngx-spinner>
+  
+<div id="cuerpo">
+    <div class="container">
+
+        <button class="btn btn-outline-dark" routerLink="/Clientes"><i class="bi bi-box-arrow-left"></i></button>
+        <h1>Agregar Cliente</h1>
+        <br>
+        <form class="row  g-3" [formGroup]="formPqrs">
+
+            <!-- Nombre Cliente -->
+            <div class="form-floating mb-3">
+
+                <input class="form-control" type="text" id="cli_nombre" formControlName="cli_nombre">
+                <label class="form-label" for="cli_nombre" style="color: green;" *ngIf="cli_nombre.valid">* Nombre Cliente</label>
+                <label class="form-label" for="cli_nombre" style="color: red;" *ngIf="cli_nombre.invalid">* Nombre Cliente</label>
+
+                <div class="alert alert-danger" [hidden]="cli_nombre.pristine || cli_nombre.valid">
+                    <span *ngIf="cli_nombre.errors?.['required']">Por favor ingrese el Nombre del Cliente.</span>
+                    <span *ngIf="cli_nombre.errors?.['maxlength']">Hay mas de 500 caracteres.</span>
+                </div>
+
+            </div>
+
+            <!-- NIT -->
+            <div class="form-floating mb-3">
+
+                <input class="form-control" type="text" id="cli_nit" formControlName="cli_nit">
+                <label class="form-label" for="cli_nit" style="color: green;" *ngIf="cli_nit.valid">* NIT</label>
+                <label class="form-label" for="cli_nit" style="color: red;" *ngIf="cli_nit.invalid">* NIT</label>
+
+                <div class="alert alert-danger" [hidden]="cli_nit.pristine || cli_nit.valid">
+                    <span *ngIf="cli_nit.errors?.['required']">Por favor ingrese el NIT.</span>
+                    <span *ngIf="cli_nit.errors?.['maxlength']">Hay mas de 100 caracteres.</span>
+                </div>
+
+            </div>
+
+            <!-- Clasificación Cliente -->
+            <div class="form-floating mb-3">
+
+                <select id="cli_clasificacion" class="form-select" *ngIf="dataClasificacion" name="cli_clasificacion"
+                    aria-label="Default select example" formControlName="cli_clasificacion">
+
+                    <option disabled selected>---Seleccione la Clasificación del Cliente---</option>
+                    <option *ngFor="let option of dataClasificacion" [value]="option.cli_cla_id">{{option.cli_cla_clasificacion}}</option>
+
+                </select>
+
+                <label class="form-label" for="cargo" style="color: green;" *ngIf="cli_clasificacion.valid">* Clasificación</label>
+                <label class="form-label" for="cargo" style="color: red;" *ngIf="cli_clasificacion.invalid">* Clasificación</label>
+
+                <div class="alert alert-danger" [hidden]="cli_clasificacion.untouched || cli_clasificacion.valid">
+                    <span>Por favor seleccione la Clasificación del Cliente.</span>
+                </div>
+
+            </div>
+
+            <!-- Ciudad Cliente -->
+            <div class="form-floating mb-3 col-md-6">
+
+                <select id="cli_ciudad" class="form-select" *ngIf="dataClasificacion" name="cli_ciudad"
+                    aria-label="Default select example" (change)="getZonaCiudadOption(cli_ciudad.value)" formControlName="cli_ciudad">
+
+                    <option disabled selected>---Seleccione la Ciudad del Cliente---</option>
+                    <option *ngFor="let option of dataCiudad" [value]="option.c_c_id">{{option.c_c_nombre}}</option>
+
+                </select>
+
+                <label class="form-label" for="cargo" style="color: green;" *ngIf="cli_ciudad.valid">* Ciudad</label>
+                <label class="form-label" for="cargo" style="color: red;" *ngIf="cli_ciudad.invalid">* Ciudad</label>
+
+                <div class="alert alert-danger" [hidden]="cli_ciudad.untouched || cli_ciudad.valid">
+                    <span>Por favor seleccione la Ciudad del Cliente.</span>
+                </div>
+
+            </div>
+
+            <!-- Zona Cliente -->
+            <div class="form-floating mb-3 col-md-6" >
+
+                <select id="cli_zona" class="form-select" *ngIf="dataZona" name="cli_zona"
+                    aria-label="Default select example" formControlName="cli_zona">
+
+                    <option disabled selected>---Seleccione la Zona del Cliente---</option>
+                    <option *ngFor="let option of dataZona" [value]="option.cz_id">{{option.cz_nombre}}</option>
+
+                </select>
+
+                <label class="form-label" for="cargo" style="color: green;" *ngIf="cli_zona.valid">* Zona</label>
+                <label class="form-label" for="cargo" style="color: red;" *ngIf="cli_zona.invalid">* Zona</label>
+
+                <div class="alert alert-danger" [hidden]="cli_zona.untouched || cli_zona.valid">
+                    <span>Por favor seleccione la Zona del Cliente.</span>
+                </div>
+
+            </div>
+
+            <!-- Direccion Cliente -->
+            <div class="form-floating mb-3">
+
+                <textarea class="form-control" id="observaciones" name="observaciones" formControlName="cli_direccion"
+                    (keyup)="onKeyDireccion($event)" style="height: 100px"></textarea>
+
+                <label class="form-label" for="observaciones" style="color: green;" *ngIf="cli_direccion.valid">* Direccion {{contadorObs}}/5000</label>
+                <label class="form-label" for="observaciones" style="color: red;" *ngIf="cli_direccion.invalid">* Direccion {{contadorObs}}/5000</label>
+
+                <div class="alert alert-danger" [hidden]="cli_direccion.pristine || cli_direccion.valid">
+                    <span *ngIf="cli_clasificacion.errors?.['required']">Por favor ingrese la dirección de la empresa.</span>
+                    <span *ngIf="cli_clasificacion.errors?.['maxlength']">Hay mas de 5000 caracteres.</span>
+                </div>
+
+            </div>
+
+            <!-- Telefono Cliente -->
+            <div class="form-floating mb-3">
+
+                <input class="form-control" type="text" id="cli_telefono" formControlName="cli_telefono">
+                <label class="form-label" for="cli_telefono" style="color: green;" *ngIf="cli_telefono.valid">* Telefono</label>
+                <label class="form-label" for="cli_telefono" style="color: red;" *ngIf="cli_telefono.invalid">* Telefono</label>
+
+                <div class="alert alert-danger" [hidden]="cli_telefono.pristine || cli_telefono.valid">
+                    <span *ngIf="cli_telefono.errors?.['required']">Por favor ingrese el Telefono del Cliente.</span>
+                    <span *ngIf="cli_telefono.errors?.['maxlength']">Hay mas de 50 caracteres.</span>
+                </div>
+
+            </div>
+
+            <!-- Asesor Cliente -->
+            <div class="form-floating mb-3" >
+
+                <select id="cli_asesor" class="form-select" name="cli_asesor"
+                    aria-label="Default select example" formControlName="cli_asesor">
+
+                    <option disabled selected>---Seleccione la Asesor del Cliente---</option>
+                    <option value="ELIANA MARCELA VARGAS CORREA">ELIANA MARCELA VARGAS CORREA</option>
+                    <option value="MERCADEO">MERCADEO</option>
+                    <option value="VENTAS ANTIOQUIA">VENTAS ANTIOQUIA</option>
+                    <option value="VENTAS BOGOTA">VENTAS BOGOTA</option>
+                    <option value="VENTAS BOYACA">VENTAS BOYACA</option>
+                    <option value="VENTAS COSTA">VENTAS COSTA</option>
+                    <option value="VENTAS EJE CAFETERO">VENTAS EJE CAFETERO</option>
+                    <option value="VENTAS LLANOS">VENTAS LLANOS</option>
+                    <option value="VENTAS SANTANDERES">VENTAS SANTANDERES</option>
+                    <option value="VENTAS TOLIMA - HUILA">VENTAS TOLIMA - HUILA</option>
+                    <option value="VENTAS VALLE">VENTAS VALLE</option>
+                    <option value="YENNY CATALINA RAMIREZ BUSTOS">YENNY CATALINA RAMIREZ BUSTOS</option>
+
+                </select>
+
+                <label class="form-label" for="cargo" style="color: green;" *ngIf="cli_asesor.valid">* Asesor</label>
+                <label class="form-label" for="cargo" style="color: red;" *ngIf="cli_asesor.invalid">* Asesor</label>
+
+                <div class="alert alert-danger" [hidden]="cli_asesor.untouched || cli_asesor.valid">
+                    <span>Por favor seleccione la Asesor del Cliente.</span>
+                </div>
+
+            </div>
+
+            <!-- Telefono Cliente -->
+            <div class="form-floating mb-3">
+
+                <input class="form-control" type="number" id="cli_pp_sistema" formControlName="cli_pp_sistema">
+                <label class="form-label" for="cli_pp_sistema" style="color: green;" *ngIf="cli_pp_sistema.valid">* PP Sistema</label>
+                <label class="form-label" for="cli_pp_sistema" style="color: red;" *ngIf="cli_pp_sistema.invalid">* PP Sistema</label>
+
+                <div class="alert alert-danger" [hidden]="cli_pp_sistema.pristine || cli_pp_sistema.valid">
+                    <span *ngIf="cli_pp_sistema.errors?.['required']">Por favor ingrese el Telefono del Cliente.</span>
+                    <span *ngIf="cli_pp_sistema.errors?.['max']">El valor supera los 99999.</span>
+                </div>
+
+            </div>
+
+
+            <div class="mb-3 col-md-6">
+                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/Clientes">Volver</button>
+            </div>
+            <div class="mb-3 col-md-6">
+                <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="AgregarCliente()"
+                    [disabled]="formPqrs.invalid||loading">{{(loading)?'Cargando...'
+                    : 'Registrar'}}</button>
+            </div>
+
+            <div class="alert alert-danger"  [hidden]="formPqrs.valid">
+                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+            </div>
+        </form>
+
+
+    </div>
+</div>

@@ -13,9 +13,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updatePQRS = exports.postPQRS = exports.getCliente = exports.getClientes = void 0;
+const connection_1 = __importDefault(require("../db/connection"));
 const cliente_1 = __importDefault(require("../models/cliente"));
+const sequelize_1 = require("sequelize");
 const getClientes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listCliente = yield cliente_1.default.findAll();
+    const query = `SELECT c.cli_id, c.cli_nombre, c.cli_nit, cc.cli_cla_clasificacion,concat(cci.c_c_nombre,"/",cz.cz_nombre) as zona,` +
+        ` c.cli_direccion, c.cli_telefono, c.cli_asesor_nombre, c.cli_pp_sistema FROM cliente c inner JOIN cliente_clasificacion cc on` +
+        ` c.id_clasificacion=cc.cli_cla_id INNER JOIN cliente_ciudad cci on c.cli_ciudad = cci.c_c_id INNER JOIN cliente_zona cz on c.cli_zona = cz.cz_id ORDER BY c.cli_nombre;`;
+    const listCliente = yield connection_1.default.query(query, {
+        type: sequelize_1.QueryTypes.SELECT,
+    });
     res.json(listCliente);
 });
 exports.getClientes = getClientes;
