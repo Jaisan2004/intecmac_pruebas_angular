@@ -1,3 +1,4 @@
+<app-menu></app-menu>
 <ngx-spinner size="medium" color="#fff" type="square-jelly-box">
   <p style="color: white"> Cargando... </p>
 </ngx-spinner>
@@ -10,9 +11,9 @@
         <h5>Sistema de Peticiones, Quejas, Reclamos y Sugerencias</h5>
       </div>
       <div class="col-md-1"><button class="btn btn-success" title="Agregar PQRS Nueva" type="submit"
-          routerLink="/agregarPqrs">Agregar</button>
+          routerLink="/AgregarPqrs">Agregar</button>
           <button class="btn btn-light" title="Borrar Filtro Y Actualizar" type="submit"
-          (click)="borrarFiltros()"><img src="../../../../assets/codigo-limpio.png" alt="Limpiar Filtros"></button>
+          (click)="borrarFiltros()"><img src="../../../../assets/img/codigo-limpio.png" alt="Limpiar Filtros"></button>
       </div>
     </div>
     <form [formGroup]="formFiltros">
@@ -22,10 +23,13 @@
             <div class=col-md-2>
               <select class="form-select" (change)="placeholderFiltroTexto(filtroSelect.value)"
                 formControlName="filtroSelect">
-                <option value="1">Cliente</option>
-                <option value="2">Asesor</option>
-                <option value="3">Cargo Generador</option>
-                <option value="4">Tipología</option>
+                <option value="1">#</option>
+                <option value="2">Cliente</option>
+                <option value="3">Asesor</option>
+                <option value="4">Documento</option>
+                <option value="5">Causa Raíz</option>
+                <option value="6">Cargo Generador</option>
+                <option value="7">Tipología</option>
               </select>
             </div>
             <div class="col-md-10">
@@ -100,22 +104,22 @@
           <td mat-cell *matCellDef="let element">
 
             <button class="btn btn btn-outline-light" title="Modificar PQRS"
-              routerLink="/modificarPqrs/{{element.pqrs_id}}">
+              routerLink="/ModificarPqrs/{{element.pqrs_id}}">
 
-              <img src="../../../assets/lapiz.png">
+              <img src="../../../assets/img/lapiz.png">
 
             </button>
 
             <button class="btn btn btn-outline-light" title="Planes de Mejora de la PQRS"
-              routerLink="/planAccionPqrs/{{element.pqrs_id}}">
+              routerLink="/PlanAccionPqrs/{{element.pqrs_id}}">
 
-              <img src="../../../assets/calendario.png">
+              <img src="../../../assets/img/calendario.png">
 
             </button>
 
             <button class="btn btn btn-outline-light" title="Actualizar la informacion" (click)="getListPqrs()">
 
-              <img src="../../../../assets/actualizar.png" alt="actualizar">
+              <img src="../../../../assets/img/actualizar.png" alt="actualizar">
 
             </button>
 

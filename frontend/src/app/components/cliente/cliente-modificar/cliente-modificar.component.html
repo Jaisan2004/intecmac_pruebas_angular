@@ -1,3 +1,4 @@
+<app-menu></app-menu>
 <ngx-spinner size="medium" color="#fff" type="square-jelly-box">
     <p style="color: white"> Cargando... </p>
 </ngx-spinner>
@@ -5,7 +6,7 @@
 <div id="cuerpo">
     <div class="container">
 
-        <button class="btn btn-outline-dark" routerLink="/Clientes"><i class="bi bi-box-arrow-left"></i></button>
+        <button class="btn btn-outline-dark" title="Volver al listado de Clientes" routerLink="/Clientes"><i class="bi bi-box-arrow-left"></i></button>
         <h1>Modificar Cliente</h1>
         <br>
         <form class="row  g-3" [formGroup]="formPqrs">
@@ -104,8 +105,8 @@
                 <textarea class="form-control" id="observaciones" name="observaciones" formControlName="cli_direccion"
                     (keyup)="onKeyDireccion($event)" style="height: 100px"></textarea>
 
-                <label class="form-label" for="observaciones" style="color: green;" *ngIf="cli_direccion.valid">* Direccion {{contadorObs}}/5000</label>
-                <label class="form-label" for="observaciones" style="color: red;" *ngIf="cli_direccion.invalid">* Direccion {{contadorObs}}/5000</label>
+                <label class="form-label" for="observaciones" style="color: green;" *ngIf="cli_direccion.valid">* Direccion {{contadorDirecc}}/5000</label>
+                <label class="form-label" for="observaciones" style="color: red;" *ngIf="cli_direccion.invalid">* Direccion {{contadorDirecc}}/5000</label>
 
                 <div class="alert alert-danger" [hidden]="cli_direccion.pristine || cli_direccion.valid">
                     <span *ngIf="cli_clasificacion.errors?.['required']">Por favor ingrese la dirección de la empresa.</span>
@@ -175,10 +176,10 @@
 
 
             <div class="mb-3 col-md-6">
-                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/Clientes">Volver</button>
+                <button type="submit" title="Volver al listado de Clientes" class="btn btn-secondary" style="width: 100%;" routerLink="/Clientes">Volver</button>
             </div>
             <div class="mb-3 col-md-6">
-                <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="ModificarCliente()"
+                <button type="submit" class="btn btn-primary" title="Modificar información del Cliente" style="width: 100%;" (click)="ModificarCliente()"
                     [disabled]="formPqrs.invalid||loading">{{(loading)?'Cargando...'
                     : 'Modificar'}}</button>
             </div>

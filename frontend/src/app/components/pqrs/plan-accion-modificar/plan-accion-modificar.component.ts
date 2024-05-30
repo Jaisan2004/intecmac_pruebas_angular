@@ -94,7 +94,7 @@ export class PlanAccionModificarComponent {
     this._PlanAccionPqrs.putPlanPqrs(this.id_ppa.value,body).subscribe(() => {
       this.loading = false;
       this.toastr.success(`Plan de acción modificado exitosamente`, `Registro Plan de Acción`)
-      this.router.navigate([`/planAccionPqrs/${this.pqrs_id.value}`])
+      this.router.navigate([`/PlanAccionPqrs/${this.pqrs_id.value}`])
       this.spinner.hide();
     },
     (error) => {

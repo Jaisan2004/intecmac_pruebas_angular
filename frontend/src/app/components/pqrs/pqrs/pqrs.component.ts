@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { PqrsProductoService } from '../../../services/pqrs/pqrs-producto/pqrs-producto.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -98,7 +99,9 @@ export class PqrsComponent {
 
   constructor(private _pqrsService: PqrsService,
     private _pqrsProductoService: PqrsProductoService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private router: Router
+  ) { }
 
   image: any;
   data: any;
@@ -122,7 +125,7 @@ export class PqrsComponent {
   ngOnInit(): void {
     this.getListPqrs();
 
-    this.filtroSelect.setValue('1');
+    this.filtroSelect.setValue('2');
 
     this.estado.setValue(0);
 
@@ -149,9 +152,9 @@ export class PqrsComponent {
     });
   }
 
-  borrarFiltros(){
+  borrarFiltros() {
     this.placeholderFiltro = 'Filtrar por Cliente';
-    this.filtroSelect.setValue('1');
+    this.filtroSelect.setValue('2');
     this.filtros.setValue('');
     this.fecha_recepcion_fin.setValue(0);
     this.fecha_recepcion_inicio.setValue(0);
@@ -162,18 +165,30 @@ export class PqrsComponent {
   placeholderFiltroTexto(option: any) {
     switch (option) {
       case '1':
+        this.placeholderFiltro = 'Filtrar por el Numero de PQRS';
+        this.campoFiltro = 'pqrs_id';
+        break;
+      case '2':
         this.placeholderFiltro = 'Filtrar por Cliente';
         this.campoFiltro = 'cli_nombre';
         break;
-      case '2':
+      case '3':
         this.placeholderFiltro = 'Filtrar por Asesor';
         this.campoFiltro = 'cli_asesor_nombre';
         break;
-      case '3':
+      case '4':
+        this.placeholderFiltro = 'Filtrar por Documento';
+        this.campoFiltro = 'pqrs_doc';
+        break;
+      case '5':
+        this.placeholderFiltro = 'Filtrar por Causa Raíz';
+        this.campoFiltro = 'pcr_causa';
+        break;
+      case '6':
         this.placeholderFiltro = 'Filtrar por Cargo Generador';
         this.campoFiltro = 'carg_nombre';
         break;
-      case '4':
+      case '7':
         this.placeholderFiltro = 'Filtrar por Tipología';
         this.campoFiltro = 'pt_tipologia'
         break;
@@ -206,7 +221,7 @@ export class PqrsComponent {
     if (filtro || est || fecha_inicio || fecha_fin) {
       if (est == 0) {
         if (filtro) {
-          const temp = this.temp.filter((d: any) => d[val].toLowerCase().indexOf(filtro) !== -1 || !filtro);
+          const temp = this.temp.filter((d: any) => d[val].toString().toLowerCase().indexOf(filtro) !== -1 || !filtro);
           if (fecha_inicio || fecha_fin) {
             if (fecha_fin) {
               const temp2 = temp.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio && d.pqrs_fecha_recepcion <= fecha_fin);
@@ -218,11 +233,21 @@ export class PqrsComponent {
           } else {
             this.dataSource.data = temp;
           }
+        } else if (fecha_inicio || fecha_fin) {
+          if (fecha_fin) {
+            const temp = this.temp.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio && d.pqrs_fecha_recepcion <= fecha_fin);
+            this.dataSource.data = temp;
+          } else {
+            const temp = this.temp.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio);
+            this.dataSource.data = temp;
+          }
+        } else {
+          this.dataSource.data = this.temp;
         }
       } else {
+        const temp = this.temp.filter((d: any) => d.pqrs_estado == est || !est);
         if (filtro) {
-          const temp = this.temp.filter((d: any) => d[val].toLowerCase().indexOf(filtro) !== -1 || !filtro);
-          const temp2 = temp.filter((d: any) => d.pqrs_estado == est || !est);
+          const temp2 = temp.filter((d: any) => d[val].toLowerCase().indexOf(filtro) !== -1 || !filtro);
           if (fecha_inicio || fecha_fin) {
             if (fecha_fin) {
               const temp3 = temp2.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio && d.pqrs_fecha_recepcion <= fecha_fin);
@@ -234,6 +259,16 @@ export class PqrsComponent {
           } else {
             this.dataSource.data = temp2;
           }
+        } else if (fecha_inicio || fecha_fin) {
+          if (fecha_fin) {
+            const temp2 = temp.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio && d.pqrs_fecha_recepcion <= fecha_fin);
+            this.dataSource.data = temp2;
+          } else {
+            const temp2 = temp.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio);
+            this.dataSource.data = temp2;
+          }
+        } else {
+          this.dataSource.data = temp;
         }
       }
 
@@ -243,3 +278,4 @@ export class PqrsComponent {
   }
 
 }
+

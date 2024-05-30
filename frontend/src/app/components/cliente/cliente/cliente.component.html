@@ -1,3 +1,5 @@
+<app-menu></app-menu>
+
 <ngx-spinner size="medium" color="#fff" type="square-jelly-box">
     <p style="color: white"> Cargando... </p>
 </ngx-spinner>
@@ -5,16 +7,14 @@
     <div class="container">
         <br>
         <div class="row">
-            <div class="col-md-1"><button title="Volver al listado PQRS" class="btn btn-secondary" type="submit"
-                    routerLink="/PQRS">Volver</button></div>
-            <div class="col-md-10">
+            <div class="col-md-11">
                 <h1>CLIENTES</h1>
             </div>
-            <div class="col-md-1"><button title="Agregar nuevo plan de accion a la PQRS {{pqrs_id}}"
+            <div class="col-md-1"><button title="Agregar nuevo Cliente"
                     class="btn btn-success" type="submit"
                     routerLink="/AgregarClientes">Agregar</button></div>
         </div>
-        <input type="text" class="form-control" placeholder="Flitar por cargo" (keyup)="updateFilter($event)" />
+        <input type="text" class="form-control" placeholder="Flitar por Nombre del Cliente" (keyup)="updateFilter($event)" />
     </div>
     <div>
 <br>
@@ -28,15 +28,15 @@
 
                 <ng-container matColumnDef="Acciones" stickyEnd>
                     <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                    <td mat-cell *matCellDef="let element"> <button title="Modificar Plan de acción"
+                    <td mat-cell *matCellDef="let element"> <button title="Modificar Cliente"
                             class="btn btn btn-outline-light"
                             routerLink="/ModificarClientes/{{element.cli_id}}"><img
-                                src="../../../assets/lapiz.png"></button>
+                                src="../../../assets/img/lapiz.png"></button>
 
                         <button class="btn btn btn-outline-light" title="Actualizar la informacion"
                             (click)="getListCliente()">
 
-                            <img src="../../../../assets/actualizar.png" alt="actualizar">
+                            <img src="../../../../assets/img/actualizar.png" alt="actualizar">
 
                         </button>
                     </td>

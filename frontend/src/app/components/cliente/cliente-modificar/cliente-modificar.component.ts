@@ -70,8 +70,7 @@ export class ClienteModificarComponent {
   public loading: boolean | any;
 
   carg_correo: any;
-  contadorDes = 0;
-  contadorObs = 0;
+  contadorDirecc = 0;
 
   dataCliente: any;
   dataCiudad: any;
@@ -123,15 +122,12 @@ export class ClienteModificarComponent {
       })
   }
 
-  onKeyDescripcion(event: any) {
-    this.contadorDes = event.target.value.length
-  }
-
   onKeyDireccion(event: any) {
-    this.contadorObs = event.target.value.length
+    this.contadorDirecc = event.target.value.length
   }
 
   getCliente(){
+    this.spinner.show()
     this._clienteService.getCliente(this.cli_id.value).subscribe((data)=>{
       this.dataCliente = data;
       this.cli_nombre.setValue(this.dataCliente.cli_nombre);
@@ -144,7 +140,8 @@ export class ClienteModificarComponent {
       this.cli_zona.setValue(this.dataCliente.cli_zona);
       this.cli_asesor.setValue(this.dataCliente.cli_asesor_nombre);
       this.cli_pp_sistema.setValue(this.dataCliente.cli_pp_sistema);
-      
+      this.contadorDirecc = this.cli_direccion.value?.length||0;
+      this.spinner.hide();
     })
   }
 

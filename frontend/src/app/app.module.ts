@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PqrsComponent } from './components/pqrs/pqrs/pqrs.component';
 import { AgregarPqrsComponent } from './components/pqrs/pqrs-agregar/agregar-pqrs.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { ModificarPqrsComponent } from './components/pqrs/pqrs-modificar/modificar-pqrs.component';
@@ -23,6 +23,10 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ClienteComponent } from './components/cliente/cliente/cliente.component';
 import { ClienteAgregarComponent } from './components/cliente/cliente-agregar/cliente-agregar.component';
 import { ClienteModificarComponent } from './components/cliente/cliente-modificar/cliente-modificar.component';
+import { LoginComponent } from './components/aplicacion/login/login.component';
+import { MenuComponent } from './components/aplicacion/menu/menu.component';
+import { añadirTokenInterceptor } from './utils/añadir-token.interceptor';
+import { NoPermisosComponent } from './components/aplicacion/no-permisos/no-permisos.component';
 
 
 @NgModule({
@@ -36,7 +40,10 @@ import { ClienteModificarComponent } from './components/cliente/cliente-modifica
     PlanAccionModificarComponent,
     ClienteComponent,
     ClienteAgregarComponent,
-    ClienteModificarComponent
+    ClienteModificarComponent,
+    LoginComponent,
+    MenuComponent,
+    NoPermisosComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +62,8 @@ import { ClienteModificarComponent } from './components/cliente/cliente-modifica
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    {provide: HTTP_INTERCEPTORS, useClass: añadirTokenInterceptor, multi:true}
   ],
   bootstrap: [AppComponent]
 })

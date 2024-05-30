@@ -127,7 +127,7 @@ export class PlanAccionAgregarComponent {
         this.spinner.hide();
       });
       this.toastr.success(`Plan de acción agregado exitosamente`, `Registro Plan de Acción`)
-      this.router.navigate([`/planAccionPqrs/${this.pqrs_id.value}`])
+      this.router.navigate([`/PlanAccionPqrs/${this.pqrs_id.value}`])
       this.spinner.hide();
     },
     (error) => {

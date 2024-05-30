@@ -248,7 +248,7 @@ export class ModificarPqrsComponent {
     this._pqrsService.updatePqrs(this.id_pqrs.value, body).subscribe(() => {
       this.loading = false;
       this.toastr.success(`PQRS del asesor ${this.cli_asesor} se modifico exitosamente`, `Modificacion PQRS`)
-      this.router.navigate(['/PQRS'])
+      this.router.navigate(['/Pqrs'])
       this.spinner.hide();
 
     },
@@ -269,7 +269,7 @@ export class ModificarPqrsComponent {
     }
     this._pqrsProducto.postProductoPqrs(body).subscribe(() => {
       this.toastr.success(`Producto Agregado a la PQRS ${this.id_pqrs.value}`, `Producto Agregado`);
-      this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`]);
+      this.router.navigate([`/ModificarPqrs/${this.id_pqrs.value}`]);
       this.productoNuevo = false;
       this.producto.setValue('');
       this.lote.setValue('');
@@ -294,7 +294,7 @@ export class ModificarPqrsComponent {
 
     this._pqrsProducto.updateProductoPqrs(this.pqrs_prod_id.value, body).subscribe(() => {
       this.toastr.success(`Producto Actualizado Exitosamente en la PQRS ${this.id_pqrs.value}`, `Producto Actualizado`);
-      this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`]);
+      this.router.navigate([`/ModificarPqrs/${this.id_pqrs.value}`]);
       this.productoModificar = false;
       this.producto.setValue('');
       this.lote.setValue('');
@@ -368,7 +368,7 @@ export class ModificarPqrsComponent {
           this.cambiarImg = false;
           this.toastr.success(`Imagen agregada exitosamente`, `Modificacion PQRS`)
 
-          this.router.navigate([`/modificarPqrs/${this.id_pqrs.value}`])
+          this.router.navigate([`/ModificarPqrs/${this.id_pqrs.value}`])
           this.loading = false;
 
         })

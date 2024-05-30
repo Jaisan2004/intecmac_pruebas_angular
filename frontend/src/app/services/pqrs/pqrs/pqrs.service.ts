@@ -31,6 +31,10 @@ export class PqrsService {
     return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, body);
    }
 
+   postCorreoCreacionPqrs(body: any): Observable<any>{
+    return this.http.post(`${this.myAppUrl}api/pqrs_apis/pqrs_creada/`, body);
+   }
+
    updatePqrs(id: any, body: any): Observable<any>{
     return this.http.put(`${this.myAppUrl}${this.myApiUrl}actualizar/${id}`, body);
    }

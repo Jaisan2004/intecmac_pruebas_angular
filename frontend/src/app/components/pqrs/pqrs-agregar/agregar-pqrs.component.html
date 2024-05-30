@@ -1,8 +1,10 @@
+<app-menu></app-menu>
+
 <ngx-spinner size = "medium" color = "#fff" type="square-jelly-box" ><p style="color: white" > Cargando... </p></ngx-spinner>
 
 <div id="cuerpo">
     <div class="container mt-3">
-        <button title="Volver al listado PQRS" class="btn btn-outline-dark" routerLink="/PQRS"><i class="bi bi-box-arrow-left"></i></button>
+        <button title="Volver al listado PQRS" class="btn btn-outline-dark" routerLink="/Pqrs"><i class="bi bi-box-arrow-left"></i></button>
         <h1>Agregar PQRS</h1>
         <br>
         <form class="row  g-3" [formGroup]="formPqrs">
@@ -73,7 +75,7 @@
 
             </div>
             <div class="mb-3 col-md-6">
-                <button title="Volver al listado PQRS" type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/PQRS">Volver</button>
+                <button title="Volver al listado PQRS" type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/Pqrs">Volver</button>
             </div>
             <div class="mb-3 col-md-6">
                 <button title="Registrar la PQRS" type="submit" class="btn btn-primary" style="width: 100%;" (click)="crearPqrs()"

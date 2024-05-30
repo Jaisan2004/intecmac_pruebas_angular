@@ -5,6 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from "ngx-spinner";
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorService } from '../../../services/error/error.service';
 
 @Component({
   selector: 'app-cliente',
@@ -55,7 +57,8 @@ export class ClienteComponent {
 
   constructor(private _clienteService: ClienteService,
     private activatedRoute: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private _errorService: ErrorService
   ) { }
 
   ngAfterViewInit() {
@@ -77,6 +80,10 @@ export class ClienteComponent {
       this.dataSource.data = data;
       this.temp = [...data];
       this.spinner.hide();
+    },
+    (e: HttpErrorResponse) =>{
+      this._errorService.msjError(e);
+      this.spinner.hide()
     });
   }
 

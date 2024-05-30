@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorService } from '../../../services/error/error.service';
 
 
 @Component({
@@ -35,7 +37,7 @@ export class AgregarPqrsComponent {
 
   cli_zona: string = '';
   cli_asesor: string = '';
-
+  cli_nombre: string = '';
 
   public loading: boolean | any;
   contadorDes = 0;
@@ -48,6 +50,7 @@ export class AgregarPqrsComponent {
 
   constructor(private _formulariosService: FormulariosService,
     private _pqrsService: PqrsService,
+    private _errorService: ErrorService,
     private router: Router,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) { }
@@ -60,6 +63,22 @@ export class AgregarPqrsComponent {
   crearPqrs() {
     this.spinner.show();
     this.loading = true;
+
+    const fecha = new Date();
+    const isoString = fecha.toISOString();
+    const dateString = isoString.slice(0, 10);
+
+    const hora = fecha.getHours();
+    let saludo = '';
+
+    if (hora < 12) {
+      saludo = 'Buenos días';
+    } else if (hora < 18) {
+      saludo = 'Buenas tardes';
+    } else {
+      saludo = 'Buenas noches';
+    }
+
     const body = {
       pqrs_id: null,
       pqrs_fecha_recepcion: new Date(),
@@ -70,14 +89,33 @@ export class AgregarPqrsComponent {
       pqrs_fecha_respuesta: "",
       pqrs_estado: 1
     }
+
+
+
     this._pqrsService.postPqrs(body).subscribe(() => {
       this.loading = false;
       this.toastr.success(`PQRS del asesor ${this.cli_asesor} se registro exitosamente`, `Registro PQRS`)
       this._pqrsService.getLastPqrs().subscribe((data: any) => {
         this.data = data;
         this.pqrs_id = this.data[0].pqrs_id;
+        const bodyCorreo={
+          saludos: saludo,
+          pqrs_id: this.pqrs_id,
+          pqrs_fecha_recepcion: dateString,
+          cli_nombre: this.cli_nombre,
+          cli_zona: this.cli_zona,
+          cli_asesor: this.cli_asesor,
+          pqrs_doc: this.documento.value,
+          pqrs_descripcion: this.descripcion.value
+        }
+        this._pqrsService.postCorreoCreacionPqrs(bodyCorreo).subscribe(()=>{
+          this.toastr.success(`Registro de la PQRS Notificado`, `Notificación de Nueva PQRS`);
+        },
+        (error: HttpErrorResponse) => {
+          this._errorService.msjError(error);
+        });
         this.spinner.hide();
-        this.router.navigate([`modificarPqrs/${this.pqrs_id}`]);
+        this.router.navigate([`ModificarPqrs/${this.pqrs_id}`]);
       })
     },
       (error) => {
@@ -108,6 +146,7 @@ export class AgregarPqrsComponent {
       if (this.dataCliente) {
         this.cli_zona = this.dataCliente[0].zona;
         this.cli_asesor = this.dataCliente[0].cli_asesor_nombre;
+        this.cli_nombre = this.dataCliente[0].cli_nombre;
       }
     })
   }

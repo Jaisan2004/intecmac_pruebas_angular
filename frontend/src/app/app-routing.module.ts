@@ -9,21 +9,28 @@ import { PlanAccionModificarComponent } from './components/pqrs/plan-accion-modi
 import { ClienteComponent } from './components/cliente/cliente/cliente.component';
 import { ClienteAgregarComponent } from './components/cliente/cliente-agregar/cliente-agregar.component';
 import { ClienteModificarComponent } from './components/cliente/cliente-modificar/cliente-modificar.component';
+import { LoginComponent } from './components/aplicacion/login/login.component';
+import { autGuard } from './utils/aut.guard';
+import { NoPermisosComponent } from './components/aplicacion/no-permisos/no-permisos.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/PQRS', pathMatch: 'full'},
+  {path: '', redirectTo: '/Pqrs', pathMatch: 'full'},
+  //Login
+  {path: 'Login', component: LoginComponent},
+  //Sin permisos
+  {path: 'NoTienePermisos', component: NoPermisosComponent},
   //PQRS
-  {path: "PQRS", component: PqrsComponent},
-  {path: "agregarPqrs", component: AgregarPqrsComponent},
-  {path: "modificarPqrs/:id", component: ModificarPqrsComponent},
+  {path: "Pqrs", component: PqrsComponent, canActivate: [autGuard]},
+  {path: "AgregarPqrs", component: AgregarPqrsComponent,canActivate: [autGuard]},
+  {path: "ModificarPqrs/:id", component: ModificarPqrsComponent, canActivate: [autGuard]},
   //Planes de acción PQRS
-  {path: "planAccionPqrs/:id", component: PlanAccionComponent},
-  {path: "AgregarPlanAccionPqrs/:id", component: PlanAccionAgregarComponent},
-  {path: "ModificarPlanAccionPqrs/:id", component: PlanAccionModificarComponent},
+  {path: "PlanAccionPqrs/:id", component: PlanAccionComponent,canActivate: [autGuard]},
+  {path: "AgregarPlanAccionPqrs/:id", component: PlanAccionAgregarComponent,canActivate: [autGuard]},
+  {path: "ModificarPlanAccionPqrs/:id", component: PlanAccionModificarComponent,canActivate: [autGuard]},
   //Clientes
-  {path: "Clientes", component: ClienteComponent},
-  {path: "AgregarClientes", component: ClienteAgregarComponent},
-  {path: "ModificarClientes/:id", component: ClienteModificarComponent},
+  {path: "Clientes", component: ClienteComponent, canActivate: [autGuard]},
+  {path: "AgregarClientes", component: ClienteAgregarComponent, canActivate: [autGuard]},
+  {path: "ModificarClientes/:id", component: ClienteModificarComponent, canActivate: [autGuard]},
   {path: '**', component: PqrsComponent}
 
 ];

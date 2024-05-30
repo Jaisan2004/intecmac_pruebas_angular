@@ -1,3 +1,4 @@
+<app-menu></app-menu>
 <ngx-spinner size="medium" color="#fff" type="square-jelly-box">
     <p style="color: white"> Cargando... </p>
   </ngx-spinner>
@@ -5,7 +6,7 @@
 <div id="cuerpo">
     <div class="container">
 
-        <button class="btn btn-outline-dark" routerLink="/Clientes"><i class="bi bi-box-arrow-left"></i></button>
+        <button class="btn btn-outline-dark" title="Volver al listado de Clientes" routerLink="/Clientes"><i class="bi bi-box-arrow-left"></i></button>
         <h1>Agregar Cliente</h1>
         <br>
         <form class="row  g-3" [formGroup]="formPqrs">
@@ -175,10 +176,10 @@
 
 
             <div class="mb-3 col-md-6">
-                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/Clientes">Volver</button>
+                <button type="submit" title="Volver al listado de Clientes" class="btn btn-secondary" style="width: 100%;" routerLink="/Clientes">Volver</button>
             </div>
             <div class="mb-3 col-md-6">
-                <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="AgregarCliente()"
+                <button type="submit" title="Registrar al Cliente" class="btn btn-primary" style="width: 100%;" (click)="AgregarCliente()"
                     [disabled]="formPqrs.invalid||loading">{{(loading)?'Cargando...'
                     : 'Registrar'}}</button>
             </div>

@@ -1,7 +1,8 @@
+<app-menu></app-menu>
 <div id="cuerpo">
     <div class="container mt-3">
 
-        <button class="btn btn-outline-dark" routerLink="/planAccionPqrs/{{pqrs_id.value}}"><i class="bi bi-box-arrow-left"></i></button>
+        <button class="btn btn-outline-dark" routerLink="/PlanAccionPqrs/{{pqrs_id.value}}"><i class="bi bi-box-arrow-left"></i></button>
         <h1>Agregar Plan de Acción</h1>
         <br>
         <form class="row  g-3" [formGroup]="formPqrs">
@@ -66,7 +67,7 @@
 
 
             <div class="mb-3 col-md-6">
-                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/planAccionPqrs/{{pqrs_id.value}}">Volver</button>
+                <button type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/PlanAccionPqrs/{{pqrs_id.value}}">Volver</button>
             </div>
             <div class="mb-3 col-md-6">
                 <button type="submit" class="btn btn-primary" style="width: 100%;" (click)="AgregarPlanPqrs()"

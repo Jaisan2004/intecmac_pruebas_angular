@@ -4,7 +4,6 @@ import { QueryTypes } from 'sequelize';
 import PqrsProducto from '../../models/pqrs/pqrs_producto';
 
 export const getPqrsProductos = async (req: Request, res: Response) => {
-    const {id} = req.params;
     const query = 'SELECT pp.pqrs_productos_id, p.pqrs_id, pr.prod_id,pr.prod_ref, pr.prod_descripcion, pp.lote, pp.cantidad FROM pqrs_productos pp INNER JOIN pqrs p on pp.pqrs_id = p.pqrs_id '
     +'INNER JOIN productos pr on pp.prod_id = pr.prod_id;'
 

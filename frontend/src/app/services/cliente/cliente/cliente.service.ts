@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { Observable } from 'rxjs';
@@ -16,7 +16,10 @@ export class ClienteService {
    }
 
    getClientes(): Observable<any>{
-    return this.http.get(`${this.myAppUrl}${this.myApiUrl}`);
+    
+    // const token = localStorage.getItem('token');
+    // const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}`/*, {headers: headers}*/);
    }
    getCliente(cli_id: any): Observable<any>{
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}${cli_id}`);

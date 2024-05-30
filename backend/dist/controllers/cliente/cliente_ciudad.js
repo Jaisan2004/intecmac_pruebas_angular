@@ -15,7 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getClienteCiudades = void 0;
 const cliente_ciudad_1 = __importDefault(require("../../models/cliente/cliente_ciudad"));
 const getClienteCiudades = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listClienteCiudad = yield cliente_ciudad_1.default.findAll();
+    const listClienteCiudad = yield cliente_ciudad_1.default.findAll({
+        order: [['c_c_nombre', 'ASC']]
+    });
     res.json(listClienteCiudad);
 });
 exports.getClienteCiudades = getClienteCiudades;
