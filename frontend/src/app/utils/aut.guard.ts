@@ -1,7 +1,7 @@
 
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { UsuariosService } from '../services/usuarios/usuarios.service';
+import { UsuariosService } from '../services/accesos/usuarios.service';
 import { lastValueFrom } from 'rxjs';
 
 
@@ -13,7 +13,14 @@ export const autGuard: CanActivateFn = async(route, state) => {
     token = localStorage.getItem('token');
   }else{
     router.navigate(['/Login']);
-    return false
+    return false;
+  }
+  if(token==undefined){
+    router.navigate(['/Login']);
+    return false;
+  }
+  if(ruta=='NoTienePermisos'){
+    return true;
   }
   permiso(ruta).toPromise().then((permiso:any) => {
       return permiso.permiso;

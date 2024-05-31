@@ -1,5 +1,5 @@
 import {DataTypes} from 'sequelize'
-import db from '../db/connection';
+import db from '../../db/connection';
 
 const Usuarios = db.define('usuarios',{
     usu_id:{
@@ -13,7 +13,7 @@ const Usuarios = db.define('usuarios',{
     carg_id:{
         type: DataTypes.NUMBER
     },
-    usu_contraseña:{
+    usu_contrasena:{
         type: DataTypes.STRING
     },
     rol_id:{

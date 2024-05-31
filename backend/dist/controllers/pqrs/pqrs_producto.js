@@ -27,7 +27,7 @@ const getPqrsProductos = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
     else {
         res.status(404).json({
-            msg: 'No existe PQRS'
+            msg: 'No existen Productos en la Pqrs'
         });
     }
 });

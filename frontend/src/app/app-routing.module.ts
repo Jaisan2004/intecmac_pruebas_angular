@@ -12,13 +12,17 @@ import { ClienteModificarComponent } from './components/cliente/cliente-modifica
 import { LoginComponent } from './components/aplicacion/login/login.component';
 import { autGuard } from './utils/aut.guard';
 import { NoPermisosComponent } from './components/aplicacion/no-permisos/no-permisos.component';
+import { UsuarioComponent } from './components/administrador/usuario/usuario/usuario.component';
+import { AgregarUsuarioComponent } from './components/administrador/usuario/agregar-usuario/agregar-usuario.component';
+import { ModificarUsuarioComponent } from './components/administrador/usuario/modificar-usuario/modificar-usuario.component';
+import { RolesComponent } from './components/administrador/roles/roles/roles.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/Pqrs', pathMatch: 'full'},
   //Login
   {path: 'Login', component: LoginComponent},
   //Sin permisos
-  {path: 'NoTienePermisos', component: NoPermisosComponent},
+  {path: 'NoTienePermisos', component: NoPermisosComponent, canActivate: [autGuard]},
   //PQRS
   {path: "Pqrs", component: PqrsComponent, canActivate: [autGuard]},
   {path: "AgregarPqrs", component: AgregarPqrsComponent,canActivate: [autGuard]},
@@ -31,6 +35,16 @@ const routes: Routes = [
   {path: "Clientes", component: ClienteComponent, canActivate: [autGuard]},
   {path: "AgregarClientes", component: ClienteAgregarComponent, canActivate: [autGuard]},
   {path: "ModificarClientes/:id", component: ClienteModificarComponent, canActivate: [autGuard]},
+  //Administrasdor (Usuario, Roles,Modulos, Rutas, Permisos)
+
+  //Usuarios
+  {path:"Usuarios", component: UsuarioComponent},
+  {path:"AgregarUsuarios", component: AgregarUsuarioComponent},
+  {path: "ModificarUsuarios/:id", component: ModificarUsuarioComponent},
+
+  //Roles
+  {path: "Roles", component: RolesComponent},
+
   {path: '**', component: PqrsComponent}
 
 ];

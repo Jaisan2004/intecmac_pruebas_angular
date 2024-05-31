@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ErrorService {
 
+  
   constructor(private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) { }

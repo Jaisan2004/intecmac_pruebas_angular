@@ -20,6 +20,18 @@ export class UsuariosService {
    }
 
    comprobacionPermisos(body: any): Observable<any>{
-    return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}permisos`, body);
+    return this.http.post(`${this.myAppUrl}${this.myApiUrl}permisos`, body);
+   }
+
+   getUsuarios():Observable<any>{
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}`);
+   }
+
+   getUsuario(id: any):Observable<any>{
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl}${id}`);
+   }
+
+   postUsuarios(body:any):Observable<any>{
+    return this.http.post(`${this.myAppUrl}${this.myApiUrl}nuevo`,body);
    }
 }

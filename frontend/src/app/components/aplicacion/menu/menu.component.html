@@ -7,10 +7,20 @@
       <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/Clientes">CLIENTES</a>
+            <a class="nav-link" routerLink="/Clientes"><img id="logo" src="../../../../assets/img/revisar.png" alt="Clientes"> CLIENTES</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/Pqrs">PQRS</a>
+            <a class="nav-link" routerLink="/Pqrs"><img id="logo" src="../../../../assets/img/queja.png" alt="Pqrs"> PQRS</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img id="logo" src="../../../../assets/img/administrador.png" alt="Pqrs">ADMINISTRAR
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/Usuarios">Usuarios</a></li>
+              <li><a class="dropdown-item" routerLink="/Roles">Roles</a></li>
+              <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+            </ul>
           </li>
         </ul>
         <form class="d-flex">

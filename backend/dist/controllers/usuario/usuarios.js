@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.permisosUsuario = exports.loginUsuario = exports.postUser = exports.getUsers = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const usuario_1 = __importDefault(require("../models/usuario/usuario"));
+const usuario_1 = __importDefault(require("../../models/usuario/usuario"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const connection_1 = __importDefault(require("../db/connection"));
+const connection_1 = __importDefault(require("../../db/connection"));
 const sequelize_1 = require("sequelize");
 const jwt_decode_1 = require("jwt-decode");
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

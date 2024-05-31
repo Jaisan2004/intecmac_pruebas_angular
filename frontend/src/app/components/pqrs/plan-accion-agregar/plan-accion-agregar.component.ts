@@ -154,7 +154,6 @@ export class PlanAccionAgregarComponent {
     this._CargoService.getCargo(id).subscribe((data)=>{
       this.dataCargo = data;
       this.carg_correo = this.dataCargo.carg_correo
-      console.log(this.carg_correo)
     })
   }
 

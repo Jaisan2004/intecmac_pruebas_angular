@@ -1,6 +1,7 @@
 import express, {Application, Request, Response} from 'express';
 import cors from 'cors';
-import routesUsuarios from '../routes/usuario'
+import routesUsuarios from '../routes/acceso/usuario'
+import routesAcceso from '../routes/acceso/acc_routes'
 import routesPqrs from '../routes/pqrs/pqrs';
 import routesPqrsRoutes from '../routes/pqrs/pqrs_routes';
 import routesCliente from '../routes/cliente/cliente';
@@ -36,6 +37,7 @@ class Server{
             })
         })
         this.app.use('/api/usuarios', routesUsuarios);
+        this.app.use('/api/accesos', routesAcceso);
         this.app.use('/api/pqrs', routesPqrs);
         this.app.use('/api/pqrs_apis', routesPqrsRoutes);
         this.app.use('/api/cliente', routesCliente);

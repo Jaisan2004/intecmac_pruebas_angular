@@ -12,17 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.permisosUsuario = exports.loginUsuario = exports.postUser = exports.getUsers = void 0;
+exports.permisosUsuario = exports.loginUsuario = exports.updateUser = exports.postUser = exports.getUser = exports.getUsers = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const usuario_1 = __importDefault(require("../models/usuario/usuario"));
+const usuario_1 = __importDefault(require("../../models/acceso/usuario"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const connection_1 = __importDefault(require("../db/connection"));
+const connection_1 = __importDefault(require("../../db/connection"));
 const sequelize_1 = require("sequelize");
 const jwt_decode_1 = require("jwt-decode");
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = 'SELECT usu.username, usu.carg_id, c.carg_nombre, c.carg_correo,usu.usu_contrasena,usu.rol_id, ar.rol_nombre, usu.usu_status,' +
+    const query = 'SELECT usu.usu_id, usu.username, usu.carg_id, c.carg_nombre, c.carg_correo,usu.usu_contrasena,usu.rol_id, ar.rol_nombre, usu.usu_status,' +
         ' if(usu.usu_status = 1, "Activo", "Deshabilitado") as estado FROM usuarios usu join cargos c on c.carg_id=usu.carg_id' +
-        ' join acc_roles ar on ar.rol_id = usu.usu_id ORDER BY usu.username,usu.usu_status;';
+        ' join acc_roles ar on ar.rol_id = usu.rol_id ORDER BY usu.username,usu.usu_status;';
     const listUsuarios = yield connection_1.default.query(query, {
         type: sequelize_1.QueryTypes.SELECT,
     });
@@ -36,8 +36,21 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUsers = getUsers;
+const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const usuario = yield usuario_1.default.findByPk(id);
+    if (usuario) {
+        res.json(usuario);
+    }
+    else {
+        res.status(400).json({
+            msg: `No existe un usuario con el id ${id}`
+        });
+    }
+});
+exports.getUser = getUser;
 const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, carg_id, usu_contraseña, rol_id } = req.body;
+    const { username, carg_id, usu_contrasena, rol_id } = req.body;
     //Validaciones de usuario
     const usuario = yield usuario_1.default.findOne({ where: { username: username } });
     if (usuario) {
@@ -45,12 +58,12 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             msg: "Ya existe un usuario con este nombre"
         });
     }
-    const hashContraseña = yield bcrypt_1.default.hash(usu_contraseña, 10);
+    const hashContraseña = yield bcrypt_1.default.hash(usu_contrasena, 10);
     try {
         yield usuario_1.default.create({
             username: username,
             carg_id: carg_id,
-            usu_contraseña: hashContraseña,
+            usu_contrasena: hashContraseña,
             rol_id: rol_id,
         });
         res.json({
@@ -65,6 +78,38 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.postUser = postUser;
+const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, carg_id, usu_contrasena, rol_id } = req.body;
+    const { id } = req.params;
+    const hashContraseña = yield bcrypt_1.default.hash(usu_contrasena, 10);
+    const body = {
+        username: username,
+        carg_id: carg_id,
+        usu_contrasena: hashContraseña,
+        rol_id: rol_id,
+    };
+    try {
+        const usuario = yield usuario_1.default.findByPk(id);
+        if (usuario) {
+            usuario.update(body);
+            res.json({
+                msg: 'El Producto de la PQRS se actualizo exitosamente'
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: `No existe el Usuario con el id ${id}`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Ha ocurrido un error hable con soporte'
+        });
+    }
+});
+exports.updateUser = updateUser;
 const loginUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
     //Validamos si el usuario existe en la base de datos

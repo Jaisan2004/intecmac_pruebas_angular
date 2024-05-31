@@ -1,14 +1,46 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt'
-import Usuarios from '../models/usuario';
+import Usuarios from '../../models/acceso/usuario';
 import jwt from 'jsonwebtoken'
-import sequelize from '../db/connection';
+import sequelize from '../../db/connection';
 import { QueryTypes } from 'sequelize';
 import { jwtDecode } from 'jwt-decode';
 
+export const getUsers= async(req:Request, res:Response)=>{
+    const query= 'SELECT usu.usu_id, usu.username, usu.carg_id, c.carg_nombre, c.carg_correo,usu.usu_contrasena,usu.rol_id, ar.rol_nombre, usu.usu_status,'+
+    ' if(usu.usu_status = 1, "Activo", "Deshabilitado") as estado FROM usuarios usu join cargos c on c.carg_id=usu.carg_id'+
+    ' join acc_roles ar on ar.rol_id = usu.rol_id ORDER BY usu.username,usu.usu_status;'
+
+    const listUsuarios = await sequelize.query(query,{
+        type: QueryTypes.SELECT,
+    });
+
+    if (listUsuarios) {
+        res.json(listUsuarios)
+    } else {
+        res.status(404).json({
+            msg: 'No existen Usuarios en la base de datos'
+        })
+    }
+}
+
+export const getUser = async(req: Request, res: Response) =>{
+    const {id} = req.params;
+
+    const usuario = await Usuarios.findByPk(id);
+
+    if(usuario){
+        res.json(usuario)
+    }else{
+        res.status(400).json({
+            msg: `No existe un usuario con el id ${id}`
+        })
+    }
+}
+
 export const postUser = async(req: Request, res: Response) => {
 
-    const {username, carg_id, usu_contraseña, rol_id} = req.body;
+    const {username, carg_id, usu_contrasena, rol_id} = req.body;
     
     //Validaciones de usuario
     const usuario = await Usuarios.findOne({where:{username: username}});
@@ -19,13 +51,13 @@ export const postUser = async(req: Request, res: Response) => {
         })
     }
 
-    const hashContraseña=await bcrypt.hash(usu_contraseña, 10);
+    const hashContraseña=await bcrypt.hash(usu_contrasena, 10);
 
     try {
         await Usuarios.create({
             username: username,
             carg_id: carg_id,
-            usu_contraseña: hashContraseña,
+            usu_contrasena: hashContraseña,
             rol_id: rol_id,
         })
         res.json({
@@ -39,6 +71,40 @@ export const postUser = async(req: Request, res: Response) => {
     }
 
     
+}
+
+export const updateUser = async(req: Request, res: Response)=>{
+    const { username, carg_id, usu_contrasena,rol_id} = req.body;
+    const { id } = req.params;
+
+    const hashContraseña=await bcrypt.hash(usu_contrasena, 10);
+
+    const body = {
+        username: username,
+        carg_id: carg_id,
+        usu_contrasena: hashContraseña,
+        rol_id: rol_id,
+    }
+    try {
+        
+        const usuario = await Usuarios.findByPk(id)
+        if (usuario) {
+            usuario.update(body);
+            res.json({
+                msg: 'El Producto de la PQRS se actualizo exitosamente'
+            })
+        } else {
+            res.status(404).json({
+                msg: `No existe el Usuario con el id ${id}`
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: 'Ha ocurrido un error hable con soporte'
+        })
+
+    }
 }
 
 export const loginUsuario= async (req: Request, res: Response)=>{
@@ -55,7 +121,7 @@ export const loginUsuario= async (req: Request, res: Response)=>{
     }
 
     //Validamos Contraseña
-    const contraseñaValida = await bcrypt.compare(password, user.usu_contraseña)
+    const contraseñaValida = await bcrypt.compare(password, user.usu_contrasena)
     
     if(!contraseñaValida){
         return res.status(400).json({

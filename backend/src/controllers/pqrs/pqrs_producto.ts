@@ -17,7 +17,7 @@ export const getPqrsProductos = async (req: Request, res: Response) => {
 
     } else {
         res.status(404).json({
-            msg: 'No existe PQRS'
+            msg: 'No existen Productos en la Pqrs'
         })
     }
 }

@@ -27,6 +27,10 @@ import { LoginComponent } from './components/aplicacion/login/login.component';
 import { MenuComponent } from './components/aplicacion/menu/menu.component';
 import { añadirTokenInterceptor } from './utils/añadir-token.interceptor';
 import { NoPermisosComponent } from './components/aplicacion/no-permisos/no-permisos.component';
+import { UsuarioComponent } from './components/administrador/usuario/usuario/usuario.component';
+import { AgregarUsuarioComponent } from './components/administrador/usuario/agregar-usuario/agregar-usuario.component';
+import { ModificarUsuarioComponent } from './components/administrador/usuario/modificar-usuario/modificar-usuario.component';
+import { RolesComponent } from './components/administrador/roles/roles/roles.component';
 
 
 @NgModule({
@@ -43,7 +47,11 @@ import { NoPermisosComponent } from './components/aplicacion/no-permisos/no-perm
     ClienteModificarComponent,
     LoginComponent,
     MenuComponent,
-    NoPermisosComponent
+    NoPermisosComponent,
+    UsuarioComponent,
+    AgregarUsuarioComponent,
+    ModificarUsuarioComponent,
+    RolesComponent
   ],
   imports: [
     BrowserModule,
