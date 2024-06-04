@@ -31,6 +31,8 @@ import { UsuarioComponent } from './components/administrador/usuario/usuario/usu
 import { AgregarUsuarioComponent } from './components/administrador/usuario/agregar-usuario/agregar-usuario.component';
 import { ModificarUsuarioComponent } from './components/administrador/usuario/modificar-usuario/modificar-usuario.component';
 import { RolesComponent } from './components/administrador/roles/roles/roles.component';
+import { RolesAgregarComponent } from './components/administrador/roles/roles-agregar/roles-agregar.component';
+import { RolesModificarComponent } from './components/administrador/roles/roles-modificar/roles-modificar.component';
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { RolesComponent } from './components/administrador/roles/roles/roles.com
     UsuarioComponent,
     AgregarUsuarioComponent,
     ModificarUsuarioComponent,
-    RolesComponent
+    RolesComponent,
+    RolesAgregarComponent,
+    RolesModificarComponent
   ],
   imports: [
     BrowserModule,

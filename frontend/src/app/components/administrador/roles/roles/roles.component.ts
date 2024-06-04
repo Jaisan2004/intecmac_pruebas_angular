@@ -5,7 +5,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from "ngx-spinner";
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from '../../../../services/error/error.service';
-import { UsuariosService } from '../../../../services/accesos/usuarios.service';
 import { RolesService } from '../../../../services/accesos/roles.service';
 
 @Component({
@@ -79,7 +78,7 @@ export class RolesComponent {
 
     // filter our data
     const temp = this.temp.filter(function (d: any) {
-      return d.username.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.rol_nombre.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     this.dataSource.data = temp;

@@ -1,0 +1,45 @@
+<app-menu></app-menu>
+
+<ngx-spinner size="medium" color="#fff" type="square-jelly-box">
+    <p style="color: white"> Cargando... </p>
+  </ngx-spinner>
+  
+<div id="cuerpo">
+    <div class="container">
+
+        <button class="btn btn-outline-dark" title="Volver al listado de Roles" routerLink="/Roles"><i class="bi bi-box-arrow-left"></i></button>
+        <h1>Agregar Rol</h1>
+        <br>
+        <form class="row  g-3" [formGroup]="formRoles">
+
+            <!-- Username -->
+            <div class="form-floating mb-3">
+
+                <input class="form-control" type="text" id="rol_nombre" formControlName="rol_nombre">
+                <label class="form-label" for="rol_nombre" style="color: green;" *ngIf="rol_nombre.valid">* Nombre del Rol</label>
+                <label class="form-label" for="rol_nombre" style="color: red;" *ngIf="rol_nombre.invalid">* Nombre del Rol</label>
+
+                <div class="alert alert-danger" [hidden]="rol_nombre.pristine || rol_nombre.valid">
+                    <span *ngIf="rol_nombre.errors?.['required']">Por favor ingrese el Nombre del Rol.</span>
+                    <span *ngIf="rol_nombre.errors?.['maxlength']">Hay mas de 100 caracteres.</span>
+                </div>
+
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <button type="submit" title="Volver al listado de Roles" class="btn btn-secondary" style="width: 100%;" routerLink="/Roles">Volver</button>
+            </div>
+            <div class="mb-3 col-md-6">
+                <button type="submit" title="Registrar al Cliente" class="btn btn-primary" style="width: 100%;" (click)="AgregarRol()"
+                    [disabled]="formRoles.invalid||loading">{{(loading)?'Cargando...'
+                    : 'Registrar'}}</button>
+            </div>
+
+            <div class="alert alert-danger"  [hidden]="formRoles.valid">
+                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+            </div>
+        </form>
+
+
+    </div>
+</div>

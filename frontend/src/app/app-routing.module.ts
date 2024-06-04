@@ -16,6 +16,8 @@ import { UsuarioComponent } from './components/administrador/usuario/usuario/usu
 import { AgregarUsuarioComponent } from './components/administrador/usuario/agregar-usuario/agregar-usuario.component';
 import { ModificarUsuarioComponent } from './components/administrador/usuario/modificar-usuario/modificar-usuario.component';
 import { RolesComponent } from './components/administrador/roles/roles/roles.component';
+import { RolesAgregarComponent } from './components/administrador/roles/roles-agregar/roles-agregar.component';
+import { RolesModificarComponent } from './components/administrador/roles/roles-modificar/roles-modificar.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/Pqrs', pathMatch: 'full'},
@@ -44,6 +46,8 @@ const routes: Routes = [
 
   //Roles
   {path: "Roles", component: RolesComponent},
+  {path:"AgregarRoles", component: RolesAgregarComponent},
+  {path:"ModificarRoles/:id", component: RolesModificarComponent},
 
   {path: '**', component: PqrsComponent}
 

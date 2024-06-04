@@ -12,7 +12,15 @@
     text-align: center;
     overflow: auto;
 }
+#columnas {
+    text-align: center;
+    width: 33%;
+  }
 
+th{
+    text-align: center;
+    width: 33%;
+}
 table {
     width: 100%;
 }

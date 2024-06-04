@@ -6,28 +6,17 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class RolesService {
+export class PermisosService {
   private myAppUrl: string;
   private myApiUrl: string;
 
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint;
-    this.myApiUrl = 'api/accesos/roles/';
+    this.myApiUrl = 'api/accesos/permisos/';
    }
 
-   getRoles():Observable<any>{
-    return this.http.get(`${this.myAppUrl}${this.myApiUrl}`);
-   }
-
-   getRol(id:any):Observable<any>{
+   getPermisosByRol(id:any):Observable<any>{
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}${id}`);
    }
 
-   postRoles(body: any):Observable<any>{
-    return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, body);
-   }
-
-   updateRoles(id:any,body: any):Observable<any>{
-    return this.http.put(`${this.myAppUrl}${this.myApiUrl}${id}`, body);
-   }
 }

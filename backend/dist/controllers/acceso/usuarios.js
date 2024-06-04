@@ -116,7 +116,7 @@ const loginUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const user = yield usuario_1.default.findOne({ where: { username: username } });
     if (!user) {
         return res.status(400).json({
-            msg: `No existe un usuario registrado con el correo ${username}`
+            msg: `No existe un usuario registrado con el nombre ${username}`
         });
     }
     //Validamos Contraseña

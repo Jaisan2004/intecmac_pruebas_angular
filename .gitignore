@@ -6,3 +6,5 @@ backend/.env
 /frontend/intecma_comercial
 frontend/src/environments/environment.development.ts
 /frontend/src/environments
+backend/.env
+frontend/src/environments/environment.development.ts

@@ -116,7 +116,7 @@ export const loginUsuario= async (req: Request, res: Response)=>{
 
     if(!user){
         return res.status(400).json({
-            msg: `No existe un usuario registrado con el correo ${username}`
+            msg: `No existe un usuario registrado con el nombre ${username}`
         })
     }
 

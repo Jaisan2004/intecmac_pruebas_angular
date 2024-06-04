@@ -76,7 +76,7 @@ export class AgregarUsuarioComponent {
       this.spinner.hide();
     },
     (error) => {
-      this.toastr.error(`Error al registrar el cliente`, `Error`)
+      this.toastr.error(`Error al registrar el usuario`, `Error`)
       this.loading = false;
       this.spinner.hide();
     })
