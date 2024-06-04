@@ -8,23 +8,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const pqrs_plan_accion_1 = require("../../controllers/pqrs/pqrs_plan_accion");
 const pqrs_producto_1 = require("../../controllers/pqrs/pqrs_producto");
 const formsSelect_1 = require("../../controllers/formsSelect");
+const validad_token_1 = __importDefault(require("../validad_token"));
 const router = (0, express_1.Router)();
 //Pqrs productos
-router.post('/pqrs_producto/', pqrs_producto_1.postPqrsProducto);
-router.get('/pqrs_productos/:id', formsSelect_1.getInfoProducto);
-router.get('/pqrs_producto/:id', pqrs_producto_1.getPqrsProducto);
-router.put('/pqrs_producto/:id', pqrs_producto_1.updatePqrsProducto);
+router.post('/pqrs_producto/', validad_token_1.default, pqrs_producto_1.postPqrsProducto);
+router.get('/pqrs_productos/:id', validad_token_1.default, formsSelect_1.getInfoProducto);
+router.get('/pqrs_producto/:id', validad_token_1.default, pqrs_producto_1.getPqrsProducto);
+router.put('/pqrs_producto/:id', validad_token_1.default, pqrs_producto_1.updatePqrsProducto);
 //Pqrs Planes de accion
-router.get('/planes_accion/:id', pqrs_plan_accion_1.getPqrsPlanes);
-router.post('/plan_accion/', pqrs_plan_accion_1.postPlanPqrs);
-router.get('/plan_accion/:id', pqrs_plan_accion_1.getPlanPqrs);
-router.put('/plan_accion/:id', pqrs_plan_accion_1.updatePlanPqrs);
-router.post('/plan_accion_correo', function (req, res) {
+router.get('/planes_accion/:id', validad_token_1.default, pqrs_plan_accion_1.getPqrsPlanes);
+router.post('/plan_accion/', validad_token_1.default, pqrs_plan_accion_1.postPlanPqrs);
+router.get('/plan_accion/:id', validad_token_1.default, pqrs_plan_accion_1.getPlanPqrs);
+router.put('/plan_accion/:id', validad_token_1.default, pqrs_plan_accion_1.updatePlanPqrs);
+router.post('/plan_accion_correo', validad_token_1.default, function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { body } = req;
         yield pqrs_plan_accion_1.envioCorreoPlan.sendMail({
@@ -56,7 +60,7 @@ router.post('/plan_accion_correo', function (req, res) {
         res.status(200).json({ ok: true, message: "enviado" });
     });
 });
-router.post('/pqrs_creada', function (req, res) {
+router.post('/pqrs_creada', validad_token_1.default, function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { body } = req;
         yield pqrs_plan_accion_1.envioCorreoPlan.sendMail({

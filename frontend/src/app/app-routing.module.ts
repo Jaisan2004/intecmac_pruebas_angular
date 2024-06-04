@@ -18,6 +18,7 @@ import { ModificarUsuarioComponent } from './components/administrador/usuario/mo
 import { RolesComponent } from './components/administrador/roles/roles/roles.component';
 import { RolesAgregarComponent } from './components/administrador/roles/roles-agregar/roles-agregar.component';
 import { RolesModificarComponent } from './components/administrador/roles/roles-modificar/roles-modificar.component';
+import { ModulosComponent } from './components/administrador/modulos/modulos/modulos.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/Pqrs', pathMatch: 'full'},
@@ -48,6 +49,9 @@ const routes: Routes = [
   {path: "Roles", component: RolesComponent},
   {path:"AgregarRoles", component: RolesAgregarComponent},
   {path:"ModificarRoles/:id", component: RolesModificarComponent},
+
+  //Modulos
+  {path: "Modulos", component: ModulosComponent},
 
   {path: '**', component: PqrsComponent}
 

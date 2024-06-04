@@ -6,8 +6,8 @@ import validarToken from '../validad_token';
 const router = Router();
 
 router.get('/', validarToken, getClientes);
-router.get('/:id', getCliente);
-router.post('/', postCliente);
-router.put('/:id', updateCliente);
+router.get('/:id', validarToken,getCliente);
+router.post('/', validarToken, postCliente);
+router.put('/:id', validarToken, updateCliente);
 
 export default router;

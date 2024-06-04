@@ -1,15 +1,16 @@
 import {Router} from 'express';
 import { getLastPQRS, getPQRS, getPQRSs, postPQRS, updatePQRS, updatePQRSImage, upload } from '../../controllers/pqrs/pqrs';
+import validarToken from '../validad_token';
 
 
 const router = Router();
 
-router.get('/', getPQRSs);
-router.get('/obtener/:id', getPQRS);
-router.get('/ultimo_pqrs/', getLastPQRS);
-router.post('/', postPQRS);
-router.put('/agregarImg/:id', updatePQRSImage);
-router.post('/guardarImg/', upload.single('myFile'),(req, res)=>{
+router.get('/', validarToken,getPQRSs);
+router.get('/obtener/:id', validarToken,getPQRS);
+router.get('/ultimo_pqrs/', validarToken,getLastPQRS);
+router.post('/', validarToken,postPQRS);
+router.put('/agregarImg/:id', validarToken,updatePQRSImage);
+router.post('/guardarImg/', validarToken,upload.single('myFile'),(req, res)=>{
     const file = req.file?.filename
     res.json({data:'Imagen Cargada', url:`http://${process.env.DB_HOST}:${process.env.PORT||3001}/${file}`})
 });

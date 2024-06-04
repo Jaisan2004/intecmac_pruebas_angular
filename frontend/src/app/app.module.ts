@@ -33,7 +33,10 @@ import { ModificarUsuarioComponent } from './components/administrador/usuario/mo
 import { RolesComponent } from './components/administrador/roles/roles/roles.component';
 import { RolesAgregarComponent } from './components/administrador/roles/roles-agregar/roles-agregar.component';
 import { RolesModificarComponent } from './components/administrador/roles/roles-modificar/roles-modificar.component';
-
+import {MatDialogActions, MatDialogModule} from '@angular/material/dialog';
+import { ConfirmDialogComponent } from './components/aplicacion/confirm-dialog/confirm-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
+import { ModulosComponent } from './components/administrador/modulos/modulos/modulos.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +58,9 @@ import { RolesModificarComponent } from './components/administrador/roles/roles-
     ModificarUsuarioComponent,
     RolesComponent,
     RolesAgregarComponent,
-    RolesModificarComponent
+    RolesModificarComponent,
+    ConfirmDialogComponent,
+    ModulosComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +74,9 @@ import { RolesModificarComponent } from './components/administrador/roles/roles-
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [
     provideClientHydration(),

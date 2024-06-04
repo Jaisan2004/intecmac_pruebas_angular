@@ -2,25 +2,26 @@ import {Router} from 'express';
 import { envioCorreoPlan, getPlanPqrs, getPqrsPlanes, postPlanPqrs, updatePlanPqrs } from '../../controllers/pqrs/pqrs_plan_accion';
 import { getPqrsProducto, postPqrsProducto, updatePqrsProducto } from '../../controllers/pqrs/pqrs_producto';
 import { getInfoProducto } from '../../controllers/formsSelect';
+import validarToken from '../validad_token';
 
 
 const router = Router();
 
 //Pqrs productos
-router.post('/pqrs_producto/', postPqrsProducto);
-router.get('/pqrs_productos/:id', getInfoProducto);
-router.get('/pqrs_producto/:id', getPqrsProducto);
-router.put('/pqrs_producto/:id', updatePqrsProducto);
+router.post('/pqrs_producto/', validarToken,postPqrsProducto);
+router.get('/pqrs_productos/:id', validarToken,getInfoProducto);
+router.get('/pqrs_producto/:id', validarToken,getPqrsProducto);
+router.put('/pqrs_producto/:id', validarToken,updatePqrsProducto);
 
 //Pqrs Planes de accion
-router.get('/planes_accion/:id', getPqrsPlanes);
-router.post('/plan_accion/', postPlanPqrs);
-router.get('/plan_accion/:id', getPlanPqrs);
-router.put('/plan_accion/:id', updatePlanPqrs);
+router.get('/planes_accion/:id', validarToken,getPqrsPlanes);
+router.post('/plan_accion/', validarToken,postPlanPqrs);
+router.get('/plan_accion/:id', validarToken,getPlanPqrs);
+router.put('/plan_accion/:id', validarToken,updatePlanPqrs);
 
 
 
-router.post('/plan_accion_correo', async function(req, res){
+router.post('/plan_accion_correo', validarToken,async function(req, res){
     const {body} = req;
     await envioCorreoPlan.sendMail({
         from: `Planes de Accion Comercial ${process.env.EMAIL}`,
@@ -51,7 +52,7 @@ router.post('/plan_accion_correo', async function(req, res){
     res.status(200).json({ok: true, message: "enviado"})
 });
 
-router.post('/pqrs_creada', async function(req, res){
+router.post('/pqrs_creada', validarToken,async function(req, res){
     const {body} = req;
     await envioCorreoPlan.sendMail({
         from: `Creacion Nuevas PQRS ${process.env.EMAIL}`,

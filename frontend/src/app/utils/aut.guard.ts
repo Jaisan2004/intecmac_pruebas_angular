@@ -11,6 +11,7 @@ export const autGuard: CanActivateFn = async(route, state) => {
   let token;
   if (typeof window !== 'undefined' && window.localStorage) {
     token = localStorage.getItem('token');
+    console.log(token);
   }else{
     router.navigate(['/Login']);
     return false;

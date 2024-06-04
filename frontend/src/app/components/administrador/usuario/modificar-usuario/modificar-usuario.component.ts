@@ -27,10 +27,6 @@ export class ModificarUsuarioComponent {
     return this.formUsuarios.get('carg_id') as FormControl
   }
 
-  get usu_contrasena (){
-    return this.formUsuarios.get('usu_contrasena') as FormControl
-  }
-
   get rol_id (){
     return this.formUsuarios.get('rol_id') as FormControl
   }
@@ -43,10 +39,17 @@ export class ModificarUsuarioComponent {
     'usu_id': new FormControl({value: '', disabled: true}),
     'username': new FormControl('', [Validators.required, Validators.maxLength(100)]),
     'carg_id': new FormControl('', Validators.required),
-    'usu_contrasena': new FormControl('', [Validators.required, Validators.minLength(8),Validators.maxLength(300), Validators.pattern('(?=.*[a-z])(?=.*[0-9])(?=.*[^a-z0-9]).*')]),
     'rol_id': new FormControl('', Validators.required),
     'usu_status': new FormControl('', Validators.required)
   });
+
+  get usu_contrasena (){
+    return this.formContraseña.get('usu_contrasena') as FormControl
+  }
+
+  formContraseña = new FormGroup({
+    'usu_contrasena': new FormControl('', [Validators.required, Validators.minLength(8),Validators.maxLength(300), Validators.pattern('(?=.*[a-z])(?=.*[0-9])(?=.*[^a-z0-9]).*')]),
+  });  
 
   public loading: boolean | any;
 

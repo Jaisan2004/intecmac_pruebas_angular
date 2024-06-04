@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>{{data.title}}</h2>
+<div mat-dialog-content>{{data.mensaje}}</div>
+<div mat-dialog-actions>
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-outline-success" [mat-dialog-close]="false" style="width: 100%;">No</button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-outline-danger" style="width: 100%;" [mat-dialog-close]="true">Si</button>
+        </div>
+    </div>
+
+</div>
