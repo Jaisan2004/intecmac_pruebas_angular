@@ -19,6 +19,8 @@ import { RolesComponent } from './components/administrador/roles/roles/roles.com
 import { RolesAgregarComponent } from './components/administrador/roles/roles-agregar/roles-agregar.component';
 import { RolesModificarComponent } from './components/administrador/roles/roles-modificar/roles-modificar.component';
 import { ModulosComponent } from './components/administrador/modulos/modulos/modulos.component';
+import { ModulosAgregarComponent } from './components/administrador/modulos/modulos-agregar/modulos-agregar.component';
+import { ModulosModificarComponent } from './components/administrador/modulos/modulos-modificar/modulos-modificar.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/Pqrs', pathMatch: 'full'},
@@ -41,18 +43,23 @@ const routes: Routes = [
   //Administrasdor (Usuario, Roles,Modulos, Rutas, Permisos)
 
   //Usuarios
-  {path:"Usuarios", component: UsuarioComponent},
-  {path:"AgregarUsuarios", component: AgregarUsuarioComponent},
-  {path: "ModificarUsuarios/:id", component: ModificarUsuarioComponent},
-
+  {path:"Usuarios", component: UsuarioComponent, canActivate: [autGuard]},
+  {path:"AgregarUsuarios", component: AgregarUsuarioComponent, canActivate: [autGuard]},
+  {path: "ModificarUsuarios/:id", component: ModificarUsuarioComponent, canActivate: [autGuard]},
   //Roles
-  {path: "Roles", component: RolesComponent},
-  {path:"AgregarRoles", component: RolesAgregarComponent},
-  {path:"ModificarRoles/:id", component: RolesModificarComponent},
-
+  {path: "Roles", component: RolesComponent, canActivate: [autGuard]},
+  {path:"AgregarRoles", component: RolesAgregarComponent, canActivate: [autGuard]},
+  {path:"ModificarRoles/:id", component: RolesModificarComponent, canActivate: [autGuard]},
   //Modulos
-  {path: "Modulos", component: ModulosComponent},
+  {path: "Modulos", component: ModulosComponent, canActivate: [autGuard]},
+  {path: "AgregarModulos", component: ModulosAgregarComponent, canActivate: [autGuard]},
+  {path: "ModificarModulos/:id", component: ModulosModificarComponent, canActivate: [autGuard]},
+  //Componentes
+  {path: "Componentes/:id", component: ModulosComponent, canActivate: [autGuard]},
+  {path: "AgregarComponentes/:id", component: ModulosAgregarComponent, canActivate: [autGuard]},
+  {path: "ModificarComponentes/:id", component: ModulosModificarComponent, canActivate: [autGuard]},
 
+  //No existe ruta
   {path: '**', component: PqrsComponent}
 
 ];

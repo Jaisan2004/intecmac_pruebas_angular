@@ -37,6 +37,8 @@ import {MatDialogActions, MatDialogModule} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from './components/aplicacion/confirm-dialog/confirm-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
 import { ModulosComponent } from './components/administrador/modulos/modulos/modulos.component';
+import { ModulosAgregarComponent } from './components/administrador/modulos/modulos-agregar/modulos-agregar.component';
+import { ModulosModificarComponent } from './components/administrador/modulos/modulos-modificar/modulos-modificar.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { ModulosComponent } from './components/administrador/modulos/modulos/mod
     RolesAgregarComponent,
     RolesModificarComponent,
     ConfirmDialogComponent,
-    ModulosComponent
+    ModulosComponent,
+    ModulosAgregarComponent,
+    ModulosModificarComponent
   ],
   imports: [
     BrowserModule,

@@ -262,6 +262,7 @@ export class RolesModificarComponent {
     this.permisosNuevo = false;
     this.mod_id.setValue('');
     this.ruta_id.setValue('');
+    this.componente.setValue('');
   }
 
   openDialog(per_id: any, descripcion: any) {

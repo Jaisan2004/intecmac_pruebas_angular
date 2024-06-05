@@ -11,7 +11,6 @@ export const autGuard: CanActivateFn = async(route, state) => {
   let token;
   if (typeof window !== 'undefined' && window.localStorage) {
     token = localStorage.getItem('token');
-    console.log(token);
   }else{
     router.navigate(['/Login']);
     return false;
@@ -28,7 +27,6 @@ export const autGuard: CanActivateFn = async(route, state) => {
   });
   try {
     const permisos:any = await lastValueFrom(permiso(ruta));
-    console.log(permisos.permiso)
     if (permisos.permiso) {
       return true;
     } else {

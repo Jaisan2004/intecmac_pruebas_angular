@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRutasByComponente = void 0;
+exports.updateRuta = exports.postRuta = exports.getRuta = exports.getRutasByComponente = void 0;
 const ruta_1 = __importDefault(require("../../models/acceso/ruta"));
 const getRutasByComponente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
@@ -32,8 +32,69 @@ const getRutasByComponente = (req, res) => __awaiter(void 0, void 0, void 0, fun
     catch (error) {
         console.log(error);
         res.status(500).json({
-            msg: 'Error en el servidor al traer las rutas'
+            msg: 'Error en el servidor al traer las rutas hable con soporte'
         });
     }
 });
 exports.getRutasByComponente = getRutasByComponente;
+const getRuta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const ruta = yield ruta_1.default.findByPk(id);
+        if (ruta) {
+            res.json(ruta);
+        }
+        else {
+            res.status(404).json({
+                msg: `No existe una ruta con el id: ${id}`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error en el servidor al traer la ruta hable con soporte'
+        });
+    }
+});
+exports.getRuta = getRuta;
+const postRuta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { body } = req;
+    try {
+        yield ruta_1.default.create(body);
+        res.json({
+            msg: `Ruta ${body.ruta_nombre} creada exitosamente`
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error al crear la ruta hable con soporte'
+        });
+    }
+});
+exports.postRuta = postRuta;
+const updateRuta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { body } = req;
+    try {
+        const ruta = yield ruta_1.default.findByPk(id);
+        if (ruta) {
+            ruta.update(body);
+            res.json({
+                msg: `Ruta modificada exitosamente`
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: `No exite una ruta con el id: ${id}`
+            });
+        }
+    }
+    catch (error) {
+        res.status(500).json({
+            msg: 'Error en el sevidor al modificar la ruta hable con soporte'
+        });
+    }
+});
+exports.updateRuta = updateRuta;

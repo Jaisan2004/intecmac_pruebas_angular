@@ -2,12 +2,13 @@
 
 <ngx-spinner size="medium" color="#fff" type="square-jelly-box">
     <p style="color: white"> Cargando... </p>
-  </ngx-spinner>
-  
+</ngx-spinner>
+
 <div id="cuerpo">
     <div class="container">
 
-        <button class="btn btn-outline-dark" title="Volver al listado de Usuarios" routerLink="/Usuarios"><i class="bi bi-box-arrow-left"></i></button>
+        <button class="btn btn-outline-dark" title="Volver al listado de Usuarios" routerLink="/Usuarios"><i
+                class="bi bi-box-arrow-left"></i></button>
         <h1>Modificar Usuario</h1>
         <br>
         <form class="row  g-3" [formGroup]="formUsuarios">
@@ -16,8 +17,10 @@
             <div class="form-floating mb-3">
 
                 <input class="form-control" type="text" id="username" formControlName="username">
-                <label class="form-label" for="username" style="color: green;" *ngIf="username.valid">* Nombre de Usuario</label>
-                <label class="form-label" for="username" style="color: red;" *ngIf="username.invalid">* Nombre de Usuario</label>
+                <label class="form-label" for="username" style="color: green;" *ngIf="username.valid">* Nombre de
+                    Usuario</label>
+                <label class="form-label" for="username" style="color: red;" *ngIf="username.invalid">* Nombre de
+                    Usuario</label>
 
                 <div class="alert alert-danger" [hidden]="username.pristine || username.valid">
                     <span *ngIf="username.errors?.['required']">Por favor ingrese el Nombre de Usuario.</span>
@@ -26,27 +29,58 @@
 
             </div>
 
-            
+
             <!-- Contraseña -->
-            <div class="form-floating mb-3">
-                
-                <input class="form-control" type="text" id="usu_contrasena" formControlName="usu_contrasena">
-                <label class="form-label" for="usu_contrasena" *ngIf="usu_contrasena.valid">Contraseña</label>
-                <label class="form-label" for="usu_contrasena" style="color: red;" *ngIf="usu_contrasena.invalid">* Contraseña</label>
-                
-                <div class="alert alert-danger" [hidden]="usu_contrasena.pristine || usu_contrasena.valid">
-                    <span *ngIf="usu_contrasena.errors?.['required']">Por favor ingrese el Contraseña</span>
-                    <span *ngIf="usu_contrasena.errors?.['minlength']">La contraseña debe tener minimo 8 caracteres</span><br *ngIf="usu_contrasena.errors?.['minlength']">
-                    <span *ngIf="usu_contrasena.errors?.['pattern']">La contraseña debe cumplir con los siguientes requisitos:<br *ngIf="usu_contrasena.errors?.['pattern']">
-                        - Al menos un número.<br>
-                        - Al menos una letra minúscula.<br>
-                        - Al menos una letra mayúscula.<br>
-                        - O un carácter especial. </span><br>
-                    <span *ngIf="usu_contrasena.errors?.['maxlength']">Hay mas de 300 caracteres.</span>
+            <button class="btn btn-danger" (click)="cambiar=true" *ngIf="!cambiar">Combiar contraseña</button>
+            <form [formGroup]="formContrasena" *ngIf="cambiar">
+                <div class="form-floating mb-3">
+
+                    <input class="form-control" type="password" id="usu_contrasena" formControlName="usu_contrasena">
+                    <label class="form-label" for="usu_contrasena" *ngIf="usu_contrasena.valid">Contraseña</label>
+                    <label class="form-label" for="usu_contrasena" style="color: red;" *ngIf="usu_contrasena.invalid">*
+                        Contraseña</label>
+
+                    <div class="alert alert-danger" [hidden]="usu_contrasena.pristine || usu_contrasena.valid">
+                        <span *ngIf="usu_contrasena.errors?.['required']">Por favor ingrese la Contraseña</span>
+                        <span *ngIf="usu_contrasena.errors?.['minlength']">La contraseña debe tener minimo 8
+                            caracteres</span><br *ngIf="usu_contrasena.errors?.['minlength']">
+                        <span *ngIf="usu_contrasena.errors?.['pattern']">La contraseña debe cumplir con los
+                            siguientes
+                            requisitos:<br *ngIf="usu_contrasena.errors?.['pattern']">
+                            - Al menos un número.<br>
+                            - Al menos una letra minúscula.<br>
+                            - Al menos una letra mayúscula.<br>
+                            - O un carácter especial. </span><br>
+                        <span *ngIf="usu_contrasena.errors?.['maxlength']">Hay mas de 300 caracteres.</span>
+                    </div>
+
                 </div>
-                
-            </div>
-            
+                <div class="form-floating mb-3">
+
+                    <input class="form-control" type="password" id="confirmar" formControlName="confirmar">
+                    <label class="form-label" for="confirmar" *ngIf="confirmar.valid">Confirmar</label>
+                    <label class="form-label" for="confirmar" style="color: red;" *ngIf="confirmar.invalid">*
+                        Confirmar</label>
+
+                    <div class="alert alert-danger" [hidden]="confirmar.pristine || confirmar.valid">
+                        <span *ngIf="confirmar.errors?.['required']">Por favor confirme la Contraseña</span>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="mb-3 col-md-6">
+                        <button title="Cancelar cambio" class="btn btn-secondary btn-sm"
+                            style="width: 100%;" (click)="cambiar=false">Cancelar</button>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <button type="submit" title="Registrar al Usuarios" class="btn btn-warning btn-sm" style="width: 100%;"
+                            (click)="cambiarContrasena()" [disabled]="formContrasena.invalid||loading">{{(loading)?'Cargando...'
+                            : 'Cambiar'}}</button>
+                    </div>
+                </div>
+            </form>
+
             <!-- Cargo -->
             <div class="form-floating mb-3 col-md-6">
 
@@ -64,13 +98,13 @@
                 <div class="alert alert-danger" [hidden]="carg_id.untouched || carg_id.valid">
                     <span>Por favor seleccione el Cargo del Usuario.</span>
                 </div>
-                
+
             </div>
             <!-- Roles -->
             <div class="form-floating mb-3 col-md-6">
 
-                <select id="rol_id" class="form-select" name="rol_id"
-                    aria-label="Default select example" formControlName="rol_id">
+                <select id="rol_id" class="form-select" name="rol_id" aria-label="Default select example"
+                    formControlName="rol_id">
 
                     <option disabled selected>---Seleccione el Rol del Usuario---</option>
                     <option *ngFor="let option of dataRoles" [value]="option.rol_id">{{option.rol_nombre}}</option>
@@ -89,12 +123,12 @@
             <!-- Estado -->
             <div class="form-floating mb-3">
 
-                <select id="usu_status" class="form-select" name="usu_status"
-                    aria-label="Default select example" formControlName="usu_status">
+                <select id="usu_status" class="form-select" name="usu_status" aria-label="Default select example"
+                    formControlName="usu_status">
 
                     <option disabled selected>---Seleccione el Estado del Usuario---</option>
-                    <option value="1">Activo</option>
-                    <option value="2">Deshabilitado</option>
+                    <option value=1>Activo</option>
+                    <option value=0>Deshabilitado</option>
 
                 </select>
 
@@ -107,21 +141,23 @@
 
             </div>
 
+
             <div class="mb-3 col-md-6">
-                <button type="submit" title="Volver al listado de Usuarios" class="btn btn-secondary" style="width: 100%;" routerLink="/Usuarios">Volver</button>
+                <button title="Volver al listado de Usuarios" class="btn btn-secondary"
+                    style="width: 100%;" routerLink="/Usuarios">Volver</button>
             </div>
             <div class="mb-3 col-md-6">
-                <button type="submit" title="Registrar al Usuarios" class="btn btn-primary" style="width: 100%;" (click)="AgregarUsuario()"
-                    [disabled]="formUsuarios.invalid||loading">{{(loading)?'Cargando...'
-                    : 'Registrar'}}</button>
+                <button title="Actualizar informacion al Usuarios" class="btn btn-primary" style="width: 100%;"
+                    (click)="modificarUsuario()" [disabled]="formUsuarios.invalid||loading">{{(loading)?'Cargando...'
+                    : 'Actualizar'}}</button>
             </div>
 
-            <div class="alert alert-danger"  [hidden]="formUsuarios.valid">
-                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+            <div class="alert alert-danger" [hidden]="formUsuarios.valid">
+                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el
+                    formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
             </div>
         </form>
 
 
     </div>
 </div>
-

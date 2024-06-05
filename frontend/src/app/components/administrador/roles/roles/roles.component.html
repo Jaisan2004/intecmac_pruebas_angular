@@ -10,7 +10,7 @@
             <div class="col-md-11">
                 <h1>Roles</h1>
             </div>
-            <div class="col-md-1"><button title="Agregar nuevo Usuario"
+            <div class="col-md-1"><button title="Agregar nuevo Roles"
                     class="btn btn-success" type="submit"
                     routerLink="/AgregarRoles">Agregar</button></div>
         </div>
@@ -28,7 +28,7 @@
 
                 <ng-container matColumnDef="Acciones" stickyEnd>
                     <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                    <td id="columnas" mat-cell *matCellDef="let element"> <button title="Modificar Usuario"
+                    <td id="columnas" mat-cell *matCellDef="let element"> <button title="Modificar Roles"
                             class="btn btn btn-outline-light"
                             routerLink="/ModificarRoles/{{element.rol_id}}"><img
                                 src="../../../assets/img/lapiz.png"></button>
@@ -47,7 +47,7 @@
             </table>
             <br>
             <div *ngIf="dataSource.data.length === 0">
-                <h2>No Existen Usuarios en la Base de Datos</h2>
+                <h2>No Existen Roles en la Base de Datos</h2>
             </div>
             <br>
             <mat-paginator [pageSizeOptions]="[15, 20, 25]" showFirstLastButtons

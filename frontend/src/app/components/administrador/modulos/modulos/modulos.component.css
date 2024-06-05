@@ -1,0 +1,23 @@
+#cuerpo {
+  justify-content: center;
+  align-items: center;
+}
+
+.example-container {
+  position: relative;
+}
+
+.example-table-container {
+  position: relative;
+  text-align: center;
+  overflow: auto;
+}
+#columnas {
+    text-align: center;
+    width: 33%;
+  }
+
+th{
+    text-align: center;
+    width: 33%;
+}

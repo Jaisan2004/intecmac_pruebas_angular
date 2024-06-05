@@ -1,0 +1,46 @@
+<app-menu></app-menu>
+
+<ngx-spinner size="medium" color="#fff" type="square-jelly-box">
+    <p style="color: white"> Cargando... </p>
+  </ngx-spinner>
+  
+<div id="cuerpo">
+    <div class="container">
+
+        <button class="btn btn-outline-dark" title="Volver al listado de Modulos" [routerLink]="redireccionar"><i class="bi bi-box-arrow-left"></i></button>
+        <h1>Agregar {{title}}</h1>
+        <br>
+        <form class="row  g-3" [formGroup]="formModulos">
+
+            <!-- Rol Nombre -->
+            <div class="form-floating mb-3">
+
+                <input class="form-control" type="text" id="mod_nombre" formControlName="mod_nombre">
+                <label class="form-label" for="mod_nombre" style="color: green;" *ngIf="mod_nombre.valid">* Nombre del {{title}}</label>
+                <label class="form-label" for="mod_nombre" style="color: red;" *ngIf="mod_nombre.invalid">* Nombre del {{title}}</label>
+
+                <div class="alert alert-danger" [hidden]="mod_nombre.pristine || mod_nombre.valid">
+                    <span *ngIf="mod_nombre.errors?.['required']">Por favor ingrese el Nombre del {{title}}.</span>
+                    <span *ngIf="mod_nombre.errors?.['maxlength']">Hay mas de 100 caracteres.</span>
+                </div>
+
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <button type="submit" title="Volver al listado de Modulos" class="btn btn-secondary" style="width: 100%;" [routerLink]="redireccionar">Volver</button>
+            </div>
+            <div class="mb-3 col-md-6">
+                <button type="submit" title="Registrar al Cliente" class="btn btn-primary" style="width: 100%;" (click)="AgregarModulo()"
+                    [disabled]="formModulos.invalid||loading">{{(loading)?'Cargando...'
+                    : 'Registrar'}}</button>
+            </div>
+
+            <div class="alert alert-danger"  [hidden]="formModulos.valid">
+                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+

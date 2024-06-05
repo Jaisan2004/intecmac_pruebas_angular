@@ -6,12 +6,12 @@ import sequelize from '../../db/connection';
 import { QueryTypes } from 'sequelize';
 import { jwtDecode } from 'jwt-decode';
 
-export const getUsers= async(req:Request, res:Response)=>{
-    const query= 'SELECT usu.usu_id, usu.username, usu.carg_id, c.carg_nombre, c.carg_correo,usu.usu_contrasena,usu.rol_id, ar.rol_nombre, usu.usu_status,'+
-    ' if(usu.usu_status = 1, "Activo", "Deshabilitado") as estado FROM usuarios usu join cargos c on c.carg_id=usu.carg_id'+
-    ' join acc_roles ar on ar.rol_id = usu.rol_id ORDER BY usu.username,usu.usu_status;'
+export const getUsers = async (req: Request, res: Response) => {
+    const query = 'SELECT usu.usu_id, usu.username, usu.carg_id, c.carg_nombre, c.carg_correo,usu.usu_contrasena,usu.rol_id, ar.rol_nombre, usu.usu_status,' +
+        ' if(usu.usu_status = 1, "Activo", "Deshabilitado") as estado FROM usuarios usu join cargos c on c.carg_id=usu.carg_id' +
+        ' join acc_roles ar on ar.rol_id = usu.rol_id ORDER BY usu.username,usu.usu_status;'
 
-    const listUsuarios = await sequelize.query(query,{
+    const listUsuarios = await sequelize.query(query, {
         type: QueryTypes.SELECT,
     });
 
@@ -24,34 +24,34 @@ export const getUsers= async(req:Request, res:Response)=>{
     }
 }
 
-export const getUser = async(req: Request, res: Response) =>{
-    const {id} = req.params;
+export const getUser = async (req: Request, res: Response) => {
+    const { id } = req.params;
 
     const usuario = await Usuarios.findByPk(id);
 
-    if(usuario){
+    if (usuario) {
         res.json(usuario)
-    }else{
+    } else {
         res.status(400).json({
             msg: `No existe un usuario con el id ${id}`
         })
     }
 }
 
-export const postUser = async(req: Request, res: Response) => {
+export const postUser = async (req: Request, res: Response) => {
 
-    const {username, carg_id, usu_contrasena, rol_id} = req.body;
-    
+    const { username, carg_id, usu_contrasena, rol_id } = req.body;
+
     //Validaciones de usuario
-    const usuario = await Usuarios.findOne({where:{username: username}});
+    const usuario = await Usuarios.findOne({ where: { username: username } });
 
-    if(usuario){
+    if (usuario) {
         return res.status(400).json({
-            msg:"Ya existe un usuario con este nombre"
+            msg: "Ya existe un usuario con este nombre"
         })
     }
 
-    const hashContraseña=await bcrypt.hash(usu_contrasena, 10);
+    const hashContraseña = await bcrypt.hash(usu_contrasena, 10);
 
     try {
         await Usuarios.create({
@@ -62,7 +62,7 @@ export const postUser = async(req: Request, res: Response) => {
         })
         res.json({
             message: `Usuario ${username} Creado exitosamente`,
-        })     
+        })
     } catch (error) {
         res.status(400).json({
             msg: `ups ocurrio un error`,
@@ -70,23 +70,33 @@ export const postUser = async(req: Request, res: Response) => {
         })
     }
 
-    
+
 }
 
-export const updateUser = async(req: Request, res: Response)=>{
-    const { username, carg_id, usu_contrasena,rol_id} = req.body;
+export const updateUser = async (req: Request, res: Response) => {
+    const { username, carg_id, usu_contrasena, rol_id, usu_status } = req.body;
     const { id } = req.params;
 
-    const hashContraseña=await bcrypt.hash(usu_contrasena, 10);
+    let body;
 
-    const body = {
-        username: username,
-        carg_id: carg_id,
-        usu_contrasena: hashContraseña,
-        rol_id: rol_id,
+    if (usu_contrasena) {
+        const hashContraseña = await bcrypt.hash(usu_contrasena, 10);
+
+        body = {
+            usu_contrasena: hashContraseña
+        }
+    } else {
+        body = {
+            username: username,
+            carg_id: carg_id,
+            rol_id: rol_id,
+            usu_status: usu_status
+        }
     }
+
+
     try {
-        
+
         const usuario = await Usuarios.findByPk(id)
         if (usuario) {
             usuario.update(body);
@@ -107,14 +117,14 @@ export const updateUser = async(req: Request, res: Response)=>{
     }
 }
 
-export const loginUsuario= async (req: Request, res: Response)=>{
+export const loginUsuario = async (req: Request, res: Response) => {
 
-    const {username, password} = req.body;
-    
+    const { username, password } = req.body;
+
     //Validamos si el usuario existe en la base de datos
-    const user = await Usuarios.findOne({where: {username: username}});
+    const user = await Usuarios.findOne({ where: { username: username } });
 
-    if(!user){
+    if (!user) {
         return res.status(400).json({
             msg: `No existe un usuario registrado con el nombre ${username}`
         })
@@ -122,71 +132,71 @@ export const loginUsuario= async (req: Request, res: Response)=>{
 
     //Validamos Contraseña
     const contraseñaValida = await bcrypt.compare(password, user.usu_contrasena)
-    
-    if(!contraseñaValida){
+
+    if (!contraseñaValida) {
         return res.status(400).json({
             msg: `Contraseña incorrecta`
         })
     }
 
-    if(user.usu_status == 0){
+    if (user.usu_status == 0) {
         return res.status(403).json({
             msg: `El usuario ${username} esta inactivo hable con el administrador`
         })
     }
-    
+
     const rol = user.rol_id
     //Generamos Token
-    const token=jwt.sign({
+    const token = jwt.sign({
         "username": `${username}`,
         "rol": `${rol}`
-    },process.env.SECRET_KEY || 'intecma2024', {
+    }, process.env.SECRET_KEY || 'intecma2024', {
         //expiresIn: '10000'
     });
 
-    res.json({token});
+    res.json({ token });
 }
 
-export const permisosUsuario = async (req: Request, res: Response)=>{
-    const {pagina} = req.body
+export const permisosUsuario = async (req: Request, res: Response) => {
+    const { pagina } = req.body
     const headerToken = req.headers['authorization'];
 
     const bearerToken = headerToken?.slice(7);
 
     let tokenDecode: any;
 
-    if(bearerToken){
-        tokenDecode=jwtDecode(bearerToken);
-    } else{
+    if (bearerToken) {
+        tokenDecode = jwtDecode(bearerToken);
+    } else {
         res.status(406).json({
             msg: 'Sin permisos'
         })
     }
 
-    if(pagina == undefined){
+    if (pagina == undefined) {
         res.status(400).json({
-            msg:'Pagina no encontrada'
+            msg: 'Pagina no encontrada'
         })
     }
 
     const rol = tokenDecode.rol;
-    
-    const query = `SELECT ar.rol_nombre, aru.ruta_nombre FROM acc_roles ar JOIN acc_permisos ap `+
-    `on ar.rol_id = ap.rol_id join acc_rutas aru on aru.ruta_id = ap.ruta_id where aru.ruta_nombre = '${pagina}' and ar.rol_id= ${rol};`
+
+    const query = `SELECT ar.rol_nombre, aru.ruta_nombre FROM acc_roles ar JOIN acc_permisos ap ` +
+        `on ar.rol_id = ap.rol_id join acc_rutas aru on aru.ruta_id = ap.ruta_id where aru.ruta_nombre = '${pagina}' and ar.rol_id= ${rol};`
 
     const permisos = await sequelize.query(query, {
         type: QueryTypes.SELECT
     });
 
-    if(permisos.length !== 0){
+    if (permisos.length !== 0) {
         return res.json({
             permisos,
-            permiso:  true
+            permiso: true
         });
-    }else{
+    } else {
         return res.json({
             permiso: false
         })
     }
-    
+
 }

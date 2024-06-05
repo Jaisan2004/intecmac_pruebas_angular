@@ -34,4 +34,8 @@ export class UsuariosService {
    postUsuarios(body:any):Observable<any>{
     return this.http.post(`${this.myAppUrl}${this.myApiUrl}nuevo`,body);
    }
+
+   updateUsuarios(id:any, body:any): Observable<any>{
+    return this.http.put(`${this.myAppUrl}${this.myApiUrl}${id}`, body);
+   }
 }

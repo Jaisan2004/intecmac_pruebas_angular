@@ -12,4 +12,5 @@ router.get('/:id', usuarios_1.getUser);
 router.post('/nuevo', usuarios_1.postUser);
 router.post('/login', usuarios_1.loginUsuario);
 router.post('/permisos', validad_token_1.default, usuarios_1.permisosUsuario);
+router.put('/:id', usuarios_1.updateUser);
 exports.default = router;

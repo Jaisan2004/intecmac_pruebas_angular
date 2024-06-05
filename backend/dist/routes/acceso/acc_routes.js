@@ -19,8 +19,14 @@ router.put('/permisos/:id', permisos_1.updatePermiso);
 router.delete('/permisos/:id', permisos_1.deletePermiso);
 //Modulos
 router.get('/modulos', modulo_1.getModulos);
+router.get('/modulos/:id', modulo_1.getModulo);
+router.post('/modulos', modulo_1.postModulo);
+router.put('/modulos/:id', modulo_1.updateModulo);
 //Componentes
 router.get('/componentes/:id', modulo_1.getComponentes);
 //Rutas
 router.get('/rutas/:id', ruta_1.getRutasByComponente);
+router.get('/ruta/:id', ruta_1.getRuta);
+router.post('/rutas', ruta_1.postRuta);
+router.put('/rutas/:id', ruta_1.updateRuta);
 exports.default = router;

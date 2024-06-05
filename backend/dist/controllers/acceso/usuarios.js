@@ -79,15 +79,22 @@ const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.postUser = postUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, carg_id, usu_contrasena, rol_id } = req.body;
+    const { username, carg_id, usu_contrasena, rol_id, usu_status } = req.body;
     const { id } = req.params;
-    const hashContraseña = yield bcrypt_1.default.hash(usu_contrasena, 10);
-    const body = {
-        username: username,
-        carg_id: carg_id,
-        usu_contrasena: hashContraseña,
-        rol_id: rol_id,
-    };
+    let body;
+    if (usu_contrasena) {
+        const hashContraseña = yield bcrypt_1.default.hash(usu_contrasena, 10);
+        body = {
+            usu_contrasena: hashContraseña
+        };
+    }
+    else {
+        body = {
+            username: username,
+            carg_id: carg_id,
+            rol_id: rol_id,
+        };
+    }
     try {
         const usuario = yield usuario_1.default.findByPk(id);
         if (usuario) {

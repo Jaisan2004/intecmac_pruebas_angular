@@ -20,7 +20,70 @@ export const getRutasByComponente = async (req: Request, res: Response) =>{
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            msg: 'Error en el servidor al traer las rutas'
+            msg: 'Error en el servidor al traer las rutas hable con soporte'
+        })
+    }
+}
+
+export const getRuta = async (req: Request, res: Response)=>{
+    const {id} = req.params;
+
+    try {
+        const ruta = await Rutas.findByPk(id);
+
+        if(ruta){
+            res.json(ruta);
+        }else{
+            res.status(404).json({
+                msg: `No existe una ruta con el id: ${id}`
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error en el servidor al traer la ruta hable con soporte'
+        })
+    }
+}
+
+export const postRuta = async (req: Request, res: Response)=>{
+    const {body} = req;
+
+    try {
+        await Rutas.create(body);
+
+        res.json({
+            msg: `Ruta ${body.ruta_nombre} creada exitosamente`
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error al crear la ruta hable con soporte'
+        }); 
+    }
+}
+
+export const updateRuta = async (req: Request, res: Response)=>{
+    const {id} = req.params;
+    const {body} = req;
+
+    try {
+        const ruta = await Rutas.findByPk(id);
+
+        if(ruta){
+            ruta.update(body);
+
+            res.json({
+                msg: `Ruta modificada exitosamente`
+            })
+        } else {
+            res.status(404).json({
+                msg: `No exite una ruta con el id: ${id}`
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Error en el sevidor al modificar la ruta hable con soporte'
         })
     }
 }
