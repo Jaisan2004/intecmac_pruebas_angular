@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-05-2024 a las 23:51:14
+-- Tiempo de generación: 06-06-2024 a las 00:00:26
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,138 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `pruebas`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `acc_modulos`
+--
+
+CREATE TABLE `acc_modulos` (
+  `mod_id` int(5) NOT NULL,
+  `mod_nombre` varchar(100) NOT NULL,
+  `mod_id_padre` int(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `acc_modulos`
+--
+
+INSERT INTO `acc_modulos` (`mod_id`, `mod_nombre`, `mod_id_padre`) VALUES
+(1, 'PQRS', NULL),
+(2, 'Planes Acción Pqrs', 1),
+(3, 'CLIENTES', NULL),
+(4, 'Pqrs', 1),
+(5, 'Cliente', 3),
+(6, 'ADMINISTRADOR', NULL),
+(7, 'Usuarios', 6),
+(8, 'Roles', 6),
+(9, 'Módulos', 6),
+(10, 'Componentes', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `acc_permisos`
+--
+
+CREATE TABLE `acc_permisos` (
+  `per_id` int(5) NOT NULL,
+  `rol_id` int(5) NOT NULL,
+  `ruta_id` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `acc_permisos`
+--
+
+INSERT INTO `acc_permisos` (`per_id`, `rol_id`, `ruta_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 1, 4),
+(5, 1, 5),
+(6, 1, 6),
+(7, 1, 7),
+(8, 1, 8),
+(10, 2, 1),
+(11, 2, 2),
+(12, 2, 3),
+(13, 2, 4),
+(14, 2, 5),
+(15, 2, 6),
+(16, 1, 9),
+(17, 1, 10),
+(18, 1, 11),
+(19, 1, 12),
+(20, 1, 14),
+(21, 1, 13),
+(22, 1, 15),
+(23, 1, 16),
+(24, 1, 17),
+(25, 1, 18),
+(26, 1, 19),
+(27, 1, 20),
+(28, 1, 21);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `acc_roles`
+--
+
+CREATE TABLE `acc_roles` (
+  `rol_id` int(5) NOT NULL,
+  `rol_nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `acc_roles`
+--
+
+INSERT INTO `acc_roles` (`rol_id`, `rol_nombre`) VALUES
+(1, 'SUPER_ADMIN'),
+(2, 'Asesor');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `acc_rutas`
+--
+
+CREATE TABLE `acc_rutas` (
+  `ruta_id` int(5) NOT NULL,
+  `ruta_nombre` varchar(1000) NOT NULL,
+  `ruta_descripcion` varchar(5000) NOT NULL,
+  `mod_id` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `acc_rutas`
+--
+
+INSERT INTO `acc_rutas` (`ruta_id`, `ruta_nombre`, `ruta_descripcion`, `mod_id`) VALUES
+(1, 'Pqrs', 'Permite al usuario ver el listado de las PQRS creadas y filtrarlas', 4),
+(2, 'AgregarPqrs', 'Permite al usuario crear nuevas PQRS', 4),
+(3, 'ModificarPqrs', 'Permite al usuario modificar las PQRS ya existentes', 4),
+(4, 'PlanAccionPqrs', 'Permite al usuario acceder al listado de planes de mejora que tiene cada PQRS', 2),
+(5, 'AgregarPlanAccionPqrs', 'Permite al usuario crear nuevos planes de acción a las PQRS', 2),
+(6, 'ModificarPlanAccionPqrs', 'Permite al usuario modificar planes de acción ya existentes en la pqrs', 2),
+(7, 'Clientes', 'Permite al usuario acceder al listado de clientes creados y filtrarlos', 5),
+(8, 'AgregarClientes', 'Permite al usuario crear nuevo clientes en la base de datos', 5),
+(9, 'ModificarClientes', 'Permite al usuario modificar la información de los clientes ya existentes', 5),
+(10, 'Usuarios', 'Permite al usuario acceder al listado de usuarios y ver su información', 7),
+(11, 'AgregarUsuarios', 'Permite al usuario crear nuevos Usuarios en el sistema y asignarle un rol', 7),
+(12, 'ModificarUsuarios', 'Permite al usuario modificar información de los usuarios ya existentes incluido su rol', 7),
+(13, 'Roles', 'Permite al usuario acceder al listado de roles existentes en la base de datos.', 8),
+(14, 'AgregarRoles', 'Permite al usuario agregar nuevos roles pero no puede asignar permisos', 8),
+(15, 'ModificarRoles', 'Permite al usuario modificar los roles y asignar los permisos hasta que parte de la aplicación pueden acceder.', 8),
+(16, 'Modulos', 'Permite al usuario acceder al listado de módulos de la aplicación.', 9),
+(17, 'AgregarModulos', 'Permite al usuario crear módulos que tenga la aplicación y aun no estén registrados', 9),
+(18, 'ModificarModulos', 'Permite al usuario modificar los nombres de los módulos ya existentes.', 9),
+(19, 'Componentes', 'Permite al usuario acceder al listado de los componentes que tiene cada modulo.', 10),
+(20, 'AgregarComponentes', 'Permite al usuario agregar componentes a los módulos registrados en el sistema.', 10),
+(21, 'ModificarComponentes', 'Permite a usuario modificar el nombre de los componentes y añadir rutas de la aplicación que pertenezcan al Componente del modulo.', 10);
 
 -- --------------------------------------------------------
 
@@ -81,21 +213,21 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`cli_id`, `cli_nombre`, `cli_nit`, `id_clasificacion`, `cli_direccion`, `cli_telefono`, `cli_ciudad`, `cli_zona`, `cli_asesor_nombre`, `cli_pp_sistema`) VALUES
-(1, 'A B SEÑALIZACION  S A S', '800145548', 5, 'CL  136   47  24', '6267445', 5, 1, 'ELIANA MARCELA VARGAS CORREA', 0),
-(2, 'AC INVERSIONES MEDICAS S A S', '901257549', 1, 'CL  23  B   3  N  86', '3156122166', 7, 1, 'VENTAS VALLE', 0),
-(3, 'ADRIAN LARGO SEPULVEDA', '1027954420', 1, 'CL  83   114  13', '3016738716', 2, 1, 'VENTAS ANTIOQUIA', 0),
-(4, 'ADRIANA CABEZAS CORREDOR', '52391591', 1, 'KR 92 128 68', '312 5311548', 5, 1, 'YENNY CATALINA RAMIREZ BUSTOS', 0),
-(5, 'ALBA FLOR FORERO', '38255449', 4, 'KR 21 SUR 145-77 AP 601 T 21  ARBOLEDA DEL CAMPESTRE', '3143391737', 20, 1, 'VENTAS TOLIMA - HUILA', 0),
-(6, 'ALENO  S.A.S.', '901043022', 1, 'CL  3   11  E  39   LC 2  BRR QUINTA ORIENTAL', '5704456', 12, 1, 'VENTAS SANTANDERES', 0),
+(1, 'A B SEÑALIZACION  S A S', '800145548', 5, 'CL  136   47  24', '6267445', 5, 34, 'ELIANA MARCELA VARGAS CORREA', 0),
+(2, 'AC INVERSIONES MEDICAS S A S', '901257549', 1, 'CL  23  B   3  N  86', '3156122166', 7, 36, 'VENTAS VALLE', 0),
+(3, 'ADRIAN LARGO SEPULVEDA', '1027954420', 1, 'CL  83   114  13', '3016738716', 2, 31, 'VENTAS ANTIOQUIA', 0),
+(4, 'ADRIANA CABEZAS CORREDOR', '52391591', 1, 'KR 92 128 68', '312 5311548', 5, 34, 'YENNY CATALINA RAMIREZ BUSTOS', 0),
+(5, 'ALBA FLOR FORERO', '38255449', 4, 'KR 21 SUR 145-77 AP 601 T 21  ARBOLEDA DEL CAMPESTRE', '3143391737', 20, 49, 'VENTAS TOLIMA - HUILA', 0),
+(6, 'ALENO  S.A.S.', '901043022', 1, 'CL  3   11  E  39   LC 2  BRR QUINTA ORIENTAL', '5704456', 12, 41, 'VENTAS SANTANDERES', 0),
 (7, 'ALEXANDER URIBE LONDOÑO', '71783076', 1, 'CL 106 64 D 36', '2678327', 27, 1, 'VENTAS ANTIOQUIA', 0),
 (8, 'ALEXANDRA CIFUENTES ANTURI', '38361856', 1, 'CL  33   4  A  69    BRR LA FRANCIA', '2665346', 20, 1, 'VENTAS TOLIMA - HUILA', 0),
 (9, 'ALFA LATINA S.A.S', '901001978', 1, 'CR  32  A   17  51  BRR SAN ALONSO', '3016702478', 6, 1, 'VENTAS SANTANDERES', 30),
 (10, 'ALFAMEDICAL JE S A S', '900776657', 1, 'CL  50   3  42   BRR LAGOS II ', ' CALLE 29 11-18;6483297', 16, 1, 'VENTAS SANTANDERES', 30),
 (11, 'ALFONSO TRIBIN GOMEZ', '79786994', 5, 'CR  9   116  20  CONS  830', '3118093253', 5, 1, 'ELIANA MARCELA VARGAS CORREA', 0),
-(12, 'ALLERS S.A.', '890312452', 1, 'KR 67 1 B 35 BRR EL REFUGIO', '7043725', 7, 1, 'VENTAS VALLE', 30),
+(12, 'ALLERS S.A.', '890312452', 1, 'KR 67 1 B 35 BRR EL REFUGIO', '7043725', 7, 36, 'VENTAS VALLE', 30),
 (13, 'ALMACEN DE ELEMENTOS MEDICOS (ELEMED) LIMITADA', '830084368', 1, 'CL  42   8  A  19', '2323862', 5, 10, 'YENNY CATALINA RAMIREZ BUSTOS', 15),
 (14, 'ALMACEN ORTOPEDICO OLAYA SAS', '901017982', 1, 'CR  16   48  23', '2885849', 5, 26, 'YENNY CATALINA RAMIREZ BUSTOS', 15),
-(15, 'ALMACENADORA Y DEPOSITO MEDICAL LIVING S.A.S.', '901333074', 1, 'CL  68   13  30   BRR LA VICTORIA', '3227634321', 12, 1, 'VENTAS SANTANDERES', 30),
+(15, 'ALMACENADORA Y DEPOSITO MEDICAL LIVING S.A.S.', '901333074', 1, 'CL  68   13  30   BRR LA VICTORIA', '3227634321', 12, 41, 'VENTAS SANTANDERES', 30),
 (16, 'ALPROTEC S.A.S.', '900318900', 1, 'CR  15   79  65   LC  402  B', '3196828949', 5, 10, 'YENNY CATALINA RAMIREZ BUSTOS', 0),
 (17, 'ALVARO ORTIZ SOTO', '17643538', 1, 'KR  4   5  81   BRR PAEZ', '3146266648', 23, 1, 'VENTAS TOLIMA - HUILA', 0),
 (18, 'AMANDA URIBE SAAVEDRA', '28403756', 5, 'KR  17   6  24   AP  103   ED  GONSIL 15   BRR ALGARRA 3', '3192671099', 50, 1, 'MERCADEO', 0),
@@ -692,7 +824,56 @@ INSERT INTO `cliente_zona` (`cz_id`, `cz_nombre`, `c_c_id`) VALUES
 (27, 'TOBERIN', 5),
 (28, 'TUNJUELITO', 5),
 (29, 'USAQUEN', 5),
-(30, 'USME', 5);
+(30, 'USME', 5),
+(31, 'N.A', 2),
+(32, 'N.A', 3),
+(33, 'N.A', 4),
+(34, 'N.A', 5),
+(35, 'N.A', 6),
+(36, 'N.A', 7),
+(37, 'N.A', 8),
+(38, 'N.A', 9),
+(39, 'N.A', 10),
+(40, 'N.A', 11),
+(41, 'N.A', 12),
+(42, 'N.A', 13),
+(43, 'N.A', 14),
+(44, 'N.A', 15),
+(45, 'N.A', 16),
+(46, 'N.A', 17),
+(47, 'N.A', 18),
+(48, 'N.A', 19),
+(49, 'N.A', 20),
+(50, 'N.A', 21),
+(51, 'N.A', 22),
+(52, 'N.A', 23),
+(53, 'N.A', 24),
+(54, 'N.A', 25),
+(55, 'N.A', 26),
+(56, 'N.A', 27),
+(57, 'N.A', 28),
+(58, 'N.A', 29),
+(59, 'N.A', 30),
+(60, 'N.A', 31),
+(61, 'N.A', 32),
+(62, 'N.A', 33),
+(63, 'N.A', 34),
+(64, 'N.A', 35),
+(65, 'N.A', 36),
+(66, 'N.A', 37),
+(67, 'N.A', 38),
+(68, 'N.A', 39),
+(69, 'N.A', 40),
+(70, 'N.A', 41),
+(71, 'N.A', 42),
+(72, 'N.A', 43),
+(73, 'N.A', 44),
+(74, 'N.A', 45),
+(75, 'N.A', 46),
+(76, 'N.A', 47),
+(77, 'N.A', 48),
+(78, 'N.A', 49),
+(79, 'N.A', 50);
 
 -- --------------------------------------------------------
 
@@ -722,20 +903,14 @@ CREATE TABLE `pqrs` (
 --
 
 INSERT INTO `pqrs` (`pqrs_id`, `pqrs_fecha_recepcion`, `cli_id`, `pqrs_doc`, `pqrs_evidencia`, `pqrs_descripcion`, `pqrs_analisis`, `costo`, `pqrs_causa_raiz_id`, `carg_id`, `pt_id`, `pqrs_fecha_respuesta`, `pqrs_documento_cruce`, `pqrs_estado`) VALUES
-(1, '2024-05-08', 1, 'Documento-001', 'http://192.168.1.17:3000/EvidenciaPqrs1.jpg?t=1715693603676', 'Esta es una descripción de prueba para la PQRS 1.', 'Análisis de la PQRS 1.', '100.000', 1, 5, 1, '2024-05-14', 'Documento-002', 2),
-(2, '2024-05-08', 112, 'FV', 'http://192.168.1.17:3000/EvidenciaPqrs20.jpg?t=1715276495199', 'El cliente manifiesta que en uno de los paquetes del producto salio un cabello, el cliente solicita que se transmita el reclamo al proveedor pero no quieren cambio, solo realizan la observación', 'Se realizó reclamo al proveedor donde manifiestan que cuentan con estrictos controles de calidad pero que sin embargo van a reforzar dichos controles para que este tipo de situaciones no se vuelvan a presentar.', '0', 2, 15, 3, '2024-05-09', 'N.A', 2),
-(3, '2024-05-08', 169, 'FV', 'http://192.168.1.17:3000/EvidenciaPqrs21.png?t=1715276463015', 'El cliente recibió el pedido y al momento de abrirlo una de las cajas (display) estaba en mal estado, según reporta el cliente al parecer la caja externa colapsó por manipulación e hizo que el display sufriera avería, el cliente reporta la situación para que revisemos el proceso pero va a dejar la mercancía pues vende los yesos por unidad.', 'Desafortunadamente el cliente no dejó observación en la guía al momento de la recepción pues no era evidente la avería, se refuerza a través del comercial al cliente que en este tipo de situaciones se debe dejar la anotación en la guía para proceder a la reclamación con la transportadora.', '0', 4, 13, 3, '2024-05-09', 'N.A', 2),
-(4, '2024-05-20', 169, 'FV', '', 'lksdnfurilskdmnjf', '', '', 0, 0, 0, '0000-00-00', '', 1),
-(5, '2024-05-20', 5, 'FV', '', 'Prueba de creacion', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
-(6, '2024-05-20', 104, 'FV', '', 'Prueba de creacion', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
-(7, '2024-05-20', 4, 'FV', '', 'dasdf', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
-(8, '2024-05-20', 4, 'FV', '', 'Prueba de creacion', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
-(9, '2024-05-20', 198, 'FV', 'http://192.168.1.18:3000/EvidenciaPqrs9.png?t=1716238716840', 'Si funciona', NULL, NULL, 7, 16, 1, '2024-05-20', NULL, 2),
-(10, '2024-05-20', 5, 'FV', '', 'Siuuuu', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
-(11, '2024-05-20', 5, 'sads', '', 'sadsfd', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
-(12, '2024-05-20', 7, 'sadsfdfgdgf', '', 'asddfderrrtt', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
-(13, '2024-05-20', 4, 'dac', '', '125498', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
-(14, '2024-05-20', 5, 'Documento', '', 'Prueba', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1);
+(1, '2024-05-12', 1, 'Documento-001', 'http://192.168.1.18:3000/EvidenciaPqrs1.jpg?t=1715693603676', 'Esta es una descripción de prueba para la PQRS 1.', 'Análisis de la PQRS 1.', '100.000', 1, 5, 1, '2024-05-14', 'Documento-002', 2),
+(65, '2024-05-08', 112, 'FV', 'http://192.168.1.18:3000/EvidenciaPqrs20.jpg?t=1715276495199', 'El cliente manifiesta que en uno de los paquetes del producto salió un cabello, el cliente solicita que se transmita el reclamo al proveedor pero no quieren cambio, solo realizan la observación', 'Se realizó reclamo al proveedor donde manifiestan que cuentan con estrictos controles de calidad pero que sin embargo van a reforzar dichos controles para que este tipo de situaciones no se vuelvan a presentar.', '0', 2, 15, 3, '2024-05-09', 'N.A', 2),
+(66, '2024-05-08', 169, 'FV', 'http://192.168.1.18:3000/EvidenciaPqrs21.png?t=1715276463015', 'El cliente recibió el pedido y al momento de abrirlo una de las cajas (display) estaba en mal estado, según reporta el cliente al parecer la caja externa colapsó por manipulación e hizo que el display sufriera avería, el cliente reporta la situación para que revisemos el proceso pero va a dejar la mercancía pues vende los yesos por unidad.', 'Desafortunadamente el cliente no dejó observación en la guía al momento de la recepción pues no era evidente la avería, se refuerza a través del comercial al cliente que en este tipo de situaciones se debe dejar la anotación en la guía para proceder a la reclamación con la transportadora.', '0', 4, 13, 3, '2024-05-09', 'N.A', 2),
+(67, '2024-05-29', 5, 'FV', '', 'asdsf', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
+(68, '2024-05-29', 77, 'Documento-001', '', 'Prueba de correos de creacion PQRS', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
+(69, '2024-05-29', 299, 'Documento prueba', '', 'Prueba que se cree ser la Ultima fallara algo? :o', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
+(70, '2024-05-29', 296, 'dac', '', 'Prueba en la version de ´Produccion de desarrollo', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
+(71, '2024-05-29', 14, 'FV', 'http://192.168.1.18:3000/EvidenciaPqrs71.png?t=1717017653338', 'Prueba con correos en el .env', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -797,6 +972,7 @@ CREATE TABLE `pqrs_plan_accion` (
   `ppa_descripcion` varchar(5000) NOT NULL,
   `ppa_fecha_cumplimiento` date DEFAULT NULL,
   `carg_id` int(5) NOT NULL,
+  `ppa_observaciones` varchar(5000) DEFAULT NULL,
   `pqrs_id` int(5) NOT NULL,
   `ppa_estado` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -805,9 +981,9 @@ CREATE TABLE `pqrs_plan_accion` (
 -- Volcado de datos para la tabla `pqrs_plan_accion`
 --
 
-INSERT INTO `pqrs_plan_accion` (`ppa_id`, `ppa_fecha_inicio`, `ppa_descripcion`, `ppa_fecha_cumplimiento`, `carg_id`, `pqrs_id`, `ppa_estado`) VALUES
-(1, '2024-05-08', 'REALIZAR RECLAMO AL PROVEEDOR', '2024-05-08', 0, 2, 'CERRADO'),
-(2, '2024-05-08', 'INFORMAR AL CLIENTE RESPUESTA DEL PROVEEDOR', '2024-05-10', 0, 2, 'PENDIENTE');
+INSERT INTO `pqrs_plan_accion` (`ppa_id`, `ppa_fecha_inicio`, `ppa_descripcion`, `ppa_fecha_cumplimiento`, `carg_id`, `ppa_observaciones`, `pqrs_id`, `ppa_estado`) VALUES
+(1, '2024-05-08', 'REALIZAR RECLAMO AL PROVEEDOR', '2024-05-08', 9, NULL, 65, 'CERRADO'),
+(2, '2024-05-08', 'INFORMAR AL CLIENTE RESPUESTA DEL PROVEEDOR', '2024-05-10', 5, NULL, 65, 'PENDIENTE');
 
 -- --------------------------------------------------------
 
@@ -831,16 +1007,9 @@ INSERT INTO `pqrs_productos` (`pqrs_productos_id`, `pqrs_id`, `prod_id`, `lote`,
 (1, 1, 1, '245', 5),
 (2, 1, 20, '255', 12),
 (3, 1, 12, '48', 45),
-(4, 3, 12, 'NF75', 21),
+(4, 66, 30, 'N.A', 6),
 (5, 1, 4, '852', 26),
-(6, 9, 72, '45', 6),
-(7, 9, 52, '45', 7),
-(8, 10, 71, '580', 23),
-(9, 10, 57, 'N.A', 12),
-(10, 11, 71, '255', 23),
-(11, 12, 1, 'N.A', 123),
-(12, 13, 71, '580', 1235),
-(13, 14, 71, '801', 25);
+(14, 65, 69, '230701B', 1);
 
 -- --------------------------------------------------------
 
@@ -960,9 +1129,61 @@ INSERT INTO `productos` (`prod_id`, `prod_ref`, `prod_descripcion`, `prod_presen
 (74, 'R133ML-AZUL', 'BATA PACIENTE MANGA LARGA PUÑO RESORTADO AZUL', 'UNID ', 'BX10U', 19),
 (75, 'R133ML-BLANCA', 'BATA PACIENTE MANGA LARGA PUÑO RESORTADO BLANCA', 'UNID ', 'BX10U', 19);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `usu_id` int(5) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `carg_id` int(5) NOT NULL,
+  `usu_contrasena` varchar(5000) NOT NULL,
+  `rol_id` int(5) NOT NULL,
+  `usu_status` int(2) NOT NULL DEFAULT 1 COMMENT 'status(1=activo, 0=deshabilitado)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`usu_id`, `username`, `carg_id`, `usu_contrasena`, `rol_id`, `usu_status`) VALUES
+(1, 'admin', 13, '$2b$10$RGPQk3m5YNUbZMLZBkkNhO2c9x1Sic/JTybzMZ5K/a.15Tv1xEDr.', 1, 1),
+(2, 'asesor', 13, '$2b$10$6YQguDlTcyLpNYTAlLA1xu8ViifmnXoT6/z/8jNE7rNsf.Wgf8CLy', 2, 1),
+(3, 'prueba', 14, '', 2, 1),
+(4, 'prueba2', 13, '$2b$10$xLcRMWNPBTkjzN0n7aytX.QDTtkMfNkDe7xa06dq0JO2uxYk53mYi', 2, 1);
+
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `acc_modulos`
+--
+ALTER TABLE `acc_modulos`
+  ADD PRIMARY KEY (`mod_id`);
+
+--
+-- Indices de la tabla `acc_permisos`
+--
+ALTER TABLE `acc_permisos`
+  ADD PRIMARY KEY (`per_id`),
+  ADD KEY `rol_id` (`rol_id`),
+  ADD KEY `ruta_id` (`ruta_id`);
+
+--
+-- Indices de la tabla `acc_roles`
+--
+ALTER TABLE `acc_roles`
+  ADD PRIMARY KEY (`rol_id`);
+
+--
+-- Indices de la tabla `acc_rutas`
+--
+ALTER TABLE `acc_rutas`
+  ADD PRIMARY KEY (`ruta_id`),
+  ADD KEY `mod_id` (`mod_id`);
 
 --
 -- Indices de la tabla `cargos`
@@ -1047,8 +1268,38 @@ ALTER TABLE `productos`
   ADD PRIMARY KEY (`prod_id`);
 
 --
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`usu_id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `acc_modulos`
+--
+ALTER TABLE `acc_modulos`
+  MODIFY `mod_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `acc_permisos`
+--
+ALTER TABLE `acc_permisos`
+  MODIFY `per_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT de la tabla `acc_roles`
+--
+ALTER TABLE `acc_roles`
+  MODIFY `rol_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `acc_rutas`
+--
+ALTER TABLE `acc_rutas`
+  MODIFY `ruta_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `cargos`
@@ -1060,7 +1311,7 @@ ALTER TABLE `cargos`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `cli_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=478;
+  MODIFY `cli_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=480;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente_ciudad`
@@ -1078,13 +1329,13 @@ ALTER TABLE `cliente_clasificacion`
 -- AUTO_INCREMENT de la tabla `cliente_zona`
 --
 ALTER TABLE `cliente_zona`
-  MODIFY `cz_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `cz_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT de la tabla `pqrs`
 --
 ALTER TABLE `pqrs`
-  MODIFY `pqrs_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `pqrs_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de la tabla `pqrs_causa_raiz`
@@ -1108,7 +1359,7 @@ ALTER TABLE `pqrs_plan_accion`
 -- AUTO_INCREMENT de la tabla `pqrs_productos`
 --
 ALTER TABLE `pqrs_productos`
-  MODIFY `pqrs_productos_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `pqrs_productos_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `pqrs_tipologia`
@@ -1123,8 +1374,27 @@ ALTER TABLE `productos`
   MODIFY `prod_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `usu_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `acc_permisos`
+--
+ALTER TABLE `acc_permisos`
+  ADD CONSTRAINT `acc_permisos_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `acc_roles` (`rol_id`),
+  ADD CONSTRAINT `acc_permisos_ibfk_2` FOREIGN KEY (`ruta_id`) REFERENCES `acc_rutas` (`ruta_id`);
+
+--
+-- Filtros para la tabla `acc_rutas`
+--
+ALTER TABLE `acc_rutas`
+  ADD CONSTRAINT `acc_rutas_ibfk_1` FOREIGN KEY (`mod_id`) REFERENCES `acc_modulos` (`mod_id`);
 
 --
 -- Filtros para la tabla `cliente`
