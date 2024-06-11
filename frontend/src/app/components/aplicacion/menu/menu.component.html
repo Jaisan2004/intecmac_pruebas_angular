@@ -12,19 +12,22 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/Pqrs"><img id="logo" src="../../../../assets/img/queja.png" alt="Pqrs"> PQRS</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/Productos"><img id="logo" src="../../../../assets/img/vendaje.png" alt="Productos"> Productos</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img id="logo" src="../../../../assets/img/administrador.png" alt="Pqrs">ADMINISTRAR
+              <img id="logo" src="../../../../assets/img/administrador.png" alt="Admin">ADMINISTRAR
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" routerLink="/Usuarios"><img id="logo" src="../../../../assets/img/agregar-usuario.png" alt="Pqrs">Usuarios</a></li>
-              <li><a class="dropdown-item" routerLink="/Roles"><img id="logo" src="../../../../assets/img/gestion-de-los-interesados.png" alt="Pqrs">Roles</a></li>
-              <li><a class="dropdown-item" routerLink="/Modulos"><img id="logo" src="../../../../assets/img/modules.png" alt="Pqrs">Modulos</a></li>
+              <li><a class="dropdown-item" routerLink="/Usuarios"><img id="logo" src="../../../../assets/img/agregar-usuario.png" alt="User">Usuarios</a></li>
+              <li><a class="dropdown-item" routerLink="/Roles"><img id="logo" src="../../../../assets/img/gestion-de-los-interesados.png" alt="Rol">Roles</a></li>
+              <li><a class="dropdown-item" routerLink="/Modulos"><img id="logo" src="../../../../assets/img/modules.png" alt="Modulos">Modulos</a></li>
             </ul>
           </li>
         </ul>
         <form class="d-flex">
-          <button class="btn btn-outline-success" (click)="cerrarSesion()">Cerrar</button>
+          <button class="btn btn-danger" (click)="cerrarSesion()"><img id="exit" src="../../../../assets/img/exit.png" alt="cerrarSesion"> Salir</button>
         </form>
       </div>
     </div>

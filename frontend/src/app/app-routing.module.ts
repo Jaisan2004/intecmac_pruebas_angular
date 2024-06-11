@@ -21,9 +21,12 @@ import { RolesModificarComponent } from './components/administrador/roles/roles-
 import { ModulosComponent } from './components/administrador/modulos/modulos/modulos.component';
 import { ModulosAgregarComponent } from './components/administrador/modulos/modulos-agregar/modulos-agregar.component';
 import { ModulosModificarComponent } from './components/administrador/modulos/modulos-modificar/modulos-modificar.component';
+import { ProductoComponent } from './components/producto/producto/producto.component';
+import { AgregarProductoComponent } from './components/producto/agregar-producto/agregar-producto.component';
+import { ModificarProductoComponent } from './components/producto/modificar-producto/modificar-producto.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/Pqrs', pathMatch: 'full'},
+  {path: '', redirectTo: '/Login', pathMatch: 'full'},
   //Login
   {path: 'Login', component: LoginComponent},
   //Sin permisos
@@ -40,6 +43,12 @@ const routes: Routes = [
   {path: "Clientes", component: ClienteComponent, canActivate: [autGuard]},
   {path: "AgregarClientes", component: ClienteAgregarComponent, canActivate: [autGuard]},
   {path: "ModificarClientes/:id", component: ClienteModificarComponent, canActivate: [autGuard]},
+  //Productos
+  {path: "Productos", component: ProductoComponent, canActivate: [autGuard]},
+  {path: "AgregarProductos", component: AgregarProductoComponent, canActivate: [autGuard]},
+  {path: "ModificarProductos/:id", component: ModificarProductoComponent, canActivate: [autGuard]},
+
+
   //Administrasdor (Usuario, Roles,Modulos, Rutas, Permisos)
 
   //Usuarios

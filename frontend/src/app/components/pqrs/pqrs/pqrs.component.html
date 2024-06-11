@@ -6,14 +6,21 @@
 <div id="cuerpo">
   <div class="container">
     <div class="row">
-      <div class="col-md-11">
+      <div class="col-md-6">
         <h1>PQRS</h1>
         <h5>Sistema de Peticiones, Quejas, Reclamos y Sugerencias</h5>
       </div>
-      <div class="col-md-1"><button class="btn btn-success" title="Agregar PQRS Nueva" type="submit"
-          routerLink="/AgregarPqrs">Agregar</button>
-          <button class="btn btn-light" title="Borrar Filtro Y Actualizar" type="submit"
+      <div class="col-md-4">
+        <button class="btn btn-light" title="Exportar PQRS a Excel"
+          (click)="exportAsXLSX()"><img src="../../../../assets/img/excel.png" alt=""></button>
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-light" title="Borrar Filtro Y Actualizar"
           (click)="borrarFiltros()"><img src="../../../../assets/img/codigo-limpio.png" alt="Limpiar Filtros"></button>
+      </div>
+      <div class="col-md-1"><button class="btn btn-success" title="Agregar PQRS Nueva"
+          routerLink="/AgregarPqrs">Agregar</button>
+          
       </div>
     </div>
     <form [formGroup]="formFiltros">
@@ -33,7 +40,7 @@
               </select>
             </div>
             <div class="col-md-10">
-              <input type="text" class="form-control" [title]="placeholderFiltro" [placeholder]="placeholderFiltro"
+              <input type="text" class="form-control" [title]="placeholderFiltro" [placeholder]="placeholderFiltro+'. Use `, ` para filtrar por más de uno.'"
                 formControlName="filtros" (keyup)="updateFilter()" />
             </div>
           </div>

@@ -30,7 +30,7 @@ export const getPqrsProducto = async (req: Request, res: Response) => {
         res.json(prsProducto)
     } else {
         res.status(404).json({
-            msg: 'No existe Producto en la pqrs PQRS'
+            msg: 'No existe este Producto en la pqrs PQRS actualice'
         })
     }
 
@@ -71,7 +71,7 @@ export const updatePqrsProducto = async (req: Request, res: Response) => {
             })
         } else {
             res.status(404).json({
-                msg: `No existe el Producto en la PQRS con el id ${id}`
+                msg: `No existe el Producto en la PQRS con el id: ${id}`
             })
         }
     } catch (error) {
@@ -82,4 +82,27 @@ export const updatePqrsProducto = async (req: Request, res: Response) => {
 
     }
 
+}
+
+export const deletePqrsProducto = async(req: Request, res: Response)=>{
+    const {id} = req.params;
+
+    try {
+        const pqrsProducto = await PqrsProducto.findByPk(id);
+        if(pqrsProducto){
+            pqrsProducto.destroy();
+            res.json({
+                msg: `Producto eliminado exitosamente`
+            });
+        }else{
+            res.status(404).json({
+                msg: `No existe el Producto en la PQRS con el id: ${id} para eliminar`
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: `Ha ocurrido un error en el servidor al eliminar producto hable con soporte`
+        });
+    }
 }

@@ -9,6 +9,7 @@ import { PqrsProductoService } from '../../../services/pqrs/pqrs-producto/pqrs-p
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ExportExcelService } from '../../../services/export-excel/export-excel.service';
 
 
 @Component({
@@ -99,6 +100,7 @@ export class PqrsComponent {
 
   constructor(private _pqrsService: PqrsService,
     private _pqrsProductoService: PqrsProductoService,
+    private _exportExcelService: ExportExcelService,
     private spinner: NgxSpinnerService,
     private router: Router
   ) { }
@@ -150,6 +152,11 @@ export class PqrsComponent {
       this.temp = [...data]
       this.spinner.hide();
     });
+  }
+
+  exportAsXLSX(){
+    const fileName:string = 'PQRS';
+    this._exportExcelService.exportToExcel(this.dataSource.data,fileName);
   }
 
   borrarFiltros() {
@@ -218,10 +225,16 @@ export class PqrsComponent {
     const fecha_inicio = this.fecha_recepcion_inicio.value;
     const fecha_fin = this.fecha_recepcion_fin.value;
 
+    const arreglo = filtro.split(", ");
+
     if (filtro || est || fecha_inicio || fecha_fin) {
       if (est == 0) {
         if (filtro) {
-          const temp = this.temp.filter((d: any) => d[val].toString().toLowerCase().indexOf(filtro) !== -1 || !filtro);
+          const temp = this.temp.filter((d: any) => {
+            return arreglo.some((element: any) => {
+              return d[val].toString().toLowerCase().indexOf(element)!== -1;
+            }) ||!filtro;
+          });
           if (fecha_inicio || fecha_fin) {
             if (fecha_fin) {
               const temp2 = temp.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio && d.pqrs_fecha_recepcion <= fecha_fin);
@@ -247,7 +260,11 @@ export class PqrsComponent {
       } else {
         const temp = this.temp.filter((d: any) => d.pqrs_estado == est || !est);
         if (filtro) {
-          const temp2 = temp.filter((d: any) => d[val].toLowerCase().indexOf(filtro) !== -1 || !filtro);
+          const temp2 = this.temp.filter((d: any) => {
+            return arreglo.some((element: any) => {
+              return d[val].toString().toLowerCase().indexOf(element)!== -1;
+            }) ||!filtro;
+          });
           if (fecha_inicio || fecha_fin) {
             if (fecha_fin) {
               const temp3 = temp2.filter((d: any) => d.pqrs_fecha_recepcion >= fecha_inicio && d.pqrs_fecha_recepcion <= fecha_fin);
@@ -278,4 +295,6 @@ export class PqrsComponent {
   }
 
 }
+
+
 

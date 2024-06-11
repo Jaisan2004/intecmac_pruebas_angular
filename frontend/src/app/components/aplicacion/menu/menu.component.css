@@ -3,6 +3,11 @@
     max-height: 32px;
 }
 
+#exit{
+    max-width: 18px;
+    max-height: 18px;
+}
+
 /* nav ul {
     padding: 0;
     display: flex;

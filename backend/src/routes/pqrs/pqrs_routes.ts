@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import { envioCorreoPlan, getPlanPqrs, getPqrsPlanes, postPlanPqrs, updatePlanPqrs } from '../../controllers/pqrs/pqrs_plan_accion';
-import { getPqrsProducto, postPqrsProducto, updatePqrsProducto } from '../../controllers/pqrs/pqrs_producto';
+import { deletePqrsProducto, getPqrsProducto, postPqrsProducto, updatePqrsProducto } from '../../controllers/pqrs/pqrs_producto';
 import { getInfoProducto } from '../../controllers/formsSelect';
 import validarToken from '../validad_token';
 
@@ -8,20 +8,21 @@ import validarToken from '../validad_token';
 const router = Router();
 
 //Pqrs productos
-router.post('/pqrs_producto/', validarToken,postPqrsProducto);
-router.get('/pqrs_productos/:id', validarToken,getInfoProducto);
-router.get('/pqrs_producto/:id', validarToken,getPqrsProducto);
-router.put('/pqrs_producto/:id', validarToken,updatePqrsProducto);
+router.post('/pqrs_producto/', postPqrsProducto);
+router.get('/pqrs_productos/:id', getInfoProducto);
+router.get('/pqrs_producto/:id', getPqrsProducto);
+router.put('/pqrs_producto/:id', updatePqrsProducto);
+router.delete('/pqrs_producto/:id', deletePqrsProducto);
 
 //Pqrs Planes de accion
-router.get('/planes_accion/:id', validarToken,getPqrsPlanes);
-router.post('/plan_accion/', validarToken,postPlanPqrs);
-router.get('/plan_accion/:id', validarToken,getPlanPqrs);
-router.put('/plan_accion/:id', validarToken,updatePlanPqrs);
+router.get('/planes_accion/:id', getPqrsPlanes);
+router.post('/plan_accion/', postPlanPqrs);
+router.get('/plan_accion/:id', getPlanPqrs);
+router.put('/plan_accion/:id', updatePlanPqrs);
 
 
 
-router.post('/plan_accion_correo', validarToken,async function(req, res){
+router.post('/plan_accion_correo', async function(req, res){
     const {body} = req;
     await envioCorreoPlan.sendMail({
         from: `Planes de Accion Comercial ${process.env.EMAIL}`,
@@ -33,7 +34,14 @@ router.post('/plan_accion_correo', validarToken,async function(req, res){
 
         acción para atender la <b>PQRS ${body.pqrs_id}</b> <br><br>
 
-        A continuación, se proporcionan los detalles del plan de acción:<br><br>
+        A continuación, se proporcionan los detalles tanto de la PQRS y del plan de Acción:<br><br>
+
+        <b>PQRS ${body.pqrs_id}</b>:<br><br>
+
+        <b>Cliente:</b> ${body.cli_nombre}<br>
+        <b>Descripción:</b> ${body.pqrs_descripcion}<br><br>
+
+        <b>Plan de Acción:</b><br><br>
 
         <b>Fecha de creacion:</b> ${body.ppa_fecha_inicio}<br>
         <b>Fecha de cumplimiento:</b> ${body.ppa_fecha_cumplimiento}<br>
@@ -41,6 +49,8 @@ router.post('/plan_accion_correo', validarToken,async function(req, res){
         <b>Observaciones del plan acción:</b> ${body.ppa_observaciones}<br><br>
         
         Se solicita amablemente que se realice este plan antes de la fecha de cumplimiento establecida: <b>${body.ppa_fecha_cumplimiento}.</b><br><br>
+
+        Para ver el Plan de Acción de la <b>PQRS ${body.pqrs_id}</b> ingrese al siguiente link <a href="${process.env.URL_PLAN_PQRS}${body.pqrs_id}">Plan de Acción PQRS ${body.pqrs_id}</a><br><br>
 
         Agradecemos su atención y compromiso con nuestro servicio.<br><br>
 
@@ -56,7 +66,7 @@ router.post('/pqrs_creada', validarToken,async function(req, res){
     const {body} = req;
     await envioCorreoPlan.sendMail({
         from: `Creacion Nuevas PQRS ${process.env.EMAIL}`,
-        to: `${process.env.DIR_COMERCIAL}, ${process.env.ADMINISTRACION}`,
+        to: `${process.env.DIR_COMERCIAL}, ${process.env.ADMINISTRACION}, ${process.env.GERENCIA}`,
         subject: `Creacion de la PQRS ${body.pqrs_id}`,
         html: `${body.saludos}.<br><br>
 

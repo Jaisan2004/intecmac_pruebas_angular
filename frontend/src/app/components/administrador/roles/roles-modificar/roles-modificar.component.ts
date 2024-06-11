@@ -211,7 +211,8 @@ export class RolesModificarComponent {
 
   getPermiso(per_id: any) {
     this.spinner.show();
-    console.log(per_id)
+    this.permisosModificar = true;
+    this.permisosNuevo = false;
     this._permisosService.getPermiso(per_id).subscribe((data: any) => {
       this.dataPermiso = data;
       this.per_id.setValue(this.dataPermiso[0].per_id);
@@ -220,9 +221,8 @@ export class RolesModificarComponent {
       this.componente.setValue(this.dataPermiso[0].comp_id);
       this.getRutas(this.componente.value);
       this.ruta_id.setValue(this.dataPermiso[0].ruta_id);
-      this.permisosModificar = true;
       this.spinner.hide();
-    })
+    });
   }
 
   getModulos() {
@@ -278,6 +278,8 @@ export class RolesModificarComponent {
           this.router.navigate([`/ModificarRoles/${this.rol_id.value}`]);
           this.spinner.hide();
         })
+      }else{
+        this.toastr.info(`El Permiso no fue eliminado del Rol`, `Cancelar Eliminación de Permiso`)
       }
     })
   }

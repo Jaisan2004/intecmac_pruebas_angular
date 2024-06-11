@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormulariosService } from '../../../services/formularios/formularios.service';
 import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,7 +9,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PqrsProductoService } from '../../../services/pqrs/pqrs-producto/pqrs-producto.service';
-import { error } from 'console';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../aplicacion/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-modificar-pqrs',
@@ -154,6 +155,7 @@ export class ModificarPqrsComponent {
   dataProducto: any;
   dataPqrsCausa: any;
   dataCargos: any;
+  mensaje:any;
   dataPqrsTipo: any;
   data: any;
 
@@ -163,7 +165,8 @@ export class ModificarPqrsComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private dialog: MatDialog
   ) {
   }
 
@@ -251,11 +254,7 @@ export class ModificarPqrsComponent {
       this.router.navigate(['/Pqrs'])
       this.spinner.hide();
 
-    },
-      (error) => {
-        this.toastr.error(`Error al Modificar PQRS: ${error.message}`, `Error`)
-        this.spinner.hide();
-      })
+    });
   }
 
   agregarProductoPqrs() {
@@ -275,11 +274,7 @@ export class ModificarPqrsComponent {
       this.lote.setValue('');
       this.cantidad.setValue('');
       this.spinner.hide();
-    },
-      (error) => {
-        this.toastr.error(`Error al Agregar Producto a la PQRS: ${error.message}`, `Error`);
-        this.spinner.hide();
-      })
+    });
   }
 
   modificarProductoPqrs() {
@@ -300,11 +295,17 @@ export class ModificarPqrsComponent {
       this.lote.setValue('');
       this.cantidad.setValue('');
       this.spinner.hide();
-    },
-      (error) => {
-        this.toastr.error(`Error al Modificar el Producto de la PQRS: ${error.message}`, `Error`);
-        this.spinner.hide();
-      })
+    });
+  }
+
+  eliminarProductoPqrs(prod_id:any){
+    this.spinner.show();
+
+    this._pqrsProducto.deleteProductoPqrs(prod_id).subscribe((data:any)=>{
+      this.mensaje = data.msg;
+      this.toastr.warning(`Producto eliminado exitosamente de la PQRS`, `Eliminacion Producto PQRS`);
+      this.spinner.hide();
+    })
   }
 
   traerProducto(pp_id: any){
@@ -317,6 +318,21 @@ export class ModificarPqrsComponent {
       this.producto.setValue(this.dataProducto.prod_id);
       this.lote.setValue(this.dataProducto.lote);
       this.cantidad.setValue(this.dataProducto.cantidad);
+    })
+  }
+
+  openDialog(prod_id:any, prod_nombre:any){
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40%',
+      data: {title: 'Eliminación Producto de PQRS', mensaje:`Esta de acuerdo con eliminar el producto: "${prod_nombre}" de la PQRS?`}
+    })
+
+    dialogRef.afterClosed().subscribe(res=>{
+      if(res){
+        this.eliminarProductoPqrs(prod_id);
+      }else{
+        this.toastr.info(`El producto no fue eliminado de la PQRS`, `Cancelar Eliminación de Producto`)
+      }
     })
   }
 

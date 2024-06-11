@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
 import { FormulariosService } from '../../../services/formularios/formularios.service';
-import {  NgxSpinnerService } from "ngx-spinner";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-plan-accion',
@@ -89,10 +89,15 @@ export class PlanAccionComponent {
     })
   }
 
-  getInfoCliente(cli_id:any) {
+  getInfoCliente(cli_id: any) {
     this._formulariosService.getInfoCliente(cli_id).subscribe((data) => {
       this.dataCliente = data;
     })
+  }
+
+  envioInfoPqrs(){
+    localStorage.setItem('cliente', JSON.stringify(this.dataCliente[0]));
+    localStorage.setItem('pqrs', JSON.stringify(this.data));
   }
 
   updateFilter(event: any) {

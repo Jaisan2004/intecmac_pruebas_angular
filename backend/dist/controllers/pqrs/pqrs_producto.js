@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePqrsProducto = exports.postPqrsProducto = exports.getPqrsProducto = exports.getPqrsProductos = void 0;
+exports.deletePqrsProducto = exports.updatePqrsProducto = exports.postPqrsProducto = exports.getPqrsProducto = exports.getPqrsProductos = void 0;
 const connection_1 = __importDefault(require("../../db/connection"));
 const sequelize_1 = require("sequelize");
 const pqrs_producto_1 = __importDefault(require("../../models/pqrs/pqrs_producto"));
@@ -40,7 +40,7 @@ const getPqrsProducto = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
     else {
         res.status(404).json({
-            msg: 'No existe Producto en la pqrs PQRS'
+            msg: 'No existe este Producto en la pqrs PQRS actualice'
         });
     }
 });
@@ -74,7 +74,7 @@ const updatePqrsProducto = (req, res) => __awaiter(void 0, void 0, void 0, funct
         }
         else {
             res.status(404).json({
-                msg: `No existe el Producto en la PQRS con el id ${id}`
+                msg: `No existe el Producto en la PQRS con el id: ${id}`
             });
         }
     }
@@ -86,3 +86,27 @@ const updatePqrsProducto = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.updatePqrsProducto = updatePqrsProducto;
+const deletePqrsProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const pqrsProducto = yield pqrs_producto_1.default.findByPk(id);
+        if (pqrsProducto) {
+            pqrsProducto.destroy();
+            res.json({
+                msg: `Producto eliminado exitosamente`
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: `No existe el Producto en la PQRS con el id: ${id} para eliminar`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: `Ha ocurrido un error en el servidor al eliminar producto hable con soporte`
+        });
+    }
+});
+exports.deletePqrsProducto = deletePqrsProducto;

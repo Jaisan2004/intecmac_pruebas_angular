@@ -8,7 +8,9 @@ DB_PASS= ''
 EMAIL = 'pqrsintecma@gmail.com'
 EMAIL_PASSWORD= 'qyehsqvyjcneltfn'
 
-URL_PQRS='http://192.168.1.18:8080/'
+URL_PQRS='http://192.168.1.17/#/Pqrs'
+URL_PLAN_PQRS = 'http://192.168.1.17/#/PlanAccionPqrs/'
 
 DIR_COMERCIAL='practicasintecma1@gmail.com'
 ADMINISTRACION= 'jaisansantiago98@gmail.com'
+GERENCIA= 'GERENCIA@INTECMA.COM.CO'

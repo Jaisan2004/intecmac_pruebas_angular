@@ -56,11 +56,15 @@ export class PlanAccionAgregarComponent {
   public loading: boolean | any;
 
   carg_correo: any;
+  cli_nombre: any;
+  pqrs_descripcion:any;
   contadorDes = 0;
   contadorObs = 0;
 
   dataCargo: any;
   dataCargos: any;
+  dataCliente:any;
+  dataPqrs:any;
   data: any;
 
   constructor(private _formulariosService: FormulariosService,
@@ -73,6 +77,22 @@ export class PlanAccionAgregarComponent {
 
   ngOnInit(): void {
     this.pqrs_id.setValue(this.activatedRoute.snapshot.paramMap.get('id'));
+    const cliente = localStorage.getItem('cliente');
+    const pqrs = localStorage.getItem('pqrs');
+    try {
+      if(cliente&&pqrs){
+        this.dataCliente = JSON.parse(cliente);
+        this.dataPqrs = JSON.parse(pqrs);
+        this.pqrs_descripcion = this.dataPqrs.pqrs_descripcion;
+        this.cli_nombre = this.dataCliente.cli_nombre;
+      }else{
+        this.toastr.error(`Error al traer la informacion esto puede generar problemas con el correo de cracion`, `Error`);
+      }
+      
+    } catch (error) {
+      this.toastr.error(`Error al con la informacion esto puede generar problemas con el correo de cracion`, `Error`);
+    }
+
     this.getCargosOption();
   }
 
@@ -114,24 +134,27 @@ export class PlanAccionAgregarComponent {
       ppa_observaciones: this.ppa_observaciones.value,
       ppa_fecha_cumplimiento: this.ppa_fecha_cumplimiento.value,
       carg_correo: this.carg_correo,
+      cli_nombre:  this.cli_nombre,
+      pqrs_descripcion: this.pqrs_descripcion,
       pqrs_id: this.pqrs_id.value,
     }
 
     this._PlanAccionPqrs.postPlanPqrs(body).subscribe(() => {
       this.loading = false;
       this._PlanAccionPqrs.postCorreoPlanPqrs(bodyCorreo).subscribe(()=>{
-        this.toastr.success(`Correo Enviado a ${this.dataCargo.carg_nombre}`, `Notificación de Plan de Acción`)
+        this.toastr.success(`Correo Enviado a ${this.dataCargo.carg_nombre}`, `Notificación de Plan de Acción`);
       },
       (error) => {
-        this.toastr.error(`Error al enviar correo a ${this.dataCargo.carg_nombre}: ${error.message}`, `Error`)
+        this.toastr.error(`Error al enviar correo a ${this.dataCargo.carg_nombre}: ${error.message}`, `Error`);
         this.spinner.hide();
       });
-      this.toastr.success(`Plan de acción agregado exitosamente`, `Registro Plan de Acción`)
+      this.toastr.success(`Plan de acción agregado exitosamente`, `Registro Plan de Acción`);
       this.router.navigate([`/PlanAccionPqrs/${this.pqrs_id.value}`])
+      this.borrarInfoPqrs();
       this.spinner.hide();
     },
     (error) => {
-      this.toastr.error(`Error al registrar Plan de acción: ${error.message}`, `Error`)
+      this.toastr.error(`Error al registrar Plan de acción: ${error.message}`, `Error`);
       this.spinner.hide();
     })
   }
@@ -142,6 +165,11 @@ export class PlanAccionAgregarComponent {
 
   onKeyObservaciones(event: any) {
     this.contadorObs = event.target.value.length
+  }
+
+  borrarInfoPqrs(){
+    localStorage.removeItem('cliente');
+    localStorage.removeItem('pqrs');
   }
 
   getCargosOption() {

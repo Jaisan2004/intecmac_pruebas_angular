@@ -39,6 +39,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { ModulosComponent } from './components/administrador/modulos/modulos/modulos.component';
 import { ModulosAgregarComponent } from './components/administrador/modulos/modulos-agregar/modulos-agregar.component';
 import { ModulosModificarComponent } from './components/administrador/modulos/modulos-modificar/modulos-modificar.component';
+import { ProductoComponent } from './components/producto/producto/producto.component';
+import { AgregarProductoComponent } from './components/producto/agregar-producto/agregar-producto.component';
+import { ModificarProductoComponent } from './components/producto/modificar-producto/modificar-producto.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +67,10 @@ import { ModulosModificarComponent } from './components/administrador/modulos/mo
     ConfirmDialogComponent,
     ModulosComponent,
     ModulosAgregarComponent,
-    ModulosModificarComponent
+    ModulosModificarComponent,
+    ProductoComponent,
+    AgregarProductoComponent,
+    ModificarProductoComponent
   ],
   imports: [
     BrowserModule,

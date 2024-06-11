@@ -1,0 +1,26 @@
+#cuerpo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    max-height: 400vh;
+    background-color: #04643921;
+}
+.container {
+    max-width: 50%;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(255, 255, 255);
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.6);
+}
+
+h1{
+    text-align: center;
+    color: black;
+}
+
+#valido{
+    color: green;
+}

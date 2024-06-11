@@ -93,6 +93,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             username: username,
             carg_id: carg_id,
             rol_id: rol_id,
+            usu_status: usu_status
         };
     }
     try {

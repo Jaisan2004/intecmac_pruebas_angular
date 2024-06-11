@@ -22,6 +22,7 @@ const cliente_1 = __importDefault(require("../routes/cliente/cliente"));
 const cliente_routes_1 = __importDefault(require("../routes/cliente/cliente_routes"));
 const formsSelect_1 = __importDefault(require("../routes/formsSelect"));
 const cargo_1 = __importDefault(require("../routes/cargo"));
+const producto_1 = __importDefault(require("../routes/producto"));
 const connection_1 = __importDefault(require("../db/connection"));
 class Server {
     constructor() {
@@ -50,6 +51,7 @@ class Server {
         this.app.use('/api/cliente', cliente_1.default);
         this.app.use('/api/cliente_apis', cliente_routes_1.default);
         this.app.use('/api/cargo', cargo_1.default);
+        this.app.use('/api/producto', producto_1.default);
         this.app.use('/api/seleccione', formsSelect_1.default);
     }
     midlewares() {

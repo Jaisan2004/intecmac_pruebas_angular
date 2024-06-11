@@ -14,6 +14,6 @@ router.post('/guardarImg/', validarToken,upload.single('myFile'),(req, res)=>{
     const file = req.file?.filename
     res.json({data:'Imagen Cargada', url:`http://${process.env.DB_HOST}:${process.env.PORT||3001}/${file}`})
 });
-router.put('/actualizar/:id', updatePQRS);
+router.put('/actualizar/:id', validarToken,updatePQRS);
 
 export default router;
