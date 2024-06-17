@@ -12,3 +12,23 @@ export const getCredDocumentos = async(req: Request, res: Response)=>{
         })
     }
 }
+
+export const getCredDocumento = async(req:Request, res: Response)=>{
+    const {id} =req.params;
+
+    try {
+        const documento = await CredDocumento.findByPk(id);
+
+        if(documento){
+            res.json(documento);
+        }else{
+            res.status(404).json({
+                msg: `No exite un documento con el id: ${id}`
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Error en el servidor al traer el documento hable con el profesor'
+        });
+    }
+}

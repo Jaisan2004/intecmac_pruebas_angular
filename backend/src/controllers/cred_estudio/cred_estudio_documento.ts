@@ -7,11 +7,10 @@ import CredDocumento from "../../models/cred_estudio/cred_documento";
 export const getCredDocByEstudio = async (req: Request, res: Response)=>{
     const {id} = req.params;
 
-    const query = `SELECT ced.cred_doc_id, cd.cred_doc_nombre FROM cred_estudio_documento ced 
-    JOIN cred_documento cd ON ced.cred_doc_id = cd.cred_doc_id where ced.cred_estu_id = ${id};`;
+    const query = `SELECT ced.cred_doc_id, cd.cred_doc_nombre FROM cred_estudio_documento ced JOIN cred_documento cd ON ced.cred_doc_id = cd.cred_doc_id where ced.cred_estu_id = ${id};`;
 
     try {
-        const listCredDocumento = sequelize.query(query, {
+        const listCredDocumento = await sequelize.query(query, {
             type: QueryTypes.SELECT
         });
 

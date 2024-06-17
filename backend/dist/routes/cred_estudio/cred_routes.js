@@ -14,8 +14,9 @@ router.get('/cred_estado_estudio/:id', cred_estado_estudio_1.getEstadosByEstudio
 router.post('/cred_estado_estudio/', cred_estado_estudio_1.postEstadoEstudio);
 //Documentos de estudios de credito
 router.get('/cred_documento', cred_documento_1.getCredDocumentos);
+router.get('/cred_documento/:id', cred_documento_1.getCredDocumento);
 //Documentos del estudio de credito en especifico
-router.get('/cre_estu_documentos/:id', cred_estudio_documento_1.getCredDocByEstudio);
+router.get('/cred_estu_documentos/:id', cred_estudio_documento_1.getCredDocByEstudio);
 router.get('/cred_estu_documento/:id', cred_estudio_documento_1.getCredDocEstudio);
 router.post('/cred_estu_documento', cred_estudio_documento_1.postCredDocEstudio);
 router.put('/cred_estu_documento/:id', cred_estudio_documento_1.updateCredDocEstudio);

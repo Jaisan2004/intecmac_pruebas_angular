@@ -13,8 +13,8 @@ export class DocumentoEstudioCreditosService {
 
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint;
-    this.myApiUrl = 'api/cred_estu_documento/';
-    this.myApiUrl2 = 'api/cre_estu_documentos/';
+    this.myApiUrl = 'api/cred_apis/cred_estu_documento/';
+    this.myApiUrl2 = 'api/cred_apis/cred_estu_documentos/';
   }
 
   getCredDocsEstu(id:any): Observable<any> {

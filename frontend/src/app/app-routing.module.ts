@@ -53,6 +53,9 @@ const routes: Routes = [
   {path: "EstudioCreditos", component: EstudiosCreditrosComponent},
   {path: "AgregarEstudioCreditos", component: AgregarEstudiosCreditosComponent},
   {path: "ModificarEstudioCreditos/:id", component: AgregarEstudiosCreditosComponent},
+  {path: "ModificarEstudioCreditosContabilidad/:id", component: AgregarEstudiosCreditosComponent},
+  {path: "ModificarEstudioCreditosGerencia/:id", component: AgregarEstudiosCreditosComponent},
+
 
   //Administrasdor (Usuario, Roles,Modulos, Rutas, Permisos)
 

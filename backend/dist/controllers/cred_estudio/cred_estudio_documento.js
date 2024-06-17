@@ -18,10 +18,9 @@ const connection_1 = __importDefault(require("../../db/connection"));
 const sequelize_1 = require("sequelize");
 const getCredDocByEstudio = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const query = `SELECT ced.cred_doc_id, cd.cred_doc_nombre FROM cred_estudio_documento ced 
-    JOIN cred_documento cd ON ced.cred_doc_id = cd.cred_doc_id where ced.cred_estu_id = ${id};`;
+    const query = `SELECT ced.cred_doc_id, cd.cred_doc_nombre FROM cred_estudio_documento ced JOIN cred_documento cd ON ced.cred_doc_id = cd.cred_doc_id where ced.cred_estu_id = ${id};`;
     try {
-        const listCredDocumento = connection_1.default.query(query, {
+        const listCredDocumento = yield connection_1.default.query(query, {
             type: sequelize_1.QueryTypes.SELECT
         });
         res.json(listCredDocumento);
