@@ -3,10 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { ClienteClasificacionService } from '../../../services/cliente/cliente-clasificacion/cliente-clasificacion.service';
-import { ClienteCiudadService } from '../../../services/cliente/cliente-ciudad/cliente-ciudad.service';
-import { ClienteZonaService } from '../../../services/cliente/cliente-zona/cliente-zona.service';
-import { ClienteService } from '../../../services/cliente/cliente/cliente.service';
+import { ClienteClasificacionService } from '../../../services/cliente/cliente-clasificacion.service';
+import { ClienteCiudadService } from '../../../services/cliente/cliente-ciudad.service';
+import { ClienteZonaService } from '../../../services/cliente/cliente-zona.service';
+import { ClienteService } from '../../../services/cliente/cliente.service';
 
 @Component({
   selector: 'app-cliente-modificar',

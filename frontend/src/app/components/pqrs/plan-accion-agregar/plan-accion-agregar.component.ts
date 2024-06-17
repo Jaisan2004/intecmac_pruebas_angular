@@ -3,7 +3,7 @@ import { FormulariosService } from '../../../services/formularios/formularios.se
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { PlanAccionService } from '../../../services/pqrs/plan-accion/plan-accion.service';
+import { PlanAccionService } from '../../../services/pqrs/plan-accion.service';
 import { CargosService } from '../../../services/cargos/cargos.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 

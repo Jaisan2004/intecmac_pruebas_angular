@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { ClienteService } from '../../../services/cliente/cliente/cliente.service';
+import { ClienteService } from '../../../services/cliente/cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';

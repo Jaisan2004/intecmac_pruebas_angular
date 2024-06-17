@@ -61,9 +61,7 @@ export class LoginComponent {
       next: (data: any)=>{
         localStorage.setItem('token', data.token);
         this.spinner.hide()
-        this.router.navigate(['/Pqrs']);
-        console.log(data);
-        
+        this.router.navigate(['/Pqrs']);        
       }
     })
   }

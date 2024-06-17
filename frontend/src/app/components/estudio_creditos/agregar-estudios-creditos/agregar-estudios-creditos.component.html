@@ -1,0 +1,251 @@
+<app-menu></app-menu>
+
+<ngx-spinner size = "medium" color = "#fff" type="square-jelly-box" ><p style="color: white" > Cargando... </p></ngx-spinner>
+
+<div id="cuerpo">
+    <div class="container mt-3">
+        <button title="Volver al listado de Estudios Creditos" class="btn btn-outline-dark" routerLink="/EstudioCreditos"><i class="bi bi-box-arrow-left"></i></button>
+        <h1>Agregar Estudios de Creditos</h1>
+        <br>
+        <form class="row  g-3" [formGroup]="formEstudio">
+                <h4 class="subtitulo">Comercial</h4>
+            <div class="form-floating mb-3">
+
+                <select class="form-select" *ngIf="dataClienteOpcion" aria-label="Default select example"
+                    (change)="getInfoCliente()" formControlName="cliente">
+                    <option disabled selected>---Seleccione un cliente---</option>
+                    <option *ngFor="let option of dataClienteOpcion" [value]="option.cli_id">{{option.cli_nombre}}
+                    </option>
+                </select>
+
+                <label class="form-label" for="cliente" style="color: green;" *ngIf="cliente.valid">* Cliente</label>
+                <label class="form-label" for="cliente" style="color: red;" *ngIf="cliente.invalid">* Cliente</label>
+
+                <div class="alert alert-danger" [hidden]="cliente.untouched || cliente.valid">
+                    <span>Por favor seleccione el cliente.</span>
+                </div>
+
+            </div>
+
+            <div class="form-floating mb-3">
+
+                <select class="form-select" *ngIf="dataTipoEstudioOpcion" aria-label="Default select example" formControlName="tipo">
+                    <option disabled selected>---Seleccione un Tipo de Estudio de Credito---</option>
+                    <option *ngFor="let option of dataTipoEstudioOpcion" [value]="option.cred_tipo_id">{{option.cred_tipo_nombre}}
+                    </option>
+                </select>
+
+                <label class="form-label" for="tipo" style="color: green;" *ngIf="tipo.valid">* Tipo de Estudio</label>
+                <label class="form-label" for="tipo" style="color: red;" *ngIf="tipo.invalid">* Tipo de Estudio</label>
+
+                <div class="alert alert-danger" [hidden]="tipo.untouched || tipo.valid">
+                    <span>Por favor seleccione el Tipo de Estudio de Credito.</span>
+                </div>
+
+            </div>
+            <div class="form-floating mb-3">
+
+                <textarea class="form-control" id="obserComercial" name="obserComercial" (keyup)="onKeyobserComercial($event)"
+                    style="height: 200px" formControlName="obserComercial"></textarea>
+
+                <label class="form-label" for="obserComercial" style="color: green;" *ngIf="obserComercial.valid">*
+                    Observaciones Equipo Comercial {{contadorDes}}/5000</label>
+                <label class="form-label" for="obserComercial" style="color: red;" *ngIf="obserComercial.invalid">*
+                    Observaciones Equipo Comercial {{contadorDes}}/5000</label>
+
+                <div class="alert alert-danger" [hidden]="obserComercial.pristine || obserComercial.valid">
+                    <span *ngIf="obserComercial.errors?.['required']">Por favor ingrese las Observaciones.</span>
+                    <span *ngIf="obserComercial.errors?.['maxlength']">Hay mas de 5000 caracteres.</span>
+                </div>
+
+            </div>
+
+            <div class="form-floating mb-3 col-md-6">
+
+                <input name="asesor" class="form-control" type="text" id="asesor" [value]="cli_asesor" disabled>
+                <label class="form-label" for="asesor">Asesor</label>
+
+            </div>
+
+            <div class="form-floating mb-3 col-md-6">
+
+                <input class="form-control" name="cliente_desde" type="text" id="cliente_desde" formControlName="cliente_desde">
+
+                <label class="form-label" for="cliente_desde" style="color: green;" *ngIf="cliente_desde.valid">*
+                    Cliente Desde</label>
+                <label class="form-label" for="cliente_desde" style="color: red;" *ngIf="cliente_desde.invalid">*
+                    Cliente Desde</label>
+
+                <div class="alert alert-danger" [hidden]="cliente_desde.pristine || cliente_desde.valid">
+                    <span *ngIf="cliente_desde.errors?.['required']">Por favor ingrese desde cuando el cliente esta con intecma.</span>
+                    <span *ngIf="cliente_desde.errors?.['maxlength']">La fecha supera los 99 caracteres.</span>
+                </div>
+
+            </div>
+
+            <div class="form-floating mb-3 col-md-6">
+
+                <input class="form-control" name="cupo_actual" type="number" id="cupo_actual" formControlName="cupo_actual">
+
+                <label class="form-label" for="cupo_actual" style="color: green;" *ngIf="cupo_actual.valid">*
+                    Cupo de Credito Actual</label>
+                <label class="form-label" for="cupo_actual" style="color: red;" *ngIf="cupo_actual.invalid">*
+                    Cupo de Credito Actual</label>
+
+                <div class="alert alert-danger" [hidden]="cupo_actual.pristine || cupo_actual.valid">
+                    <span *ngIf="cupo_actual.errors?.['required']">Por favor ingrese el Cupo de Credito Actual</span>
+                    <span *ngIf="cupo_actual.errors?.['max']">El cupo supera la cantidad de 999'999.999.</span>
+                </div>
+
+            </div>
+
+            <div class="form-floating mb-3 col-md-6">
+
+                <input name="plazo_actual" class="form-control" type="text" id="plazo_actual" [value]="cli_plazo" disabled>
+                <label class="form-label" for="plazo_actual">Plazo de Pago Actual</label>
+
+            </div>
+
+            <div class="form-floating mb-3">
+
+                <input class="form-control" name="descuento" type="text" id="descuento" formControlName="descuento">
+
+                <label class="form-label" for="descuento" style="color: green;" *ngIf="descuento.valid">*
+                    Descuentos Otorgados</label>
+                <label class="form-label" for="descuento" style="color: red;" *ngIf="descuento.invalid">*
+                    Descuentos Otorgados</label>
+
+                <div class="alert alert-danger" [hidden]="descuento.pristine || descuento.valid">
+                    <span *ngIf="descuento.errors?.['required']">Por favor ingrese el Cupo de Credito Actual</span>
+                    <span *ngIf="descuento.errors?.['maxlength']">El descuento supera los 500 caracteres.</span>
+                </div>
+
+            </div>
+
+            <section class="example-container mat-elevation-z8" tabindex="0">
+                <div class="row">
+                    <div class="mb-3 col-md-3">
+                        <button class="btn btn-success btn-sm" (click)="agregarDocumentoBoton()"><i
+                                class="bi bi-plus-square-fill"></i> Agregar Documento</button>
+                    </div>
+                    <div class="mb-3 col-md-8">
+                    </div>
+                    <div class="mb-3 col-md-1">
+                        <button class="btn btn-light" (click)="getListDocumentos()"><i
+                                class="bi bi-arrow-clockwise"></i></button>
+                    </div>
+                </div>
+
+                <form class="row  g-3" [formGroup]="formDocumento"
+                    *ngIf="documentoNuevo == true|| documentoModificar == true">
+
+                    <div class="form-floating mb-3">
+
+                        <select id="documento" class="form-select" *ngIf="dataDocumentoOption"
+                            aria-label="Default select example" name="documento" formControlName="documento">
+
+                            <option disabled selected>---Seleccione un documento---</option>
+                            <option *ngFor="let option of dataDocumentoOption" [value]="option.prod_id">
+                                {{option.prod_descripcion}}</option>
+
+                        </select>
+
+                        <label class="form-label" for="documento" style="color: green;" *ngIf="documento.valid">*
+                            Documento</label>
+                        <label class="form-label" for="documento" style="color: red;" *ngIf="documento.invalid">*
+                            Documento</label>
+
+                        <div class="alert alert-danger" [hidden]="documento.untouched || documento.valid">
+                            <span>Por favor seleccione el documento.</span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="file" (change)="getFile($event)" id="formFile">
+                        <label for="formFile" class="form-label">Documentos Credito</label>
+                    </div>
+
+                    <!-- Cancelar -->
+                    <div class="mb-3 col-md-6">
+                        <button title="Cancelar" type="submit" class="btn btn-secondary btn-sm"
+                            style="width: 100%;"
+                            (click)="cancelarDocumentoBoton()">Cancelar</button>
+                    </div>
+                    <!-- Registrar Prodcuto -->
+                    <div class="mb-3 col-md-6" *ngIf="documentoNuevo">
+                        <button type="submit" class="btn btn-primary btn-sm" style="width: 100%;"
+                            (click)="sendFile()" title="Registrar Documento del Estudio de Credito"
+                            [disabled]="formDocumento.invalid||loading">{{(loading)?'Cargando...'
+                            : 'Registrar Documento'}}</button>
+                    </div>
+
+                    <!-- <div class="mb-3 col-md-6" *ngIf="documentoModificar">
+                        <button type="submit" class="btn btn-primary btn-sm" style="width: 100%;"
+                            (click)="modificarDocumento()" title="Modificar Documento del Estudio de Credito"
+                            [disabled]="formDocumento.invalid||loading">{{(loading)?'Cargando...'
+                            : 'Modificar Documento'}}</button>
+                    </div> -->
+
+                    <div class="alert alert-danger" [hidden]="formDocumento.valid">
+                        <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de
+                            registrar el
+                            Documento. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+                    </div>
+                </form>
+                <div class="example-table-container">
+                    <table mat-table [dataSource]="dataSource" class="example-table" matSort>
+
+                        <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
+                            <th mat-header-cell *matHeaderCellDef [mat-sort-header]="column.prop"> {{column.titulo}}
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element[column.prop]}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Acciones" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                            <td mat-cell *matCellDef="let element">
+
+                                <!-- <button class="btn btn btn-outline-light" title="Modificar PQRS"
+                                    (click)="traerDocumento(element.pqrs_productos_id)">
+
+                                    <img src="../../../assets/img/lapiz.png">
+
+                                </button>
+
+                                <button class="btn btn btn-outline-light" title="Modificar PQRS"
+                                    (click)="openDialog(element.pqrs_productos_id, element.prod_descripcion)">
+
+                                    <img src="../../../../../assets/img/borrar.png" alt="eliminar">
+
+                                </button> -->
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <mat-paginator [pageSizeOptions]="[3, 5, 7]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </section>
+
+            <div class="mb-3 col-md-6">
+                <button title="Volver al listado de Estudios Creditos" type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/EstudioCreditos">Volver</button>
+            </div>
+            <div class="mb-3 col-md-6">
+                <button title="Registrar la PQRS" type="submit" class="btn btn-primary" style="width: 100%;" (click)="crearPqrs()"
+                    [disabled]="formEstudio.invalid || loading">{{(loading)?'Cargando...'
+                    : 'Registrar y Continuar'}}</button>
+            </div>
+
+            <div class="alert alert-danger" [hidden]="formEstudio.valid">
+                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el
+                    formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+            </div>
+        </form>
+
+
+    </div>
+</div>

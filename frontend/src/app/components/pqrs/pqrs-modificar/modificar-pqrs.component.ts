@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormulariosService } from '../../../services/formularios/formularios.service';
-import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
+import { PqrsService } from '../../../services/pqrs/pqrs.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,7 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { PqrsProductoService } from '../../../services/pqrs/pqrs-producto/pqrs-producto.service';
+import { PqrsProductoService } from '../../../services/pqrs/pqrs-producto.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../aplicacion/confirm-dialog/confirm-dialog.component';
 
@@ -374,7 +374,6 @@ export class ModificarPqrsComponent {
       const body = new FormData();
       body.append('myFile', this.fileTmp.fileRaw, this.fileTmp.fileName)
       this._pqrsService.PqrsImg(body).subscribe(res => {
-        console.log(res)
         const body = {
           filePath: res.url + '?t=' + new Date().getTime()
         }

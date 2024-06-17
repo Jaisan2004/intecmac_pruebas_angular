@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormulariosService } from '../../../services/formularios/formularios.service';
-import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
+import { PqrsService } from '../../../services/pqrs/pqrs.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';

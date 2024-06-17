@@ -24,6 +24,8 @@ import { ModulosModificarComponent } from './components/administrador/modulos/mo
 import { ProductoComponent } from './components/producto/producto/producto.component';
 import { AgregarProductoComponent } from './components/producto/agregar-producto/agregar-producto.component';
 import { ModificarProductoComponent } from './components/producto/modificar-producto/modificar-producto.component';
+import { EstudiosCreditrosComponent } from './components/estudio_creditos/estudios-creditros/estudios-creditros.component';
+import { AgregarEstudiosCreditosComponent } from './components/estudio_creditos/agregar-estudios-creditos/agregar-estudios-creditos.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/Login', pathMatch: 'full'},
@@ -47,7 +49,10 @@ const routes: Routes = [
   {path: "Productos", component: ProductoComponent, canActivate: [autGuard]},
   {path: "AgregarProductos", component: AgregarProductoComponent, canActivate: [autGuard]},
   {path: "ModificarProductos/:id", component: ModificarProductoComponent, canActivate: [autGuard]},
-
+  //Estudio de Creditos
+  {path: "EstudioCreditos", component: EstudiosCreditrosComponent},
+  {path: "AgregarEstudioCreditos", component: AgregarEstudiosCreditosComponent},
+  {path: "ModificarEstudioCreditos/:id", component: AgregarEstudiosCreditosComponent},
 
   //Administrasdor (Usuario, Roles,Modulos, Rutas, Permisos)
 

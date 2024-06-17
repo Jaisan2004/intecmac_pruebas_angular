@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PqrsComponent } from './components/pqrs/pqrs/pqrs.component';
 import { AgregarPqrsComponent } from './components/pqrs/pqrs-agregar/agregar-pqrs.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { ModificarPqrsComponent } from './components/pqrs/pqrs-modificar/modificar-pqrs.component';
@@ -35,6 +35,7 @@ import { RolesAgregarComponent } from './components/administrador/roles/roles-ag
 import { RolesModificarComponent } from './components/administrador/roles/roles-modificar/roles-modificar.component';
 import {MatDialogActions, MatDialogModule} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from './components/aplicacion/confirm-dialog/confirm-dialog.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { ModulosComponent } from './components/administrador/modulos/modulos/modulos.component';
 import { ModulosAgregarComponent } from './components/administrador/modulos/modulos-agregar/modulos-agregar.component';
@@ -42,6 +43,8 @@ import { ModulosModificarComponent } from './components/administrador/modulos/mo
 import { ProductoComponent } from './components/producto/producto/producto.component';
 import { AgregarProductoComponent } from './components/producto/agregar-producto/agregar-producto.component';
 import { ModificarProductoComponent } from './components/producto/modificar-producto/modificar-producto.component';
+import { EstudiosCreditrosComponent } from './components/estudio_creditos/estudios-creditros/estudios-creditros.component';
+import { AgregarEstudiosCreditosComponent } from './components/estudio_creditos/agregar-estudios-creditos/agregar-estudios-creditos.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +73,9 @@ import { ModificarProductoComponent } from './components/producto/modificar-prod
     ModulosModificarComponent,
     ProductoComponent,
     AgregarProductoComponent,
-    ModificarProductoComponent
+    ModificarProductoComponent,
+    EstudiosCreditrosComponent,
+    AgregarEstudiosCreditosComponent
   ],
   imports: [
     BrowserModule,
@@ -86,11 +91,13 @@ import { ModificarProductoComponent } from './components/producto/modificar-prod
     MatIconModule,
     MatSortModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressBarModule
   ],
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
+    provideHttpClient(withFetch()),
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     {provide: HTTP_INTERCEPTORS, useClass: añadirTokenInterceptor, multi:true}
   ],

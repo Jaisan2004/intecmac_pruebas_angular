@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { PlanAccionService } from '../../../services/pqrs/plan-accion/plan-accion.service';
+import { PlanAccionService } from '../../../services/pqrs/plan-accion.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
+import { PqrsService } from '../../../services/pqrs/pqrs.service';
 import { FormulariosService } from '../../../services/formularios/formularios.service';
 import { NgxSpinnerService } from "ngx-spinner";
 

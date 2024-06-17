@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { PqrsService } from '../../../services/pqrs/pqrs/pqrs.service';
+import { PqrsService } from '../../../services/pqrs/pqrs.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from "ngx-spinner";
 import moment from 'moment';
 import { MatSort } from '@angular/material/sort';
-import { PqrsProductoService } from '../../../services/pqrs/pqrs-producto/pqrs-producto.service';
+import { PqrsProductoService } from '../../../services/pqrs/pqrs-producto.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -260,7 +260,7 @@ export class PqrsComponent {
       } else {
         const temp = this.temp.filter((d: any) => d.pqrs_estado == est || !est);
         if (filtro) {
-          const temp2 = this.temp.filter((d: any) => {
+          const temp2 = temp.filter((d: any) => {
             return arreglo.some((element: any) => {
               return d[val].toString().toLowerCase().indexOf(element)!== -1;
             }) ||!filtro;

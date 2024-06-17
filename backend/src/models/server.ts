@@ -9,6 +9,8 @@ import routesClienteRoutes from '../routes/cliente/cliente_routes';
 import routesForms from '../routes/formsSelect';
 import routesCargo from '../routes/cargo';
 import routesProducto from '../routes/producto'
+import routesCredEstudio from '../routes/cred_estudio/cred_estudio';
+import routesCredRoutes from '../routes/cred_estudio/cred_routes'
 import db from '../db/connection'
 
 class Server{
@@ -45,6 +47,8 @@ class Server{
         this.app.use('/api/cliente_apis', routesClienteRoutes);
         this.app.use('/api/cargo', routesCargo);
         this.app.use('/api/producto', routesProducto);
+        this.app.use('/api/cred_estudio', routesCredEstudio);
+        this.app.use('/api/cred_apis', routesCredRoutes);
         this.app.use('/api/seleccione', routesForms);
     }
 

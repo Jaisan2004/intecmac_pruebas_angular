@@ -1,0 +1,20 @@
+
+.example-container {
+    position: relative;
+    
+}
+.example-table-container {
+    width: 100%;
+    max-height: 70vh;
+    text-align: center;
+    overflow: auto;
+    position: relative;
+  }
+table {
+    width: 100%;
+}
+
+#estado{
+    text-align: center;
+}
+

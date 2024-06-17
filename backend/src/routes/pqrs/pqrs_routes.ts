@@ -50,7 +50,7 @@ router.post('/plan_accion_correo', async function(req, res){
         
         Se solicita amablemente que se realice este plan antes de la fecha de cumplimiento establecida: <b>${body.ppa_fecha_cumplimiento}.</b><br><br>
 
-        Para ver el Plan de Acción de la <b>PQRS ${body.pqrs_id}</b> ingrese al siguiente link <a href="${process.env.URL_PLAN_PQRS}${body.pqrs_id}">Plan de Acción PQRS ${body.pqrs_id}</a><br><br>
+        Para ver el <b>Plan de Acción de la PQRS ${body.pqrs_id}</b> ingrese al siguiente link <a href="${process.env.URL_PLAN_PQRS}${body.pqrs_id}">Plan de Acción PQRS ${body.pqrs_id}</a><br><br>
 
         Agradecemos su atención y compromiso con nuestro servicio.<br><br>
 

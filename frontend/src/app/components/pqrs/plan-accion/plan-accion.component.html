@@ -30,7 +30,7 @@
       <div class="col-md-1"><button title="Agregar nuevo plan de accion a la PQRS {{pqrs_id}}" class="btn btn-success"
           type="submit" (click)="envioInfoPqrs()" routerLink="/AgregarPlanAccionPqrs/{{pqrs_id}}">Agregar</button></div>
     </div>
-    <input type="text" placeholder="Flitar por cargo" (keyup)="updateFilter($event)" />
+    <input type="text" placeholder="Filtrar por cargo" (keyup)="updateFilter($event)" />
   </div>
   <div>
 
@@ -67,7 +67,7 @@
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
         <br>

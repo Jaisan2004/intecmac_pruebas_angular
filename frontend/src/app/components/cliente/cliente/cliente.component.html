@@ -14,7 +14,7 @@
                     class="btn btn-success" type="submit"
                     routerLink="/AgregarClientes">Agregar</button></div>
         </div>
-        <input type="text" class="form-control" placeholder="Flitar por Nombre del Cliente" (keyup)="updateFilter($event)" />
+        <input type="text" class="form-control" placeholder="Filtrar por Nombre del Cliente" (keyup)="updateFilter($event)" />
     </div>
     <div>
 <br>
@@ -42,7 +42,7 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
             <br>

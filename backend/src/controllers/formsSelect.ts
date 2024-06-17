@@ -19,7 +19,7 @@ export const getClienteOption = async (req: Request, res: Response) => {
 
 export const getInfoCliente = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const query = 'SELECT c.cli_nombre, concat(cc.c_c_nombre,"/",cz.cz_nombre) as zona, c.cli_asesor_nombre FROM cliente c INNER JOIN cliente_ciudad cc ON c.cli_ciudad = cc.c_c_id INNER JOIN cliente_zona cz on cz.cz_id=c.cli_zona WHERE cli_id='+id+';';
+    const query = 'SELECT c.cli_nombre, concat(cc.c_c_nombre,"/",cz.cz_nombre) as zona, c.cli_pp_sistema,c.cli_asesor_nombre FROM cliente c INNER JOIN cliente_ciudad cc ON c.cli_ciudad = cc.c_c_id INNER JOIN cliente_zona cz on cz.cz_id=c.cli_zona WHERE cli_id='+id+';';
     const pqrs = await sequelize.query(query, {
         type: QueryTypes.SELECT,
     });

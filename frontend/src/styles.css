@@ -3,4 +3,17 @@ html, body { height: 100%; }
 body { font-family: Roboto, "Helvetica Neue", sans-serif; }
 #cuerpo {
     margin-top: 60px; /* add a top margin equal to the navbar's height */
+    min-height: 100vh;
+    max-width: 400vh;
   }
+.progreso {
+    --mdc-linear-progress-active-indicator-color: green; 
+    --mdc-linear-progress-track-color: rgba(255, 0, 0, 0.24);
+    --mdc-linear-progress-active-indicator-height: 5px;
+    --mdc-linear-progress-track-height: 5px;
+    border-radius: 20px; /* Add this property to .progreso */
+    .mdc-linear-progress__bar-inner {
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+}
