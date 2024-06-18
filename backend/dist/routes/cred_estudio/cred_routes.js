@@ -20,7 +20,7 @@ router.get('/cred_estu_documentos/:id', cred_estudio_documento_1.getCredDocByEst
 router.get('/cred_estu_documento/:id', cred_estudio_documento_1.getCredDocEstudio);
 router.post('/cred_estu_documento', cred_estudio_documento_1.postCredDocEstudio);
 router.put('/cred_estu_documento/:id', cred_estudio_documento_1.updateCredDocEstudio);
-router.delete('/cred_estu_documento', cred_estudio_documento_1.deleteCredDocEstudio);
+router.delete('/cred_estu_documento/:id', cred_estudio_documento_1.deleteCredDocEstudio);
 //Tipo de estudios de creditos
 router.get('/cred_tipo', cred_tipo_1.getCredTipos);
 exports.default = router;

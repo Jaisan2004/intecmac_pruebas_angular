@@ -2,12 +2,12 @@ import { Request, Response } from "express";
 import CredEstudioDocumento from "../../models/cred_estudio/cred_estudio_documento";
 import sequelize from "../../db/connection";
 import { QueryTypes } from "sequelize";
-import CredDocumento from "../../models/cred_estudio/cred_documento";
 
 export const getCredDocByEstudio = async (req: Request, res: Response)=>{
     const {id} = req.params;
 
-    const query = `SELECT ced.cred_doc_id, cd.cred_doc_nombre FROM cred_estudio_documento ced JOIN cred_documento cd ON ced.cred_doc_id = cd.cred_doc_id where ced.cred_estu_id = ${id};`;
+    const query = `SELECT ced.cred_estu_doc_id, ced.cred_doc_id, ced.cred_estu_doc_url, cd.cred_doc_nombre FROM cred_estudio_documento ced
+     JOIN cred_documento cd ON ced.cred_doc_id = cd.cred_doc_id where ced.cred_estu_id = ${id};`;
 
     try {
         const listCredDocumento = await sequelize.query(query, {
@@ -97,7 +97,7 @@ export const deleteCredDocEstudio = async (req: Request, res: Response)=>{
             credDocumento.destroy();
 
             res.json({
-                msg: `Se elimino el documento con el id: ${id} del estudio de credito`
+                msg: `Se elimino exitosamente el documento del estudio de credito`
             });
         }else{
             res.status(404).json({

@@ -197,7 +197,7 @@ export class PqrsComponent {
         break;
       case '7':
         this.placeholderFiltro = 'Filtrar por Tipología';
-        this.campoFiltro = 'pt_tipologia'
+        this.campoFiltro = 'pt_tipologia';
         break;
       default:
         this.placeholderFiltro = 'No hay filtro';

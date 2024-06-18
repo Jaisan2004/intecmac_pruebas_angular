@@ -303,7 +303,7 @@ export class ModificarPqrsComponent {
 
     this._pqrsProducto.deleteProductoPqrs(prod_id).subscribe((data:any)=>{
       this.mensaje = data.msg;
-      this.toastr.warning(`Producto eliminado exitosamente de la PQRS`, `Eliminacion Producto PQRS`);
+      this.toastr.warning(this.mensaje, `Eliminacion Producto PQRS`);
       this.spinner.hide();
     })
   }

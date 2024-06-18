@@ -167,7 +167,7 @@
                 <label class="form-label" for="cli_pp_sistema" style="color: red;" *ngIf="cli_pp_sistema.invalid">* PP Sistema</label>
 
                 <div class="alert alert-danger" [hidden]="cli_pp_sistema.pristine || cli_pp_sistema.valid">
-                    <span *ngIf="cli_pp_sistema.errors?.['required']">Por favor ingrese el Telefono del Cliente.</span>
+                    <span *ngIf="cli_pp_sistema.errors?.['required']">Por favor ingrese el Plazo de Pago del Cliente.</span>
                     <span *ngIf="cli_pp_sistema.errors?.['max']">El valor supera los 99999.</span>
                 </div>
 
