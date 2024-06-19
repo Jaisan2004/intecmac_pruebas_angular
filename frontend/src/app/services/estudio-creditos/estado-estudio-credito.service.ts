@@ -22,4 +22,8 @@ export class EstadoEstudioCreditoService {
   postEstadoEstudio(body: any): Observable<any> {
     return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, body);
   }
+
+  updateEstadoEstudio(id: any, body: any): Observable<any>{
+    return this.http.put(`${this.myAppUrl}${this.myApiUrl}${id}`,body);
+  }
 }

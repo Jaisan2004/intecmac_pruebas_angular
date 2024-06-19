@@ -2,7 +2,6 @@ import { Request, Response, text } from 'express'
 import sequelize from '../../db/connection';
 import { QueryTypes } from 'sequelize';
 import PlanPqrs from '../../models/pqrs/pqrs_plan_accion';
-import nodeMailer from 'nodemailer';
 
 export const getPqrsPlanes = async (req: Request, res: Response) => {
 
@@ -80,13 +79,4 @@ export const updatePlanPqrs = async (req: Request, res: Response) => {
 
 }
 
-export const envioCorreoPlan = nodeMailer.createTransport({
-        service: "gmail",
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.EMAIL_PASSWORD
-        }
-    });
+

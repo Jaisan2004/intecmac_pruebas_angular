@@ -52,9 +52,10 @@ const routes: Routes = [
   //Estudio de Creditos
   {path: "EstudioCreditos", component: EstudiosCreditrosComponent},
   {path: "AgregarEstudioCreditos", component: AgregarEstudiosCreditosComponent},
-  {path: "ModificarEstudioCreditos/:id", component: AgregarEstudiosCreditosComponent},
-  {path: "ModificarEstudioCreditosContabilidad/:id", component: AgregarEstudiosCreditosComponent},
-  {path: "ModificarEstudioCreditosGerencia/:id", component: AgregarEstudiosCreditosComponent},
+  {path: "ModificarEstudioCreditos/:id/:estado", component: AgregarEstudiosCreditosComponent},
+  {path: "ModificarEstudioCreditosDirComercial/:id/:estado", component: AgregarEstudiosCreditosComponent},
+  {path: "ModificarEstudioCreditosContabilidad/:id/:estado", component: AgregarEstudiosCreditosComponent},
+  {path: "ModificarEstudioCreditosGerencia/:id/:estado", component: AgregarEstudiosCreditosComponent},
 
 
   //Administrasdor (Usuario, Roles,Modulos, Rutas, Permisos)

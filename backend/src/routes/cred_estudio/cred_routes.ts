@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { getEstadosByEstudio, postEstadoEstudio } from '../../controllers/cred_estudio/cred_estado_estudio';
+import { getEstadosByEstudio, getLastEstadoByEstudio, postEstadoEstudio, updateEstadoEstudio } from '../../controllers/cred_estudio/cred_estado_estudio';
 import { getCredTipos } from '../../controllers/cred_estudio/cred_tipo';
 import { getCredDocumento, getCredDocumentos } from '../../controllers/cred_estudio/cred_documento';
 import { deleteCredDocEstudio, getCredDocByEstudio, getCredDocEstudio, postCredDocEstudio, updateCredDocEstudio } from '../../controllers/cred_estudio/cred_estudio_documento';
@@ -14,7 +14,9 @@ router.get('/ultimo_estudio', getLastCredEstu);
 
 //Estado del credito
 router.get('/cred_estado_estudio/:id', getEstadosByEstudio);
+router.get('/cred_estado_ultimo/:id', getLastEstadoByEstudio);
 router.post('/cred_estado_estudio/', postEstadoEstudio);
+router.put('/cred_estado_estudio/:id', updateEstadoEstudio);
 
 //Documentos de estudios de credito
 router.get('/cred_documento', getCredDocumentos);

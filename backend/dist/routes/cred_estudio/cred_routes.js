@@ -11,7 +11,9 @@ const router = (0, express_1.Router)();
 router.get('/ultimo_estudio', cred_estudio_1.getLastCredEstu);
 //Estado del credito
 router.get('/cred_estado_estudio/:id', cred_estado_estudio_1.getEstadosByEstudio);
+router.get('/cred_estado_ultimo/:id', cred_estado_estudio_1.getLastEstadoByEstudio);
 router.post('/cred_estado_estudio/', cred_estado_estudio_1.postEstadoEstudio);
+router.put('/cred_estado_estudio/:id', cred_estado_estudio_1.updateEstadoEstudio);
 //Documentos de estudios de credito
 router.get('/cred_documento', cred_documento_1.getCredDocumentos);
 router.get('/cred_documento/:id', cred_documento_1.getCredDocumento);

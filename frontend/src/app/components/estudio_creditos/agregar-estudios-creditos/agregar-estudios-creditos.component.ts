@@ -66,6 +66,10 @@ export class AgregarEstudiosCreditosComponent {
     return this.formEstudio.get('descuento') as FormControl
   }
 
+  get cred_esta_id() {
+    return this.formEstudio.get('cred_esta_id') as FormControl
+  }
+
   formEstudio = new FormGroup({
     'cred_estu_id': new FormControl({ value: '', disabled: true }),
     'cliente': new FormControl('', Validators.required),
@@ -73,7 +77,8 @@ export class AgregarEstudiosCreditosComponent {
     'obserComercial': new FormControl('', [Validators.required, Validators.maxLength(5000)]),
     'cliente_desde': new FormControl('', [Validators.required, Validators.maxLength(100)]),
     'cupo_actual': new FormControl('', [Validators.required, Validators.max(999999999)]),
-    'descuento': new FormControl('', [Validators.required, Validators.maxLength(500)])
+    'descuento': new FormControl('', [Validators.required, Validators.maxLength(500)]),
+    'cred_esta_id': new FormControl({ value: '', disabled: true })
   });
 
   get cred_estu_doc_id() {
@@ -97,6 +102,7 @@ export class AgregarEstudiosCreditosComponent {
   public loading: boolean | any;
   public documentoNuevo: boolean = false;
   public documentoModificar: boolean = false;
+  public botonDocumento: boolean = true;
   contadorDes = 0;
   contadorAnalisis = 0
 
@@ -116,6 +122,7 @@ export class AgregarEstudiosCreditosComponent {
   funcionFinal: any;
 
   public documentos: boolean = false;
+  public todosDocumentos: boolean = false;
   public agregar: boolean = false;
   public modificar: boolean = false;
 
@@ -131,13 +138,22 @@ export class AgregarEstudiosCreditosComponent {
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) { }
 
-  ngOnInit(): void {
-    this.cred_estu_id.setValue(this.activatedRoute.snapshot.paramMap.get('id'));
-
-    this.crearOrModificarEstudio(this.cred_estu_id.value);
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    if (this.paginator) {
+      this.paginator._intl.itemsPerPageLabel = "Registros por página";
+      this.dataSource.paginator = this.paginator;
+    }
   }
 
-  crearOrModificarEstudio(cred_estu_id: any) {
+  ngOnInit(): void {
+    this.cred_estu_id.setValue(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.cred_esta_id.setValue(this.activatedRoute.snapshot.paramMap.get('estado'));
+
+    this.crearOrModificarEstudio(this.cred_estu_id.value, this.cred_esta_id.value);
+  }
+
+  crearOrModificarEstudio(cred_estu_id: any, cred_esta_id: any) {
     if (cred_estu_id == null) {
       this.title = 'Agregar';
       this.botonFinal = 'Registrar y Continuar';
@@ -155,6 +171,19 @@ export class AgregarEstudiosCreditosComponent {
       this.getDocumentosOpcion();
       this.getCredEstudio();
       this.getListDocumentos();
+      if(cred_esta_id > 1){
+        this.botonDocumento = false;
+        this.formEstudio = new FormGroup({
+          'cred_estu_id': new FormControl({ value: '', disabled: true }),
+          'cliente': new FormControl({ value: '', disabled: true }),
+          'tipo': new FormControl({ value: '', disabled: true }),
+          'obserComercial': new FormControl({ value: '', disabled: true }),
+          'cliente_desde': new FormControl({ value: '', disabled: true }),
+          'cupo_actual': new FormControl({ value: '', disabled: true }),
+          'descuento': new FormControl({ value: '', disabled: true }),
+          'cred_esta_id': new FormControl({ value: '', disabled: true })
+        });
+      }
     }
   }
 
@@ -172,21 +201,28 @@ export class AgregarEstudiosCreditosComponent {
       cred_descuento_otorgado: this.descuento.value
     }
 
-    this._credEstudio.postCredEstudio(body).subscribe((data:any)=>{
+    this._credEstudio.postCredEstudio(body).subscribe((data: any) => {
       const mensaje = data.msg;
       this.toastr.success(mensaje, 'Registro Estudio de Credito');
-      this._credEstudio.getLastCredEstudio().subscribe((data:any)=>{
+      this._credEstudio.getLastCredEstudio().subscribe((data: any) => {
         const [dataEstu] = data;
-  
         this.cred_estu_id.setValue(dataEstu.cred_estu_id);
+
+        const body_estado = {
+          cred_estu_id: this.cred_estu_id.value,
+          cred_esta_id: 1,
+          cred_esta_estu_fecha: new Date()
+        }
+        this.crearEstadoCred(body_estado);
         this.router.navigate([`/ModificarEstudioCreditos/${this.cred_estu_id.value}`]);
       });
-      
+
       this.spinner.hide();
-    })
+    });
+
   }
 
-  modificarCredEstudio(){
+  modificarCredEstudio() {
     this.spinner.show();
 
     const body = {
@@ -197,7 +233,7 @@ export class AgregarEstudiosCreditosComponent {
       cred_cupo_actual: this.cupo_actual.value,
       cred_descuento_otorgado: this.descuento.value
     }
-    this._credEstudio.updateCredEstudio(this.cred_estu_id.value, body).subscribe((data:any)=>{
+    this._credEstudio.updateCredEstudio(this.cred_estu_id.value, body).subscribe((data: any) => {
       const mensaje = data.msg;
 
       this.toastr.success(mensaje, 'Actualizar Estudio Credito');
@@ -254,7 +290,7 @@ export class AgregarEstudiosCreditosComponent {
       }
     })
   }
-  
+
   //Carga de documentos Comercial
   getDocumentosOpcion() {
     this.spinner.show();
@@ -312,12 +348,12 @@ export class AgregarEstudiosCreditosComponent {
     body.append('myfile', this.fileTmp.fileRaw, this.fileTmp.fileName);
 
     this._credEstudio.archivoGuardar(body).subscribe(res => {
-      if(boolean){
+      if (boolean) {
         this.agregarDocumento(res.url);
-      }else{
+      } else {
         this.modificarDocumento(res.url);
       }
-      
+
       this.toastr.success(`El archivo de credito "${this.fileTmp.fileName}" se guardo exitosamente`, 'Archivo guardado');
       this.spinner.hide();
     });
@@ -333,8 +369,8 @@ export class AgregarEstudiosCreditosComponent {
     }
     this._documentoEstuCred.postCredDocEstu(body).subscribe(() => {
       this.toastr.success(`Documento Agregado al estudio de credito`, `Documento Agregado`);
-      this.router.navigate([`/ModificarEstudioCreditos/${this.cred_estu_id.value}`]);
-      this.cancelarDocumentoBoton()
+      this.router.navigate([`/ModificarEstudioCreditos/${this.cred_estu_id.value}/${this.cred_esta_id.value}`]);
+      this.cancelarDocumentoBoton();
       this.spinner.hide();
     });
   }
@@ -342,7 +378,7 @@ export class AgregarEstudiosCreditosComponent {
   eliminarDocumento(id: any) {
     this.spinner.show();
 
-    this._documentoEstuCred.deleteCredDocEstu(id).subscribe((data:any)=>{
+    this._documentoEstuCred.deleteCredDocEstu(id).subscribe((data: any) => {
       const mensaje = data.msg;
       this.toastr.warning(mensaje, 'Eliminación de Documento');
       this.spinner.hide();
@@ -351,8 +387,8 @@ export class AgregarEstudiosCreditosComponent {
 
   traerDocumento(id: any) {
     this.spinner.show();
-    this.documentoModificar=true;
-    this.documentoNuevo=false;
+    this.documentoModificar = true;
+    this.documentoNuevo = false;
     this.cred_estu_doc_id.setValue(id);
 
     this._documentoEstuCred.getCredDocEstu(id).subscribe((data: any) => {
@@ -363,7 +399,7 @@ export class AgregarEstudiosCreditosComponent {
     })
   }
 
-  modificarDocumento(url: any){
+  modificarDocumento(url: any) {
     this.spinner.show();
 
     const body = {
@@ -372,7 +408,7 @@ export class AgregarEstudiosCreditosComponent {
       cred_estu_doc_url: url
     }
 
-    this._documentoEstuCred.updateCredDocEstu(this.cred_estu_doc_id.value,body).subscribe((data:any)=>{
+    this._documentoEstuCred.updateCredDocEstu(this.cred_estu_doc_id.value, body).subscribe((data: any) => {
       const mensaje = data.msg;
       this.toastr.success(mensaje, 'Documento Modificado Exitosamente');
       this.router.navigate([`/ModificarEstudioCreditos/${this.cred_estu_id.value}`]);
@@ -381,6 +417,7 @@ export class AgregarEstudiosCreditosComponent {
     })
   }
 
+  //Confirmacion de eliminacion Documento
   openDialog(cred_estu_doc_id: any, cred_doc_nombre: any) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '40%',
@@ -397,14 +434,36 @@ export class AgregarEstudiosCreditosComponent {
   }
 
   //Estados del credito
-  crearEstadoCred(){
+  crearEstadoCred(body: any) {
     this.spinner.show();
 
+    this._estadoEstudioCred.postEstadoEstudio(body).subscribe((data: any) => {
+      const mensaje = data.msg
+
+      this.toastr.success(mensaje, 'Estado del Estudio Actualizado');
+      this.spinner.hide();
+    })
+  }
+
+  numeroDocumentos() {
+    const docCargado = this.dataSource.data.length;
+    const docTotal = this.dataDocumentoOption.length
+    if (docCargado == docTotal) {
+      this.todosDocumentos = true;
+      this.toastr.success('Y yo que me alegro', 'Todo bien, todo correcto');
+    } else {
+      this.todosDocumentos = false;
+      if (docCargado < docTotal) {
+        this.toastr.error('Faltan documentos para realizar esta acción', 'Error al cambiar el estado');
+      } else {
+        this.toastr.error('Existen mas documentos de los requeridos', 'Error al cambiar el estado');
+      }
+    }
+  }
+
+  pasarEtapa(){
     const body = {
 
     }
-    this._estadoEstudioCred.postEstadoEstudio(body).subscribe((data:any)=>{
-
-    })
   }
 }

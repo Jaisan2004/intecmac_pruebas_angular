@@ -24,14 +24,19 @@
 
                     <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
                         <th mat-header-cell [mat-sort-header]="column.prop" *matHeaderCellDef> {{column.name}} </th>
-                        <td mat-cell *matCellDef="let element"> <p *ngIf="column.name!= 'Plazo Pago' && column.name!= 'Plazo Pago Aprobado' ">{{element[column.prop]||'(Vacío)'}}</p>
-                            <p *ngIf="column.name == 'Plazo Pago' || column.name == 'Plazo Pago Aprobado' ">{{element[column.prop]||0}} días</p></td>
+                        <td mat-cell *matCellDef="let element">
+                            <p *ngIf="column.name!= 'Plazo Pago' && column.name!= 'Plazo Pago Aprobado' ">
+                                {{element[column.prop]||'(Vacío)'}}</p>
+                            <p *ngIf="column.name == 'Plazo Pago' || column.name == 'Plazo Pago Aprobado' ">
+                                {{element[column.prop]||0}} días</p>
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="Estado" stickyEnd>
                         <th id="estado" mat-header-cell *matHeaderCellDef> Estado </th>
                         <td id="estado" mat-cell *matCellDef="let element"> {{element.estado}}
-                            <mat-progress-bar class="progreso" [mode]="mode" [value]="porcentajeProceso(element.cred_esta_id)" [bufferValue]="bufferValue">
+                            <mat-progress-bar class="progreso" [mode]="mode"
+                                [value]="porcentajeProceso(element.cred_esta_id)" [bufferValue]="bufferValue">
                             </mat-progress-bar>
                             <h5>{{porcentajeProceso(element.cred_esta_id)}}%</h5>
                         </td>
@@ -39,11 +44,11 @@
 
                     <ng-container matColumnDef="Acciones" stickyEnd>
                         <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                        <td mat-cell *matCellDef="let element"> <button title="Modificar Estudio"
-                                class="btn btn btn-outline-light"
-                                routerLink="/ModificarEstudioCreditos/{{element.cred_estu_id}}"><img
-                                    src="../../../assets/img/lapiz.png"></button>
-
+                        <td mat-cell *matCellDef="let element">
+                            <button title="Modificar Estudio" class="btn btn btn-outline-light"
+                                routerLink="/{{modificarRutaEstuCred(element.cred_esta_id)}}/{{element.cred_estu_id}}/{{element.cred_esta_id}}">
+                                <img src="../../../assets/img/lapiz.png">
+                            </button>
                             <button class="btn btn btn-outline-light" title="Actualizar la informacion"
                                 (click)="getListEstudiosCreditos()">
 

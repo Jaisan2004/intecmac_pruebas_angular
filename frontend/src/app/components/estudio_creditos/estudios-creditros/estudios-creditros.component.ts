@@ -50,6 +50,7 @@ export class EstudiosCreditrosComponent {
 
 
   pqrs_id: any;
+  rutaModificar: string = '';
 
 
   displayedColumns: string[] = ['#', 
@@ -79,7 +80,6 @@ export class EstudiosCreditrosComponent {
 
 
   constructor(private _estudioCreditosServices: EstudioCreditosService,
-    private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private _errorService: ErrorService
   ) { }
@@ -108,6 +108,28 @@ export class EstudiosCreditrosComponent {
       this._errorService.msjError(e);
       this.spinner.hide()
     });
+  }
+
+  modificarRutaEstuCred(option:any) {
+    
+    switch(option) {
+      case 1:
+        this.rutaModificar = 'ModificarEstudioCreditos';
+        return this.rutaModificar;
+      case 2:
+        this.rutaModificar = 'ModificarEstudioCreditosDirComercial';
+        return this.rutaModificar;
+      case 3:
+        this.rutaModificar = 'ModificarEstudioCreditosContabilidad';
+        return this.rutaModificar;
+      case 4:
+        this.rutaModificar = 'ModificarEstudioCreditosGerencia';
+        return this.rutaModificar;
+      default:
+        this.rutaModificar = 'ModificarEstudioCreditos';
+        return this.rutaModificar;
+    }
+
   }
 
   porcentajeProceso(est_id:any){
