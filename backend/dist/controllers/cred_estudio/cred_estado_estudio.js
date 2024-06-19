@@ -78,7 +78,7 @@ const updateEstadoEstudio = (req, res) => __awaiter(void 0, void 0, void 0, func
     try {
         const estadoEstu = yield cred_estado_estudio_1.default.findByPk(id);
         if (estadoEstu) {
-            estadoEstu.updated(body);
+            estadoEstu.update(body);
             res.json({
                 msg: `Estado del credito fue actualizado exictosamente`
             });

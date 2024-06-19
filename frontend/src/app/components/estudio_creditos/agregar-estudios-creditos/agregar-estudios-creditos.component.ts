@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormulariosService } from '../../../services/formularios/formularios.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from '../../../services/error/error.service';
@@ -70,6 +70,10 @@ export class AgregarEstudiosCreditosComponent {
     return this.formEstudio.get('cred_esta_id') as FormControl
   }
 
+  get estado_comercial() {
+    return this.formEstudio.get('estado_comercial') as FormControl
+  }
+
   formEstudio = new FormGroup({
     'cred_estu_id': new FormControl({ value: '', disabled: true }),
     'cliente': new FormControl('', Validators.required),
@@ -78,7 +82,8 @@ export class AgregarEstudiosCreditosComponent {
     'cliente_desde': new FormControl('', [Validators.required, Validators.maxLength(100)]),
     'cupo_actual': new FormControl('', [Validators.required, Validators.max(999999999)]),
     'descuento': new FormControl('', [Validators.required, Validators.maxLength(500)]),
-    'cred_esta_id': new FormControl({ value: '', disabled: true })
+    'cred_esta_id': new FormControl({ value: '', disabled: true }),
+    'estado_comercial': new FormControl('')
   });
 
   get cred_estu_doc_id() {
@@ -139,6 +144,8 @@ export class AgregarEstudiosCreditosComponent {
     private spinner: NgxSpinnerService) { }
 
   ngAfterViewInit() {
+    this.cred_estu_id.setValue(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.cred_esta_id.setValue(this.activatedRoute.snapshot.paramMap.get('estado'));
     this.dataSource.sort = this.sort;
     if (this.paginator) {
       this.paginator._intl.itemsPerPageLabel = "Registros por página";
@@ -181,7 +188,8 @@ export class AgregarEstudiosCreditosComponent {
           'cliente_desde': new FormControl({ value: '', disabled: true }),
           'cupo_actual': new FormControl({ value: '', disabled: true }),
           'descuento': new FormControl({ value: '', disabled: true }),
-          'cred_esta_id': new FormControl({ value: '', disabled: true })
+          'cred_esta_id': new FormControl({ value: '', disabled: true }),
+          'estado_comercial': new FormControl('')
         });
       }
     }
@@ -441,16 +449,38 @@ export class AgregarEstudiosCreditosComponent {
       const mensaje = data.msg
 
       this.toastr.success(mensaje, 'Estado del Estudio Actualizado');
+      this.router.navigate(['/EstudioCreditos']);
       this.spinner.hide();
     })
   }
 
-  numeroDocumentos() {
+  modificarEstadoCred(id:any) {
+    this.spinner.show();
+    const body = {
+      cred_esta_estu_fecha_fin: new Date()
+    }
+    this._estadoEstudioCred.updateEstadoEstudio(id,body).subscribe(()=>{
+      this.spinner.hide();
+    });
+  }
+
+  getLastEstado() {
+    this.spinner.show();
+
+    this._estadoEstudioCred.getLastEstadoByEstudio(this.cred_estu_id.value).subscribe((data:any)=>{
+      const [ ultimoEstadoId ] = data;
+      this.modificarEstadoCred(ultimoEstadoId.cred_esta_estu_id); 
+      this.spinner.hide();
+    });
+  }
+
+  numeroDocumentos(pasar: boolean) {
     const docCargado = this.dataSource.data.length;
-    const docTotal = this.dataDocumentoOption.length
+    const docTotal = this.dataDocumentoOption.length;
     if (docCargado == docTotal) {
       this.todosDocumentos = true;
       this.toastr.success('Y yo que me alegro', 'Todo bien, todo correcto');
+      this.pasarEtapa(pasar);
     } else {
       this.todosDocumentos = false;
       if (docCargado < docTotal) {
@@ -461,9 +491,23 @@ export class AgregarEstudiosCreditosComponent {
     }
   }
 
-  pasarEtapa(){
-    const body = {
-
+  pasarEtapa(boolean: boolean){
+    let estado: number;
+    if(boolean){
+      estado = Number(this.cred_esta_id.value) + 1;
+    }else{
+      estado = Number(this.cred_esta_id.value) - 1;
     }
+    const body = {
+      cred_estu_id: this.cred_estu_id.value,
+      cred_esta_id: estado,
+      cred_esta_estu_fecha: new Date()
+    }
+    this.getLastEstado();
+    this.crearEstadoCred(body);
+  }
+
+  estadoComercial(){
+    console.log(this.estado_comercial.value);
   }
 }

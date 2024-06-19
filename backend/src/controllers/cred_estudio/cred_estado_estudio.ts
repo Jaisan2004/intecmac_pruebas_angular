@@ -71,7 +71,7 @@ export const updateEstadoEstudio = async (req: Request, res: Response)=>{
         const estadoEstu = await CredEstadoEstudio.findByPk(id);
 
         if(estadoEstu){
-            estadoEstu.updated(body);
+            estadoEstu.update(body);
 
             res.json({
                 msg: `Estado del credito fue actualizado exictosamente`
