@@ -7,7 +7,7 @@ export const getCredDocByEstudio = async (req: Request, res: Response)=>{
     const {id} = req.params;
 
     const query = `SELECT ced.cred_estu_doc_id, ced.cred_doc_id, ced.cred_estu_doc_url, cd.cred_doc_nombre FROM cred_estudio_documento ced
-     JOIN cred_documento cd ON ced.cred_doc_id = cd.cred_doc_id where ced.cred_estu_id = ${id};`;
+     JOIN cred_documento cd ON ced.cred_doc_id = cd.cred_doc_id where ced.cred_estu_id = ${id} order by cd.cred_doc_nombre;`;
 
     try {
         const listCredDocumento = await sequelize.query(query, {
@@ -48,11 +48,26 @@ export const postCredDocEstudio = async (req: Request, res: Response)=>{
     const {body} = req;
 
     try {
-        await CredEstudioDocumento.create(body);
-
-        res.json({
-            msg: `El documento se registro exitosamente en el estudio de credito`
+        const documento = await CredEstudioDocumento.findAll({
+            where: {
+                cred_estu_doc_url: body.cred_estu_doc_url
+            }
         });
+
+        const nombre = body.cred_estu_doc_url.split('/').pop();
+
+        if(documento){
+            res.status(400).json({
+                msg: `Ya exite un documento: ${nombre}`
+            })
+        }else{
+            CredEstudioDocumento.create(body);
+            
+            res.json({
+                msg: `El documento se registro exitosamente en el estudio de credito`
+            });
+        }
+
     } catch (error) {
         console.log(error);
         res.status(500).json({

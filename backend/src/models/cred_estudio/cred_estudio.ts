@@ -28,6 +28,9 @@ const CredEstudio = db.define('cred_estudio',{
     cred_descuento_otorgado:{
         type: DataTypes.STRING
     },
+    cred_obser_dirComercial:{
+        type: DataTypes.STRING
+    },
     cred_obser_contabilidad:{
         type: DataTypes.STRING
     },

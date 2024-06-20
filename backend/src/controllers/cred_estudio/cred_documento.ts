@@ -3,7 +3,9 @@ import CredDocumento from "../../models/cred_estudio/cred_documento";
 
 export const getCredDocumentos = async(req: Request, res: Response)=>{
     try {
-        const listCredDocumentos = await CredDocumento.findAll();
+        const listCredDocumentos = await CredDocumento.findAll({
+            order: [['cred_doc_nombre','ASC']]
+        });
 
         res.json(listCredDocumentos);
     } catch (error) {

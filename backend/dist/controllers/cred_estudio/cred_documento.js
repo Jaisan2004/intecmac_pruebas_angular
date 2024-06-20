@@ -16,7 +16,9 @@ exports.getCredDocumento = exports.getCredDocumentos = void 0;
 const cred_documento_1 = __importDefault(require("../../models/cred_estudio/cred_documento"));
 const getCredDocumentos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const listCredDocumentos = yield cred_documento_1.default.findAll();
+        const listCredDocumentos = yield cred_documento_1.default.findAll({
+            order: [['cred_doc_nombre', 'ASC']]
+        });
         res.json(listCredDocumentos);
     }
     catch (error) {

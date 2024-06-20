@@ -4,6 +4,7 @@ import { getCredTipos } from '../../controllers/cred_estudio/cred_tipo';
 import { getCredDocumento, getCredDocumentos } from '../../controllers/cred_estudio/cred_documento';
 import { deleteCredDocEstudio, getCredDocByEstudio, getCredDocEstudio, postCredDocEstudio, updateCredDocEstudio } from '../../controllers/cred_estudio/cred_estudio_documento';
 import { getLastCredEstu } from '../../controllers/cred_estudio/cred_estudio';
+import validarToken from '../validad_token';
 
 
 
@@ -25,7 +26,7 @@ router.get('/cred_documento/:id', getCredDocumento);
 //Documentos del estudio de credito en especifico
 router.get('/cred_estu_documentos/:id', getCredDocByEstudio);
 router.get('/cred_estu_documento/:id', getCredDocEstudio);
-router.post('/cred_estu_documento', postCredDocEstudio);
+router.post('/cred_estu_documento', validarToken,postCredDocEstudio);
 router.put('/cred_estu_documento/:id', updateCredDocEstudio);
 router.delete('/cred_estu_documento/:id', deleteCredDocEstudio);
 

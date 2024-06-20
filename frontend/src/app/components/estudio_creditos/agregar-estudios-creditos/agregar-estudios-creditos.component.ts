@@ -16,6 +16,7 @@ import { DocumentoCreditosService } from '../../../services/estudio-creditos/doc
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../aplicacion/confirm-dialog/confirm-dialog.component';
 import { EstadoEstudioCreditoService } from '../../../services/estudio-creditos/estado-estudio-credito.service';
+import { max } from 'moment';
 
 @Component({
   selector: 'app-agregar-estudios-creditos',
@@ -70,8 +71,28 @@ export class AgregarEstudiosCreditosComponent {
     return this.formEstudio.get('cred_esta_id') as FormControl
   }
 
+  get obserDirectorCom() {
+    return this.formEstudio.get('obserDirectorCom') as FormControl
+  }
+
   get estado_comercial() {
     return this.formEstudio.get('estado_comercial') as FormControl
+  }
+
+  get obserContabilidad() {
+    return this.formEstudio.get('obserContabilidad') as FormControl
+  }
+
+  get plazoAprobado() {
+    return this.formEstudio.get('plazoAprobado') as FormControl
+  }
+
+  get cupoAprobado() {
+    return this.formEstudio.get('cupoAprobado') as FormControl
+  }
+
+  get obserGerencia() {
+    return this.formEstudio.get('obserGerencia') as FormControl
   }
 
   formEstudio = new FormGroup({
@@ -83,7 +104,12 @@ export class AgregarEstudiosCreditosComponent {
     'cupo_actual': new FormControl('', [Validators.required, Validators.max(999999999)]),
     'descuento': new FormControl('', [Validators.required, Validators.maxLength(500)]),
     'cred_esta_id': new FormControl({ value: '', disabled: true }),
-    'estado_comercial': new FormControl('')
+    'obserDirectorCom': new FormControl(''),
+    'estado_comercial': new FormControl(''),
+    'obserContabilidad': new FormControl(''),
+    'plazoAprobado': new FormControl(''),
+    'cupoAprobado': new FormControl(''),
+    'obserGerencia': new FormControl('')
   });
 
   get cred_estu_doc_id() {
@@ -108,8 +134,11 @@ export class AgregarEstudiosCreditosComponent {
   public documentoNuevo: boolean = false;
   public documentoModificar: boolean = false;
   public botonDocumento: boolean = true;
+
   contadorDes = 0;
-  contadorAnalisis = 0
+  contadorObserDirector = 0;
+  contadorObserContable = 0;
+  contadorObserGerencia = 0;
 
   dataTipoEstudioOpcion: any;
   dataClienteOpcion: any;
@@ -128,6 +157,10 @@ export class AgregarEstudiosCreditosComponent {
 
   public documentos: boolean = false;
   public todosDocumentos: boolean = false;
+  public labelsComercial: boolean = false;
+  public dirComercial: boolean = false;
+  public contabilidad: boolean = false;
+  public gerencia: boolean = false;
   public agregar: boolean = false;
   public modificar: boolean = false;
 
@@ -178,8 +211,18 @@ export class AgregarEstudiosCreditosComponent {
       this.getDocumentosOpcion();
       this.getCredEstudio();
       this.getListDocumentos();
-      if(cred_esta_id > 1){
+      if (cred_esta_id > 1) {
         this.botonDocumento = false;
+        this.labelsComercial = true;
+        this.formSwitchByEstado(cred_esta_id);
+      }
+    }
+  }
+
+  formSwitchByEstado(option: any) {
+    switch (option) {
+      case '2':
+        this.dirComercial = true;
         this.formEstudio = new FormGroup({
           'cred_estu_id': new FormControl({ value: '', disabled: true }),
           'cliente': new FormControl({ value: '', disabled: true }),
@@ -189,13 +232,64 @@ export class AgregarEstudiosCreditosComponent {
           'cupo_actual': new FormControl({ value: '', disabled: true }),
           'descuento': new FormControl({ value: '', disabled: true }),
           'cred_esta_id': new FormControl({ value: '', disabled: true }),
-          'estado_comercial': new FormControl('')
+          'obserDirectorCom': new FormControl('', Validators.max(5000)),
+          'estado_comercial': new FormControl(''),
+          'obserContabilidad': new FormControl(''),
+          'plazoAprobado': new FormControl(''),
+          'cupoAprobado': new FormControl(''),
+          'obserGerencia': new FormControl('')
         });
-      }
+        break;
+      case '3':
+        this.dirComercial = true;
+        this.contabilidad = true;
+        this.formEstudio = new FormGroup({
+          'cred_estu_id': new FormControl({ value: '', disabled: true }),
+          'cliente': new FormControl({ value: '', disabled: true }),
+          'tipo': new FormControl({ value: '', disabled: true }),
+          'obserComercial': new FormControl({ value: '', disabled: true }),
+          'cliente_desde': new FormControl({ value: '', disabled: true }),
+          'cupo_actual': new FormControl({ value: '', disabled: true }),
+          'descuento': new FormControl({ value: '', disabled: true }),
+          'cred_esta_id': new FormControl({ value: '', disabled: true }),
+          'obserDirectorCom': new FormControl({ value: '', disabled: true }),
+          'estado_comercial': new FormControl({ value: '', disabled: true }),
+          'obserContabilidad': new FormControl('', Validators.max(5000)),
+          'plazoAprobado': new FormControl(''),
+          'cupoAprobado': new FormControl(''),
+          'obserGerencia': new FormControl('')
+        });
+        break;
+      case '4':
+        this.dirComercial = true;
+        this.contabilidad = true;
+        this.gerencia = true;
+        this.formEstudio = new FormGroup({
+          'cred_estu_id': new FormControl({ value: '', disabled: true }),
+          'cliente': new FormControl({ value: '', disabled: true }),
+          'tipo': new FormControl({ value: '', disabled: true }),
+          'obserComercial': new FormControl({ value: '', disabled: true }),
+          'cliente_desde': new FormControl({ value: '', disabled: true }),
+          'cupo_actual': new FormControl({ value: '', disabled: true }),
+          'descuento': new FormControl({ value: '', disabled: true }),
+          'cred_esta_id': new FormControl({ value: '', disabled: true }),
+          'obserDirectorCom': new FormControl({ value: '', disabled: true }),
+          'estado_comercial': new FormControl({ value: '', disabled: true }),
+          'obserContabilidad': new FormControl({ value: '', disabled: true }),
+          'plazoAprobado': new FormControl('', Validators.max(999)),
+          'cupoAprobado': new FormControl('', Validators.max(999999999)),
+          'obserGerencia': new FormControl('', Validators.maxLength(5000))
+        });
+        break;
+      case option >= '5':
+
+        break;
+      default:
+        break;
     }
   }
 
-  //Datos del estudio de credito Comercial
+  /*Datos del estudio de credito Comercial*/
   crearCredEstudio() {
     this.spinner.show();
 
@@ -239,8 +333,15 @@ export class AgregarEstudiosCreditosComponent {
       cred_obser_comercial: this.obserComercial.value,
       cred_cliente_desde: this.cliente_desde.value,
       cred_cupo_actual: this.cupo_actual.value,
-      cred_descuento_otorgado: this.descuento.value
+      cred_descuento_otorgado: this.descuento.value,
+      cred_obser_dirComercial: this.obserDirectorCom.value,
+      cred_obser_contabilidad: this.obserContabilidad.value,
+      cred_plazo_aprobado: this.plazoAprobado.value,
+      cred_cupo_aprobado: this.cupoAprobado.value,
+      cred_obser_gerencia: this.obserGerencia.value
     }
+    console.log(body);
+    console.log(this.cred_estu_id.value);
     this._credEstudio.updateCredEstudio(this.cred_estu_id.value, body).subscribe((data: any) => {
       const mensaje = data.msg;
 
@@ -257,25 +358,41 @@ export class AgregarEstudiosCreditosComponent {
       this.cliente.setValue(this.data.cli_id);
       this.tipo.setValue(this.data.cred_tipo_id);
       this.obserComercial.setValue(this.data.cred_obser_comercial);
+      this.contadorDes = this.data.cred_obser_comercial.length||0;
       this.cliente_desde.setValue(this.data.cred_cliente_desde);
       this.cupo_actual.setValue(this.data.cred_cupo_actual);
       this.descuento.setValue(this.data.cred_descuento_otorgado);
+      this.obserDirectorCom.setValue(this.data.cred_obser_dirComercial);
+      this.contadorObserDirector = this.data.cred_obser_dirComercial.length || 0;
+      this.obserContabilidad.setValue(this.data.cred_obser_contabilidad);
+      this.contadorObserContable = this.data.cred_obser_contabilidad.length||0;
+      this.plazoAprobado.setValue(this.data.cred_plazo_aprobado);
+      this.cupoAprobado.setValue(this.data.cred_cupo_aprobado);
+      this.obserGerencia.setValue(this.data.cred_obser_gerencia);
+      this.contadorObserGerencia = this.data.cred_obser_gerencia;
       this.getInfoCliente();
-    })
+    });
   }
 
   onKeyobserComercial(event: any) {
     this.contadorDes = event.target.value.length
   }
 
-  onKeyAnalisis(event: any) {
-    this.contadorAnalisis = event.target.value.length
+  onKeyObserDirector(event: any) {
+    this.contadorObserDirector = event.target.value.length;
+  }
+
+  onKeyObserContabilidad(event: any) {
+    this.contadorObserContable = event.target.value.length;
+  }
+
+  onKeyObserGerencia(event: any) {
+    this.contadorObserGerencia = event.target.value.length;
   }
 
   getClienteOpcion() {
     this._formulariosService.getClienteOpcion().subscribe((data) => {
       this.dataClienteOpcion = data
-
     })
   }
 
@@ -299,7 +416,7 @@ export class AgregarEstudiosCreditosComponent {
     })
   }
 
-  //Carga de documentos Comercial
+  /*Carga de documentos Comercial*/
   getDocumentosOpcion() {
     this.spinner.show();
 
@@ -441,7 +558,7 @@ export class AgregarEstudiosCreditosComponent {
     })
   }
 
-  //Estados del credito
+  /*Estados del credito*/
   crearEstadoCred(body: any) {
     this.spinner.show();
 
@@ -454,12 +571,12 @@ export class AgregarEstudiosCreditosComponent {
     })
   }
 
-  modificarEstadoCred(id:any) {
+  modificarEstadoCred(id: any) {
     this.spinner.show();
     const body = {
       cred_esta_estu_fecha_fin: new Date()
     }
-    this._estadoEstudioCred.updateEstadoEstudio(id,body).subscribe(()=>{
+    this._estadoEstudioCred.updateEstadoEstudio(id, body).subscribe(() => {
       this.spinner.hide();
     });
   }
@@ -467,9 +584,9 @@ export class AgregarEstudiosCreditosComponent {
   getLastEstado() {
     this.spinner.show();
 
-    this._estadoEstudioCred.getLastEstadoByEstudio(this.cred_estu_id.value).subscribe((data:any)=>{
-      const [ ultimoEstadoId ] = data;
-      this.modificarEstadoCred(ultimoEstadoId.cred_esta_estu_id); 
+    this._estadoEstudioCred.getLastEstadoByEstudio(this.cred_estu_id.value).subscribe((data: any) => {
+      const [ultimoEstadoId] = data;
+      this.modificarEstadoCred(ultimoEstadoId.cred_esta_estu_id);
       this.spinner.hide();
     });
   }
@@ -479,7 +596,6 @@ export class AgregarEstudiosCreditosComponent {
     const docTotal = this.dataDocumentoOption.length;
     if (docCargado == docTotal) {
       this.todosDocumentos = true;
-      this.toastr.success('Y yo que me alegro', 'Todo bien, todo correcto');
       this.pasarEtapa(pasar);
     } else {
       this.todosDocumentos = false;
@@ -491,11 +607,11 @@ export class AgregarEstudiosCreditosComponent {
     }
   }
 
-  pasarEtapa(boolean: boolean){
+  pasarEtapa(boolean: boolean) {
     let estado: number;
-    if(boolean){
+    if (boolean) {
       estado = Number(this.cred_esta_id.value) + 1;
-    }else{
+    } else {
       estado = Number(this.cred_esta_id.value) - 1;
     }
     const body = {
@@ -504,10 +620,15 @@ export class AgregarEstudiosCreditosComponent {
       cred_esta_estu_fecha: new Date()
     }
     this.getLastEstado();
+    this.modificarCredEstudio();
     this.crearEstadoCred(body);
   }
 
-  estadoComercial(){
-    console.log(this.estado_comercial.value);
+  estadoComercial() {
+    if (this.estado_comercial.value) {
+      this.obserDirectorCom.setValue('Todo en orden')
+    } else {
+      this.obserDirectorCom.setValue('');
+    }
   }
 }

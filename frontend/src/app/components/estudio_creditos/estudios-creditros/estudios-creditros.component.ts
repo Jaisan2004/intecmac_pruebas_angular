@@ -39,13 +39,14 @@ export class EstudiosCreditrosComponent {
     { name: 'Plazo Pago', prop: 'cli_pp_sistema' },
     { name: 'Descuento Otorgado', prop: 'cred_descuento_otorgado' },
     { name: 'Fecha Solicitud', prop: 'fecha_solicitud' },
-    { name: 'Verificacion Comercial', prop: 'fecha_comercial' },
-    { name: 'Verificación Contabilidad', prop: 'fecha_contabilidad' },
+    { name: 'Verificacion Comercial', prop: 'cred_obser_dirComercial' },
+    { name: 'Fecha Director Comercial', prop: 'fecha_comercial' },
     { name: 'Observaciones Contabilidad', prop: 'cred_obser_contabilidad' },
-    { name: 'Fecha Gerencia', prop: 'fecha_gerencia' },
+    { name: 'Verificación Contabilidad', prop: 'fecha_contabilidad' },
     { name: 'Plazo Pago Aprobado', prop: 'cred_plazo_aprobado' },
     { name: 'Cupo Aprobado', prop: 'cred_cupo_aprobado' },
     { name: 'Observaciones Gerencia', prop: 'cred_obser_gerencia' },
+    { name: 'Fecha Gerencia', prop: 'fecha_gerencia' },
   ];
 
 
@@ -64,12 +65,13 @@ export class EstudiosCreditrosComponent {
     'Descuento Otorgado',
     'Fecha Solicitud', 
     'Verificacion Comercial',
-    'Verificación Contabilidad',
+    'Fecha Director Comercial',
     'Observaciones Contabilidad',
-    'Fecha Gerencia',
+    'Verificación Contabilidad',
     'Plazo Pago Aprobado',
     'Cupo Aprobado',
     'Observaciones Gerencia',
+    'Fecha Gerencia',
     'Estado',
     'Acciones'
   ];

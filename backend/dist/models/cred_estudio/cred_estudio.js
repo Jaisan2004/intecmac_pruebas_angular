@@ -32,6 +32,9 @@ const CredEstudio = connection_1.default.define('cred_estudio', {
     cred_descuento_otorgado: {
         type: sequelize_1.DataTypes.STRING
     },
+    cred_obser_dirComercial: {
+        type: sequelize_1.DataTypes.STRING
+    },
     cred_obser_contabilidad: {
         type: sequelize_1.DataTypes.STRING
     },
