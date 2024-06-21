@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import Cliente from '../models/cliente/cliente';
 import Producto from '../models/producto';
 import Pqrs_Causa from '../models/pqrs/pqrs_causa_raiz';
-import Cargo from '../models/cargos';
+import Cargo from '../models/cargos/cargos';
 import sequelize from '../db/connection';
 import { QueryTypes } from 'sequelize';
 import Pqrs_Tipologia from '../models/pqrs/pqrs_tipologia';

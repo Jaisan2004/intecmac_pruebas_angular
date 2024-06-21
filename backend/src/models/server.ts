@@ -7,10 +7,11 @@ import routesPqrsRoutes from '../routes/pqrs/pqrs_routes';
 import routesCliente from '../routes/cliente/cliente';
 import routesClienteRoutes from '../routes/cliente/cliente_routes';
 import routesForms from '../routes/formsSelect';
-import routesCargo from '../routes/cargo';
-import routesProducto from '../routes/producto'
+import routesCargo from '../routes/cargos/cargo';
+import routesProducto from '../routes/producto';
 import routesCredEstudio from '../routes/cred_estudio/cred_estudio';
-import routesCredRoutes from '../routes/cred_estudio/cred_routes'
+import routesCredRoutes from '../routes/cred_estudio/cred_routes';
+import routesAreaEmpresa from '../routes/cargos/area_empresa';
 import db from '../db/connection'
 
 class Server{
@@ -49,6 +50,7 @@ class Server{
         this.app.use('/api/producto', routesProducto);
         this.app.use('/api/cred_estudio', routesCredEstudio);
         this.app.use('/api/cred_apis', routesCredRoutes);
+        this.app.use('/api/area_empresa', routesAreaEmpresa);
         this.app.use('/api/seleccione', routesForms);
     }
 

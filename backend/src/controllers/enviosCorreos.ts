@@ -100,3 +100,36 @@ export const correoPlan = async (req: Request, res: Response)=>{
     }
 }
 
+export const correoCreaEstuCred = async (req: Request, res: Response)=>{
+    const {body} = req;
+    try {
+        
+        await enviosCorreos.sendMail({
+            from: `Creación Estudio Crédito ${process.env.EMAIL}`,
+            to: `${body.carg_correo}`,
+            subject: `Notificacion de Estudio de Crédito #${body.cred_estu_id} Creado`,
+            html: `${body.saludos}, Estimad@ ${body.cargo}.<br><br>
+    
+            Este es un correo automático de <b>Intecma S.A.S.</b> para informarle que creo exitosamente el <b>Estudio de Crédito</b> <br>
+            El día: ${body.cred_fecha_creacion} a la hora: ${body.hora_creacion} 
+    
+            Recuerde que todavia falta adjuntar los archivos para que el <b>Estudio de Crédito</b> pueda avanzar al siguiente cargo correspondiente <br><br>
+    
+            Para ver el <b>Estudio de Crédito</b> ingrese al siguiente link <a href="${process.env.URL_ESTUDIO_CREDITO}${body.cred_estu_id}">Estudio de Crédito</a><br><br>
+    
+            Agradecemos su atención y compromiso con nuestro servicio.<br><br>
+    
+            Atentamente,<br><br>
+    
+            Planes de Acción PQRS<br>
+            Intecma S.A.S`
+        })
+        res.status(200).json({ok: true, message: "enviado"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error en el servidor al enviar el correo de notificacion Estudio de Crédito hable con soporte'
+        });
+    }
+}
+

@@ -42,6 +42,9 @@ const CredEstudio = db.define('cred_estudio',{
     },
     cred_obser_gerencia:{
         type: DataTypes.STRING
+    },
+    usu_id:{
+        type: DataTypes.NUMBER
     }
 },{
     freezeTableName: true,

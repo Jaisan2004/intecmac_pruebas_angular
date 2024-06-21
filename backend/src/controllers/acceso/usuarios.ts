@@ -24,6 +24,21 @@ export const getUsers = async (req: Request, res: Response) => {
     }
 }
 
+const getUserInfo = async (id:any)=>{
+    const query = `SELECT usu.username, c.carg_nombre, c.carg_correo FROM usuarios usu join cargos c on c.carg_id=usu.carg_id join acc_roles ar 
+    on ar.rol_id = usu.rol_id WHERE usu.usu_id = ${id} ORDER BY usu.username,usu.usu_status;`
+
+    const user = await sequelize.query(query,{
+        type: QueryTypes.SELECT,
+    });
+
+    if(user){
+        return user;
+    }else{
+        return false;
+    }
+}
+
 export const getUser = async (req: Request, res: Response) => {
     const { id } = req.params;
 
@@ -93,8 +108,6 @@ export const updateUser = async (req: Request, res: Response) => {
             usu_status: usu_status
         }
     }
-
-
     try {
 
         const usuario = await Usuarios.findByPk(id)
@@ -145,16 +158,22 @@ export const loginUsuario = async (req: Request, res: Response) => {
         })
     }
 
+    const [userInfo] = await getUserInfo(user.usu_id);
+
+
     const rol = user.rol_id
     //Generamos Token
     const token = jwt.sign({
         "username": `${username}`,
+        "codigo":user.usu_id,//se pone 'codigo' para que no sea evidente que es el id del usuario
         "rol": `${rol}`
     }, process.env.SECRET_KEY || 'intecma2024', {
         //expiresIn: '10000'
     });
 
-    res.json({ token });
+    res.json({ token,
+        userInfo
+     });
 }
 
 export const permisosUsuario = async (req: Request, res: Response) => {

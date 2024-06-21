@@ -1,7 +1,6 @@
 import { Request, Response } from "express"
 import CredEstadoEstudio from "../../models/cred_estudio/cred_estado_estudio";
 import sequelize from "../../db/connection";
-import { where } from "sequelize";
 
 
 export const getEstadosByEstudio = async (req: Request, res: Response) =>{

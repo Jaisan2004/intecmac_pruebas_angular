@@ -33,7 +33,7 @@ import { ModificarUsuarioComponent } from './components/administrador/usuario/mo
 import { RolesComponent } from './components/administrador/roles/roles/roles.component';
 import { RolesAgregarComponent } from './components/administrador/roles/roles-agregar/roles-agregar.component';
 import { RolesModificarComponent } from './components/administrador/roles/roles-modificar/roles-modificar.component';
-import {MatDialogActions, MatDialogModule} from '@angular/material/dialog';
+import {MatDialogModule} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from './components/aplicacion/confirm-dialog/confirm-dialog.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';

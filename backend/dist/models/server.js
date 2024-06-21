@@ -21,10 +21,11 @@ const pqrs_routes_1 = __importDefault(require("../routes/pqrs/pqrs_routes"));
 const cliente_1 = __importDefault(require("../routes/cliente/cliente"));
 const cliente_routes_1 = __importDefault(require("../routes/cliente/cliente_routes"));
 const formsSelect_1 = __importDefault(require("../routes/formsSelect"));
-const cargo_1 = __importDefault(require("../routes/cargo"));
+const cargo_1 = __importDefault(require("../routes/cargos/cargo"));
 const producto_1 = __importDefault(require("../routes/producto"));
 const cred_estudio_1 = __importDefault(require("../routes/cred_estudio/cred_estudio"));
 const cred_routes_1 = __importDefault(require("../routes/cred_estudio/cred_routes"));
+const area_empresa_1 = __importDefault(require("../routes/cargos/area_empresa"));
 const connection_1 = __importDefault(require("../db/connection"));
 class Server {
     constructor() {
@@ -56,6 +57,7 @@ class Server {
         this.app.use('/api/producto', producto_1.default);
         this.app.use('/api/cred_estudio', cred_estudio_1.default);
         this.app.use('/api/cred_apis', cred_routes_1.default);
+        this.app.use('/api/area_empresa', area_empresa_1.default);
         this.app.use('/api/seleccione', formsSelect_1.default);
     }
     midlewares() {

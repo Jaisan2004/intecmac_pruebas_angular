@@ -46,6 +46,9 @@ const CredEstudio = connection_1.default.define('cred_estudio', {
     },
     cred_obser_gerencia: {
         type: sequelize_1.DataTypes.STRING
+    },
+    usu_id: {
+        type: sequelize_1.DataTypes.NUMBER
     }
 }, {
     freezeTableName: true,

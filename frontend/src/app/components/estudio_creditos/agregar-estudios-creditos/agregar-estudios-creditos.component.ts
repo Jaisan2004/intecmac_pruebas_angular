@@ -2,10 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { FormulariosService } from '../../../services/formularios/formularios.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorService } from '../../../services/error/error.service';
 import { TipoEstudioCreditosService } from '../../../services/estudio-creditos/tipo-estudio-creditos.service';
 import { EstudioCreditosService } from '../../../services/estudio-creditos/estudio-creditos.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -16,7 +14,9 @@ import { DocumentoCreditosService } from '../../../services/estudio-creditos/doc
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../aplicacion/confirm-dialog/confirm-dialog.component';
 import { EstadoEstudioCreditoService } from '../../../services/estudio-creditos/estado-estudio-credito.service';
-import { max } from 'moment';
+import { jwtDecode } from 'jwt-decode';
+import { EstadoCreditoService } from '../../../services/estudio-creditos/estado-credito.service';
+import { AreasEmpresaService } from '../../../services/cargos/areas-empresa.service';
 
 @Component({
   selector: 'app-agregar-estudios-creditos',
@@ -125,6 +125,24 @@ export class AgregarEstudiosCreditosComponent {
     'documento': new FormControl('', Validators.required)
   })
 
+  get etapa(){
+    return this.formAreasEmpresa.get('etapa') as FormControl
+  }
+
+  get area(){
+    return this.formAreasEmpresa.get('area') as FormControl
+  }
+
+  get cargo(){
+    return this.formAreasEmpresa.get('cargo') as FormControl
+  }
+
+  formAreasEmpresa = new FormGroup({
+    'etapa': new FormControl('', Validators.required),
+    'area': new FormControl('', Validators.required),
+    'cargo': new FormControl('', Validators.required),
+  });
+
 
   cli_plazo: string = '';
   cli_asesor: string = '';
@@ -146,6 +164,8 @@ export class AgregarEstudiosCreditosComponent {
   dataDocumentoOption: any;
   dataDocumento: any;
   dataDocumentoEstu: any;
+  dataEtapaOption: any;
+  dataAreaOption: any;
   doc_nombre: any;
   data: any;
   pqrs_id: any;
@@ -156,13 +176,15 @@ export class AgregarEstudiosCreditosComponent {
   funcionFinal: any;
 
   public documentos: boolean = false;
-  public todosDocumentos: boolean = false;
+  public crearDoc: boolean = false; 
+  public todosDocumentos: boolean = false; //Comprobar que estan todos los documentos antes de entrar
   public labelsComercial: boolean = false;
   public dirComercial: boolean = false;
   public contabilidad: boolean = false;
   public gerencia: boolean = false;
   public agregar: boolean = false;
   public modificar: boolean = false;
+  
 
   constructor(private _formulariosService: FormulariosService,
     private _credEstudioTipo: TipoEstudioCreditosService,
@@ -170,6 +192,8 @@ export class AgregarEstudiosCreditosComponent {
     private _documentoEstuCred: DocumentoEstudioCreditosService,
     private _documentoCred: DocumentoCreditosService,
     private _estadoEstudioCred: EstadoEstudioCreditoService,
+    private _estadoCredService:EstadoCreditoService,
+    private _areaEmpresaService:AreasEmpresaService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -204,17 +228,23 @@ export class AgregarEstudiosCreditosComponent {
     } else {
       this.title = 'Modificar';
       this.botonFinal = 'Actualizar';
-      this.documentos = true;
+      this.crearDoc = true;
       this.modificar = true;
+      this.documentos = true;
       this.getClienteOpcion();
       this.getTipoEstudioOpcion();
       this.getDocumentosOpcion();
       this.getCredEstudio();
+      this.getListEtapas();
       this.getListDocumentos();
+      this.getListAreaEmpresa();
       if (cred_esta_id > 1) {
         this.botonDocumento = false;
         this.labelsComercial = true;
         this.formSwitchByEstado(cred_esta_id);
+        if(cred_esta_id>2) {
+          this.documentos =false;
+        }
       }
     }
   }
@@ -293,6 +323,15 @@ export class AgregarEstudiosCreditosComponent {
   crearCredEstudio() {
     this.spinner.show();
 
+    let decodeToken:any;
+    const token = localStorage.getItem('token');
+
+    if(token){
+      decodeToken = jwtDecode(token);
+    }
+
+    const usu_id = decodeToken.codigo;
+
     const body = {
       cred_fecha_creacion: new Date(),
       cli_id: this.cliente.value,
@@ -300,7 +339,8 @@ export class AgregarEstudiosCreditosComponent {
       cred_obser_comercial: this.obserComercial.value,
       cred_cliente_desde: this.cliente_desde.value,
       cred_cupo_actual: this.cupo_actual.value,
-      cred_descuento_otorgado: this.descuento.value
+      cred_descuento_otorgado: this.descuento.value,
+      usu_id: usu_id
     }
 
     this._credEstudio.postCredEstudio(body).subscribe((data: any) => {
@@ -309,6 +349,8 @@ export class AgregarEstudiosCreditosComponent {
       this._credEstudio.getLastCredEstudio().subscribe((data: any) => {
         const [dataEstu] = data;
         this.cred_estu_id.setValue(dataEstu.cred_estu_id);
+
+        this.correoCreaCredEstu(this.cred_estu_id.value);
 
         const body_estado = {
           cred_estu_id: this.cred_estu_id.value,
@@ -322,6 +364,43 @@ export class AgregarEstudiosCreditosComponent {
       this.spinner.hide();
     });
 
+  }
+
+  correoCreaCredEstu(id:any){
+    const user = localStorage.getItem('user');
+    const usuario:any = JSON.parse(user? user:'');
+
+    const fecha = new Date();
+    const isoString = fecha.toISOString();
+    const dateString = isoString.slice(0, 10);
+
+    const hora = fecha.getHours();
+    const minutos = fecha.getMinutes();
+    const segundos = fecha.getSeconds();
+
+    let saludo = '';
+
+    if (hora < 12) {
+      saludo = 'Buenos días';
+    } else if (hora < 18) {
+      saludo = 'Buenas tardes';
+    } else {
+      saludo = 'Buenas noches';
+    }
+
+    const body = {
+      saludos: saludo,
+      carg_correo: usuario.carg_correo,
+      cargo: usuario.carg_nombre,
+      cred_fecha_creacion: dateString,
+      hora_creacion: `${hora}:${minutos}:${segundos}`,
+      cred_estu_id: id
+    }
+
+    console.log(body);
+    this._credEstudio.correoCreaCredEstu(body).subscribe(()=>{
+      this.toastr.success(`Notificación Enviada al correo: ${usuario.carg_correo}`, 'Notificación Enviada');
+    })
   }
 
   modificarCredEstudio() {
@@ -589,6 +668,30 @@ export class AgregarEstudiosCreditosComponent {
       this.modificarEstadoCred(ultimoEstadoId.cred_esta_estu_id);
       this.spinner.hide();
     });
+  }
+
+  getListEtapas(){
+    this.spinner.show();
+
+    this._estadoCredService.getListEstado().subscribe((data:any)=>{
+      this.dataEtapaOption = data;
+      this.spinner.hide();
+    })
+  }
+
+  getListAreaEmpresa() {
+    this.spinner.show();
+
+    this._areaEmpresaService.getAreasEmpresa().subscribe((data:any)=>{
+      this.dataAreaOption = data;
+      this.spinner.hide();
+    })
+  }
+
+  traerAreaEmpresa(id:any) {
+    const posicion = Number(id)-1
+    const area = this.dataEtapaOption[posicion]
+    console.log(area);
   }
 
   numeroDocumentos(pasar: boolean) {

@@ -5,6 +5,8 @@ import { getCredDocumento, getCredDocumentos } from '../../controllers/cred_estu
 import { deleteCredDocEstudio, getCredDocByEstudio, getCredDocEstudio, postCredDocEstudio, updateCredDocEstudio } from '../../controllers/cred_estudio/cred_estudio_documento';
 import { getLastCredEstu } from '../../controllers/cred_estudio/cred_estudio';
 import validarToken from '../validad_token';
+import { correoCreaEstuCred } from '../../controllers/enviosCorreos';
+import { getEstados } from '../../controllers/cred_estudio/cred_estado';
 
 
 
@@ -12,6 +14,9 @@ const router = Router();
 
 //ultimo estudio de credito
 router.get('/ultimo_estudio', getLastCredEstu);
+
+//Tipos de estados
+router.get('/cred_estado', getEstados);
 
 //Estado del credito
 router.get('/cred_estado_estudio/:id', getEstadosByEstudio);
@@ -32,5 +37,8 @@ router.delete('/cred_estu_documento/:id', deleteCredDocEstudio);
 
 //Tipo de estudios de creditos
 router.get('/cred_tipo', getCredTipos);
+
+//Correos de Estudios de Créditos
+router.post('/cred_estudio_creado_correo', correoCreaEstuCred);
 
 export default router;

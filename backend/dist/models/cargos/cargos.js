@@ -5,16 +5,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../../db/connection"));
-const CredEstado = connection_1.default.define('cred_estado', {
-    cred_esta_id: {
+const Cargo = connection_1.default.define('cargos', {
+    carg_id: {
         type: sequelize_1.DataTypes.NUMBER,
         autoIncrement: true,
         primaryKey: true
     },
-    cred_esta_nombre: {
+    carg_nombre: {
         type: sequelize_1.DataTypes.STRING
     },
-    carg_id: {
+    carg_celular: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    carg_correo: {
+        type: sequelize_1.DataTypes.STRING
+    },
+    area_emp_id: {
         type: sequelize_1.DataTypes.NUMBER
     }
 }, {
@@ -22,4 +28,4 @@ const CredEstado = connection_1.default.define('cred_estado', {
     createdAt: false,
     updatedAt: false
 });
-exports.default = CredEstado;
+exports.default = Cargo;

@@ -1,5 +1,5 @@
 import {DataTypes} from 'sequelize'
-import db from '../db/connection';
+import db from '../../db/connection';
 
 const Cargo = db.define('cargos',{
     carg_id:{
@@ -10,8 +10,14 @@ const Cargo = db.define('cargos',{
     carg_nombre:{
         type: DataTypes.STRING
     },
+    carg_celular:{
+        type: DataTypes.STRING
+    },
     carg_correo:{
         type: DataTypes.STRING
+    },
+    area_emp_id:{
+        type: DataTypes.NUMBER
     }
 },{
     freezeTableName: true,

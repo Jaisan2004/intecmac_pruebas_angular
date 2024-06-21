@@ -5,21 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../../db/connection"));
-const CredEstado = connection_1.default.define('cred_estado', {
-    cred_esta_id: {
+const areaEmpresa = connection_1.default.define('area_empresa', {
+    area_emp_id: {
         type: sequelize_1.DataTypes.NUMBER,
         autoIncrement: true,
         primaryKey: true
     },
-    cred_esta_nombre: {
+    area_emp_nombre: {
         type: sequelize_1.DataTypes.STRING
-    },
-    carg_id: {
-        type: sequelize_1.DataTypes.NUMBER
     }
 }, {
     freezeTableName: true,
     createdAt: false,
     updatedAt: false
 });
-exports.default = CredEstado;
+exports.default = areaEmpresa;

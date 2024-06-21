@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -40,7 +39,7 @@ export class EstudiosCreditrosComponent {
     { name: 'Descuento Otorgado', prop: 'cred_descuento_otorgado' },
     { name: 'Fecha Solicitud', prop: 'fecha_solicitud' },
     { name: 'Verificacion Comercial', prop: 'cred_obser_dirComercial' },
-    { name: 'Fecha Director Comercial', prop: 'fecha_comercial' },
+    { name: 'Fecha Verificacion Comercial', prop: 'fecha_comercial' },
     { name: 'Observaciones Contabilidad', prop: 'cred_obser_contabilidad' },
     { name: 'Verificación Contabilidad', prop: 'fecha_contabilidad' },
     { name: 'Plazo Pago Aprobado', prop: 'cred_plazo_aprobado' },
@@ -65,7 +64,7 @@ export class EstudiosCreditrosComponent {
     'Descuento Otorgado',
     'Fecha Solicitud', 
     'Verificacion Comercial',
-    'Fecha Director Comercial',
+    'Fecha Verificacion Comercial',
     'Observaciones Contabilidad',
     'Verificación Contabilidad',
     'Plazo Pago Aprobado',

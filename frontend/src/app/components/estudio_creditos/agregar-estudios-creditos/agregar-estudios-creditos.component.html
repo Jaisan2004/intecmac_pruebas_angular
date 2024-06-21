@@ -158,17 +158,24 @@
             </div>
 
             <!-- Tabla de documento (agregar, modificar, eliminar, tabla con contenido) -->
+            <div class="mb-3">
+                <button class="btn btn-info btn-sm" *ngIf="!documentos&&crearDoc" (click)="documentos=true"><i
+                        class="bi bi-plus-square-fill"></i> Ver Documentos</button>
+            </div>
             <section class="example-container mat-elevation-z8" tabindex="0" *ngIf="documentos">
                 <div class="row" *ngIf="botonDocumento">
                     <div class="mb-3 col-md-3">
                         <button class="btn btn-success btn-sm" (click)="agregarDocumentoBoton()"><i
                                 class="bi bi-plus-square-fill"></i> Agregar Documento</button>
                     </div>
-                    <div class="mb-3 col-md-8">
+                    <div class="mb-3 col-md-7">
                     </div>
                     <div class="mb-3 col-md-1">
                         <button class="btn btn-light" (click)="getListDocumentos()"><i
                                 class="bi bi-arrow-clockwise"></i></button>
+                    </div>
+                    <div class="mb-3 col-md-1">
+                        <button type="button" class="btn-close" aria-label="Close" (click)="documentos=false"></button>
                     </div>
                 </div>
 
@@ -396,36 +403,83 @@
                 </div>
             </section>
 
+            <!-- Cambiar etapa -->
+            <form class="row g-3" [formGroup]="formAreasEmpresa">
+                <div class="form-floating mb-3">
+
+                    <select id="etapa" class="form-select" *ngIf="dataEtapaOption" aria-label="Default select example"
+                        name="etapa" (change)="traerAreaEmpresa(etapa.value)" formControlName="etapa">
+
+                        <option disabled selected>---Seleccione una etapa---</option>
+                        <option *ngFor="let option of dataEtapaOption" [value]="option.cred_esta_id">
+                            {{option.cred_esta_nombre}}</option>
+
+                    </select>
+
+                    <label class="form-label" for="etapa" style="color: green;" *ngIf="etapa.valid">*
+                        etapa</label>
+                    <label class="form-label" for="etapa" style="color: red;" *ngIf="etapa.invalid">*
+                        etapa</label>
+
+                    <div class="alert alert-danger" [hidden]="etapa.untouched || etapa.valid">
+                        <span>Por favor seleccione una etapa.</span>
+                    </div>
+
+                </div>
+
+                <div class="form-floating mb-3 col-md-6">
+
+                    <select id="area" class="form-select" *ngIf="dataAreaOption" aria-label="Default select example"
+                        name="area" formControlName="area">
+
+                        <option disabled selected>---Seleccione una area empresa---</option>
+                        <option *ngFor="let option of dataAreaOption" [value]="option.area_emp_id">
+                            {{option.area_emp_nombre}}</option>
+
+                    </select>
+
+                    <label class="form-label" for="area" style="color: green;" *ngIf="area.valid">*
+                        area empresa</label>
+                    <label class="form-label" for="area" style="color: red;" *ngIf="area.invalid">*
+                        area empresa</label>
+
+                    <div class="alert alert-danger" [hidden]="area.untouched || area.valid">
+                        <span>Por favor seleccione una area.</span>
+                    </div>
+
+                </div>
+            </form>
+
             <!-- Sección de Botones -->
             <!-- Volver -->
-            <div class="mb-3 col-md-3">
+            <div class="mb-3 col-md-6">
                 <button title="Volver al listado de Estudios Creditos" type="submit" class="btn btn-secondary"
                     style="width: 100%;" routerLink="/EstudioCreditos">Volver</button>
             </div>
 
             <!-- Registrar Estudio Credito -->
-            <div class="mb-3 col-md-3" *ngIf="agregar">
+            <div class="mb-3 col-md-6" *ngIf="agregar">
                 <button title="Registrar Estudio" type="submit" class="btn btn-primary" style="width: 100%;"
                     (click)="crearCredEstudio()" [disabled]="formEstudio.invalid || loading">{{(loading)?'Cargando...'
                     : 'Registrar y Continuar'}}</button>
             </div>
 
             <!-- Devolver etapa -->
-            <div class="mb-3 col-md-3" *ngIf="modificar">
+            <!-- <div class="mb-3 col-md-6" *ngIf="modificar">
                 <button title="Registrar la PQRS" type="submit" class="btn btn-danger" style="width: 100%;"
                     (click)="numeroDocumentos(false)"
                     [disabled]="formEstudio.invalid || loading || cred_esta_id.value == 1">Devolver Etapa</button>
-            </div>
+            </div> -->
 
             <!-- Pasar Estapa -->
-            <div class="mb-3 col-md-3" *ngIf="modificar">
+            <!-- <div class="mb-3 col-md-6" *ngIf="modificar">
                 <button title="Registrar la PQRS" type="submit" class="btn btn-success" style="width: 100%;"
                     (click)="numeroDocumentos(true)" [disabled]="formEstudio.invalid || loading">Siguiente
                     Etapa</button>
-            </div>
+            </div> -->
 
             <!-- Modificar Estudio Credito -->
-            <div class="mb-3 col-md-3" *ngIf="modificar">
+            <div class="mb-3 col-md-6" *ngIf="modificar">
                 <button title="Actualizar la informacion del Estudio" type="submit" class="btn btn-primary"
                     style="width: 100%;" (click)="modificarCredEstudio()"
                     [disabled]="formEstudio.invalid || loading">{{(loading)?'Cargando...'

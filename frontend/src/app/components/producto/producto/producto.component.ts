@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { ProductoService } from '../../../services/producto/producto.service';
 import { NgxSpinnerService } from 'ngx-spinner';

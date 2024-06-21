@@ -11,11 +11,13 @@ export class EstudioCreditosService {
   private myAppUrl: string;
   private myApiUrl: string;
   private myApiUrl2: string;
+  private myApiUrl3: string;
 
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint;
     this.myApiUrl = 'api/cred_estudio/';
     this.myApiUrl2 = 'api/cred_apis/ultimo_estudio';
+    this.myApiUrl3 = 'api/cred_apis/cred_estudio_creado_correo';
 
   }
 
@@ -37,6 +39,10 @@ export class EstudioCreditosService {
 
   updateCredEstudio(id:any,body: any): Observable<any> {
     return this.http.put(`${this.myAppUrl}${this.myApiUrl}${id}`, body)
+  }
+
+  correoCreaCredEstu(body:any): Observable<any> {
+    return this.http.post(`${this.myAppUrl}${this.myApiUrl3}`,body)
   }
 
   archivoGuardar(body: FormData):Observable<any>{

@@ -60,6 +60,7 @@ export class LoginComponent {
     this._usuarioService.login(body).subscribe({
       next: (data: any)=>{
         localStorage.setItem('token', data.token);
+        localStorage.setItem('user',JSON.stringify(data.userInfo));
         this.spinner.hide()
         this.router.navigate(['/Pqrs']);        
       }

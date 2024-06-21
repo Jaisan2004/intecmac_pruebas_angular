@@ -16,7 +16,7 @@ exports.getPqrsTipologiaOption = exports.getCargosOption = exports.getPqrsCausaO
 const cliente_1 = __importDefault(require("../models/cliente/cliente"));
 const producto_1 = __importDefault(require("../models/producto"));
 const pqrs_causa_raiz_1 = __importDefault(require("../models/pqrs/pqrs_causa_raiz"));
-const cargos_1 = __importDefault(require("../models/cargos"));
+const cargos_1 = __importDefault(require("../models/cargos/cargos"));
 const connection_1 = __importDefault(require("../db/connection"));
 const sequelize_1 = require("sequelize");
 const pqrs_tipologia_1 = __importDefault(require("../models/pqrs/pqrs_tipologia"));

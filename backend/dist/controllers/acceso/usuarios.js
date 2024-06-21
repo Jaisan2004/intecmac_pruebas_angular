@@ -36,6 +36,19 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUsers = getUsers;
+const getUserInfo = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = `SELECT usu.username, c.carg_nombre, c.carg_correo FROM usuarios usu join cargos c on c.carg_id=usu.carg_id join acc_roles ar 
+    on ar.rol_id = usu.rol_id WHERE usu.usu_id = ${id} ORDER BY usu.username,usu.usu_status;`;
+    const user = yield connection_1.default.query(query, {
+        type: sequelize_1.QueryTypes.SELECT,
+    });
+    if (user) {
+        return user;
+    }
+    else {
+        return false;
+    }
+});
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const usuario = yield usuario_1.default.findByPk(id);
@@ -139,15 +152,19 @@ const loginUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             msg: `El usuario ${username} esta inactivo hable con el administrador`
         });
     }
+    const [userInfo] = yield getUserInfo(user.usu_id);
     const rol = user.rol_id;
     //Generamos Token
     const token = jsonwebtoken_1.default.sign({
         "username": `${username}`,
+        "codigo": user.usu_id, //se pone 'codigo' para que no sea evidente que es el id del usuario
         "rol": `${rol}`
     }, process.env.SECRET_KEY || 'intecma2024', {
     //expiresIn: '10000'
     });
-    res.json({ token });
+    res.json({ token,
+        userInfo
+    });
 });
 exports.loginUsuario = loginUsuario;
 const permisosUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

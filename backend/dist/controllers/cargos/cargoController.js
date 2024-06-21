@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCargo = exports.getCargos = void 0;
-const cargos_1 = __importDefault(require("../models/cargos/cargos"));
+const cargos_1 = __importDefault(require("../../models/cargos/cargos"));
 const getCargos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listCliente = yield cargos_1.default.findAll();
     res.json(listCliente);

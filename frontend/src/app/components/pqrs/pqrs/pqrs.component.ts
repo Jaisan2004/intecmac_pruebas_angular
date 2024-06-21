@@ -7,7 +7,7 @@ import moment from 'moment';
 import { MatSort } from '@angular/material/sort';
 import { PqrsProductoService } from '../../../services/pqrs/pqrs-producto.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ExportExcelService } from '../../../services/export-excel/export-excel.service';
 
