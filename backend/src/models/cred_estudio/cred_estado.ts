@@ -10,7 +10,7 @@ const CredEstado = db.define('cred_estado',{
     cred_esta_nombre:{
         type: DataTypes.STRING
     },
-    carg_id:{
+    area_emp_id:{
         type: DataTypes.NUMBER
     }
 },{

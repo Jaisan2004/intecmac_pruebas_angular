@@ -22,6 +22,9 @@ const CredEstadoEstudio = connection_1.default.define('cred_estado_estudio', {
     },
     cred_esta_estu_fecha_fin: {
         type: sequelize_1.DataTypes.DATE
+    },
+    carg_id: {
+        type: sequelize_1.DataTypes.NUMBER
     }
 }, {
     freezeTableName: true,

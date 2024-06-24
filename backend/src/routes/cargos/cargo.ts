@@ -1,10 +1,11 @@
 import {Router} from 'express';
-import { getCargo } from '../../controllers/cargos/cargoController';
+import { getCargo, getCargoByArea } from '../../controllers/cargos/cargoController';
 import validarToken from '../validad_token';
 
 
 const router = Router();
 
-router.get('/:id', validarToken,getCargo);
+router.get('/traer/:id', validarToken,getCargo);
+router.get('/traerByArea/:id', getCargoByArea);
 
 export default router;

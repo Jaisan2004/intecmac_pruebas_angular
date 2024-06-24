@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCredDocEstudio = exports.updateCredDocEstudio = exports.postCredDocEstudio = exports.getCredDocEstudio = exports.getCredDocByEstudio = void 0;
+exports.prueba = exports.deleteCredDocEstudio = exports.updateCredDocEstudio = exports.postCredDocEstudio = exports.getCredDocEstudio = exports.getCredDocByEstudio = void 0;
 const cred_estudio_documento_1 = __importDefault(require("../../models/cred_estudio/cred_estudio_documento"));
 const connection_1 = __importDefault(require("../../db/connection"));
 const sequelize_1 = require("sequelize");
@@ -64,13 +64,13 @@ const postCredDocEstudio = (req, res) => __awaiter(void 0, void 0, void 0, funct
             }
         });
         const nombre = body.cred_estu_doc_url.split('/').pop();
-        if (documento) {
+        if (documento && documento.length > 0) {
             res.status(400).json({
                 msg: `Ya exite un documento: ${nombre}`
             });
         }
         else {
-            cred_estudio_documento_1.default.create(body);
+            yield cred_estudio_documento_1.default.create(body);
             res.json({
                 msg: `El documento se registro exitosamente en el estudio de credito`
             });
@@ -133,3 +133,34 @@ const deleteCredDocEstudio = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.deleteCredDocEstudio = deleteCredDocEstudio;
+const prueba = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const body = 'http://localhost:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(2)8.pdf';
+    try {
+        const documento = yield cred_estudio_documento_1.default.findAll({
+            where: {
+                cred_estu_doc_url: body
+            }
+        });
+        const nombre = body.split('/').pop();
+        const numero = documento.length;
+        if (documento && numero > 0) {
+            res.status(400).json({
+                msg: `Ya exite un documento: ${nombre}`,
+                documento,
+                numero
+            });
+        }
+        else {
+            res.json({
+                msg: `El documento se registro exitosamente en el estudio de credito`,
+                numero
+            });
+        }
+    }
+    catch (error) {
+        res.status(500).json({
+            msg: 'Error servidor'
+        });
+    }
+});
+exports.prueba = prueba;

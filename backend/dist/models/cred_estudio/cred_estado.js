@@ -14,7 +14,7 @@ const CredEstado = connection_1.default.define('cred_estado', {
     cred_esta_nombre: {
         type: sequelize_1.DataTypes.STRING
     },
-    carg_id: {
+    area_emp_id: {
         type: sequelize_1.DataTypes.NUMBER
     }
 }, {

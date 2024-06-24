@@ -53,3 +53,13 @@ table {
 #centrar{
     text-align: center;
 }
+
+#infoButton {
+    background-color: var(--bs-info-bg-subtle);
+    color: black;
+}
+
+#successButton {
+    background-color: var(--bs-success-bg-subtle);
+    color: black;
+}

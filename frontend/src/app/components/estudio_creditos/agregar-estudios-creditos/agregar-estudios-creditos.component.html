@@ -158,20 +158,21 @@
             </div>
 
             <!-- Tabla de documento (agregar, modificar, eliminar, tabla con contenido) -->
-            <div class="mb-3">
-                <button class="btn btn-info btn-sm" *ngIf="!documentos&&crearDoc" (click)="documentos=true"><i
+            <div class="mb-3" *ngIf="!documentos&&crearDoc">
+                <button id="infoButton" class="btn btn-info btn-sm" (click)="documentos=true"><i
                         class="bi bi-plus-square-fill"></i> Ver Documentos</button>
             </div>
             <section class="example-container mat-elevation-z8" tabindex="0" *ngIf="documentos">
-                <div class="row" *ngIf="botonDocumento">
+                <div class="row">
                     <div class="mb-3 col-md-3">
-                        <button class="btn btn-success btn-sm" (click)="agregarDocumentoBoton()"><i
-                                class="bi bi-plus-square-fill"></i> Agregar Documento</button>
+                        <button class="btn btn-success btn-sm" *ngIf="botonDocumento"
+                            (click)="agregarDocumentoBoton()"><i class="bi bi-plus-square-fill"></i> Agregar
+                            Documento</button>
                     </div>
                     <div class="mb-3 col-md-7">
                     </div>
                     <div class="mb-3 col-md-1">
-                        <button class="btn btn-light" (click)="getListDocumentos()"><i
+                        <button class="btn btn-light" *ngIf="botonDocumento" (click)="getListDocumentos()"><i
                                 class="bi bi-arrow-clockwise"></i></button>
                     </div>
                     <div class="mb-3 col-md-1">
@@ -215,14 +216,14 @@
                         <button title="Cancelar" type="submit" class="btn btn-secondary btn-sm" style="width: 100%;"
                             (click)="cancelarDocumentoBoton()">Cancelar</button>
                     </div>
-                    <!-- Registrar Prodcuto -->
+                    <!-- Registrar Documento -->
                     <div class="mb-3 col-md-6" *ngIf="documentoNuevo">
                         <button type="submit" class="btn btn-primary btn-sm" style="width: 100%;"
                             (click)="sendFile(true)" title="Registrar Documento del Estudio de Credito"
                             [disabled]="formDocumento.invalid||loading">{{(loading)?'Cargando...'
                             : 'Registrar Documento'}}</button>
                     </div>
-
+                    <!-- Modificar Documento -->
                     <div class="mb-3 col-md-6" *ngIf="documentoModificar">
                         <button type="submit" class="btn btn-primary btn-sm" style="width: 100%;"
                             (click)="sendFile(false)" title="Modificar Documento del Estudio de Credito"
@@ -232,8 +233,8 @@
 
                     <div class="alert alert-danger" [hidden]="formDocumento.valid">
                         <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de
-                            registrar el
-                            Documento. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+                            registrar el Documento. Además, asegúrese de que no quede ningún campo resaltado en rojo.
+                        </p>
                     </div>
                 </form>
                 <div class="example-table-container">
@@ -354,7 +355,8 @@
                         <input class="form-control" name="plazoAprobado" type="number" id="plazoAprobado"
                             formControlName="plazoAprobado">
 
-                        <label class="form-label" for="plazoAprobado" *ngIf="plazoAprobado.valid">Plazo Aprobado (Días)</label>
+                        <label class="form-label" for="plazoAprobado" *ngIf="labelsComercial">Plazo Aprobado
+                            (Días)</label>
 
                         <label class="form-label" for="plazoAprobado" style="color: red;"
                             *ngIf="plazoAprobado.invalid">*
@@ -372,7 +374,7 @@
                         <input class="form-control" name="cupoAprobado" type="number" id="cupoAprobado"
                             formControlName="cupoAprobado">
 
-                        <label class="form-label" for="cupoAprobado" *ngIf="cupoAprobado.valid">Cupo Aprobado</label>
+                        <label class="form-label" for="cupoAprobado" *ngIf="labelsComercial">Cupo Aprobado</label>
 
                         <label class="form-label" for="cupoAprobado" style="color: red;" *ngIf="cupoAprobado.invalid">*
                             Cupo Aprobado</label>
@@ -390,7 +392,7 @@
                         (keyup)="onKeyObserGerencia($event)" style="height: 200px"
                         formControlName="obserGerencia"></textarea>
 
-                    <label class="form-label" for="obserGerencia" *ngIf="obserGerencia.valid">Observaciones Gerencia
+                    <label class="form-label" for="obserGerencia" *ngIf="labelsComercial">Observaciones Gerencia
                         {{contadorObserGerencia}}/5000</label>
 
                     <label class="form-label" for="obserGerencia" style="color: red;" *ngIf="obserGerencia.invalid">
@@ -404,8 +406,12 @@
             </section>
 
             <!-- Cambiar etapa -->
-            <form class="row g-3" [formGroup]="formAreasEmpresa">
-                <div class="form-floating mb-3">
+            <div class="mb-3" *ngIf="!cambiarEtapa&&crearDoc">
+                <button id="successButton" class="btn btn-success btn-sm" (click)="cambiarEtapa=true"><i class="bi bi-stack"></i> Cambiar Etapa</button>
+            </div>
+            <form class="row g-3" *ngIf="cambiarEtapa" [formGroup]="formAreasEmpresa">
+                <!-- Seleecionar Etapa -->
+                <div class="form-floating mb-3 col-md-6">
 
                     <select id="etapa" class="form-select" *ngIf="dataEtapaOption" aria-label="Default select example"
                         name="etapa" (change)="traerAreaEmpresa(etapa.value)" formControlName="etapa">
@@ -426,70 +432,71 @@
                     </div>
 
                 </div>
-
+                <!-- Seleccionar Cargo -->
                 <div class="form-floating mb-3 col-md-6">
 
-                    <select id="area" class="form-select" *ngIf="dataAreaOption" aria-label="Default select example"
-                        name="area" formControlName="area">
+                    <select id="cargo" class="form-select" *ngIf="dataCargosOption" aria-label="Default select example"
+                        name="cargo" formControlName="cargo" (click)="correoEtapa()">
 
-                        <option disabled selected>---Seleccione una area empresa---</option>
-                        <option *ngFor="let option of dataAreaOption" [value]="option.area_emp_id">
-                            {{option.area_emp_nombre}}</option>
+                        <option disabled selected>---Seleccione un Cargo Responsable---</option>
+                        <option *ngFor="let option of dataCargosOption" [value]="option.carg_id">
+                            {{option.carg_nombre}}</option>
 
                     </select>
 
-                    <label class="form-label" for="area" style="color: green;" *ngIf="area.valid">*
-                        area empresa</label>
-                    <label class="form-label" for="area" style="color: red;" *ngIf="area.invalid">*
-                        area empresa</label>
+                    <label class="form-label" for="cargo" style="color: green;" *ngIf="cargo.valid">*
+                        Cargo Responsable</label>
+                    <label class="form-label" for="cargo" style="color: red;" *ngIf="cargo.invalid">*
+                        Cargo Responsable</label>
 
-                    <div class="alert alert-danger" [hidden]="area.untouched || area.valid">
-                        <span>Por favor seleccione una area.</span>
+                    <div class="alert alert-danger" [hidden]="cargo.untouched || cargo.valid">
+                        <span>Por favor seleccione un Cargo Responsable.</span>
                     </div>
 
+                </div>
+                <!-- Cancelar Cambio de Etapa -->
+                <div class="mb-3 col-md-6">
+                    <button title="Cancelar Cambio de Etapa" type="button" class="btn btn-secondary"
+                        (click)="cambiarEtapa=false" style="width: 100%;">Cancelar</button>
+                </div>
+                <!-- Cambiar Etapa -->
+                <div class="mb-3 col-md-6">
+                    <button title="Cambiar Etapa" type="button" class="btn btn-primary"
+                        [disabled]="formAreasEmpresa.invalid||loading" (click)="numeroDocumentos()"
+                        style="width: 100%;">Cambiar de
+                        Etapa y Actualizar</button>
                 </div>
             </form>
 
             <!-- Sección de Botones -->
-            <!-- Volver -->
-            <div class="mb-3 col-md-6">
-                <button title="Volver al listado de Estudios Creditos" type="submit" class="btn btn-secondary"
-                    style="width: 100%;" routerLink="/EstudioCreditos">Volver</button>
-            </div>
+            <section class="row g-3" *ngIf="!cambiarEtapa">
+                <!-- Volver -->
+                <div class="mb-3 col-md-6">
+                    <button title="Volver al listado de Estudios Creditos" type="button" class="btn btn-secondary"
+                        style="width: 100%;" routerLink="/EstudioCreditos">Volver</button>
+                </div>
 
-            <!-- Registrar Estudio Credito -->
-            <div class="mb-3 col-md-6" *ngIf="agregar">
-                <button title="Registrar Estudio" type="submit" class="btn btn-primary" style="width: 100%;"
-                    (click)="crearCredEstudio()" [disabled]="formEstudio.invalid || loading">{{(loading)?'Cargando...'
-                    : 'Registrar y Continuar'}}</button>
-            </div>
+                <!-- Registrar Estudio Credito -->
+                <div class="mb-3 col-md-6" *ngIf="agregar">
+                    <button title="Registrar Estudio" type="button" class="btn btn-primary" style="width: 100%;"
+                        (click)="crearCredEstudio()"
+                        [disabled]="formEstudio.invalid || loading">{{(loading)?'Cargando...'
+                        : 'Registrar y Continuar'}}</button>
+                </div>
 
-            <!-- Devolver etapa -->
-            <!-- <div class="mb-3 col-md-6" *ngIf="modificar">
-                <button title="Registrar la PQRS" type="submit" class="btn btn-danger" style="width: 100%;"
-                    (click)="numeroDocumentos(false)"
-                    [disabled]="formEstudio.invalid || loading || cred_esta_id.value == 1">Devolver Etapa</button>
-            </div> -->
+                <div class="mb-3 col-md-6" *ngIf="modificar">
+                    <button title="Actualizar la informacion del Estudio" type="button" class="btn btn-primary"
+                        style="width: 100%;" (click)="modificarCredEstudio()"
+                        [disabled]="formEstudio.invalid || loading">{{(loading)?'Cargando...'
+                        : 'Actualizar'}}</button>
+                </div>
 
-            <!-- Pasar Estapa -->
-            <!-- <div class="mb-3 col-md-6" *ngIf="modificar">
-                <button title="Registrar la PQRS" type="submit" class="btn btn-success" style="width: 100%;"
-                    (click)="numeroDocumentos(true)" [disabled]="formEstudio.invalid || loading">Siguiente
-                    Etapa</button>
-            </div> -->
-
-            <!-- Modificar Estudio Credito -->
-            <div class="mb-3 col-md-6" *ngIf="modificar">
-                <button title="Actualizar la informacion del Estudio" type="submit" class="btn btn-primary"
-                    style="width: 100%;" (click)="modificarCredEstudio()"
-                    [disabled]="formEstudio.invalid || loading">{{(loading)?'Cargando...'
-                    : 'Actualizar'}}</button>
-            </div>
-
-            <div class="alert alert-danger" [hidden]="formEstudio.valid">
-                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el
-                    formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
-            </div>
+                <div class="alert alert-danger" [hidden]="formEstudio.valid">
+                    <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar
+                        el
+                        formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+                </div>
+            </section>
         </form>
 
 

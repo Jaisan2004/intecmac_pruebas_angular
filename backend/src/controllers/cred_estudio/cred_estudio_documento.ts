@@ -56,12 +56,12 @@ export const postCredDocEstudio = async (req: Request, res: Response)=>{
 
         const nombre = body.cred_estu_doc_url.split('/').pop();
 
-        if(documento){
+        if(documento&&documento.length>0){
             res.status(400).json({
                 msg: `Ya exite un documento: ${nombre}`
             })
         }else{
-            CredEstudioDocumento.create(body);
+            await CredEstudioDocumento.create(body);
             
             res.json({
                 msg: `El documento se registro exitosamente en el estudio de credito`
@@ -124,5 +124,36 @@ export const deleteCredDocEstudio = async (req: Request, res: Response)=>{
         res.status(500).json({
             msg: 'Error en el servidor al eliminar el documento hable con soporte'
         });
+    }
+}
+
+export const prueba = async (req: Request, res: Response)=>{
+    const body = 'http://localhost:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(2)8.pdf';
+    try {
+        const documento = await CredEstudioDocumento.findAll({
+            where: {
+                cred_estu_doc_url: body
+            }
+        });
+
+        const nombre = body.split('/').pop();
+        const numero = documento.length;
+        if(documento&&numero >0){
+            res.status(400).json({
+                msg: `Ya exite un documento: ${nombre}`,
+                documento,
+                numero
+            });
+        }else{
+            
+            res.json({
+                msg: `El documento se registro exitosamente en el estudio de credito`,
+                numero
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Error servidor'
+        })
     }
 }

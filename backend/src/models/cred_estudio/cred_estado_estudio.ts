@@ -18,6 +18,9 @@ const CredEstadoEstudio = db.define('cred_estado_estudio',{
     },
     cred_esta_estu_fecha_fin:{
         type: DataTypes.DATE
+    },
+    carg_id:{
+        type: DataTypes.NUMBER
     }
 },{
     freezeTableName: true,
