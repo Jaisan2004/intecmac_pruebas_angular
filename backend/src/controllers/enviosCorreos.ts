@@ -101,6 +101,7 @@ export const correoPlan = async (req: Request, res: Response)=>{
 }
 
 //ESTUDIOS DE CREDITO
+
 export const correoCreaEstuCred = async (req: Request, res: Response)=>{
     const {body} = req;
     try {

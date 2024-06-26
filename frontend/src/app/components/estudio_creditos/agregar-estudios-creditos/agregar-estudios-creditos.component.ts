@@ -126,11 +126,11 @@ export class AgregarEstudiosCreditosComponent {
     'documento': new FormControl('', Validators.required)
   })
 
-  get etapa(){
+  get etapa() {
     return this.formAreasEmpresa.get('etapa') as FormControl
   }
 
-  get cargo(){
+  get cargo() {
     return this.formAreasEmpresa.get('cargo') as FormControl
   }
 
@@ -173,7 +173,7 @@ export class AgregarEstudiosCreditosComponent {
   funcionFinal: any;
 
   public documentos: boolean = false;
-  public crearDoc: boolean = false; 
+  public crearDoc: boolean = false;
   public todosDocumentos: boolean = false; //Comprobar que estan todos los documentos antes de entrar
   public labelsComercial: boolean = false;
   public dirComercial: boolean = false;
@@ -182,7 +182,7 @@ export class AgregarEstudiosCreditosComponent {
   public cambiarEtapa: boolean = false;
   public agregar: boolean = false;
   public modificar: boolean = false;
-  
+  public ver: boolean = false;
 
   constructor(private _formulariosService: FormulariosService,
     private _credEstudioTipo: TipoEstudioCreditosService,
@@ -190,8 +190,8 @@ export class AgregarEstudiosCreditosComponent {
     private _documentoEstuCred: DocumentoEstudioCreditosService,
     private _documentoCred: DocumentoCreditosService,
     private _estadoEstudioCred: EstadoEstudioCreditoService,
-    private _estadoCredService:EstadoCreditoService,
-    private _cargoServices:CargosService,
+    private _estadoCredService: EstadoCreditoService,
+    private _cargoServices: CargosService,
     private _usuarioServices: UsuariosService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -227,9 +227,21 @@ export class AgregarEstudiosCreditosComponent {
       this.getClienteOpcion();
       this.getTipoEstudioOpcion();
     } else {
-      if(ruta=='VerEstudioCreditos'){
-
-      }else{
+      if (ruta == 'VerEstudioCreditos') {
+        this.title = 'Ver';
+        this.documentos = false;
+        this.botonDocumento = false;
+        this.crearDoc = true;
+        this.ver = true;
+        this.labelsComercial = true;
+        this.getClienteOpcion();
+        this.getTipoEstudioOpcion();
+        this.getDocumentosOpcion();
+        this.getCredEstudio();
+        this.getListEtapas();
+        this.getListDocumentos();
+        this.formSwitchByEstado('0');
+      } else {
         this.title = 'Modificar';
         this.botonFinal = 'Actualizar';
         this.crearDoc = true;
@@ -245,8 +257,8 @@ export class AgregarEstudiosCreditosComponent {
           this.botonDocumento = false;
           this.labelsComercial = true;
           this.formSwitchByEstado(cred_esta_id);
-          if(cred_esta_id>2) {
-            this.documentos =false;
+          if (cred_esta_id > 2) {
+            this.documentos = false;
           }
         }
       }
@@ -254,27 +266,27 @@ export class AgregarEstudiosCreditosComponent {
   }
 
   formSwitchByEstado(option: any) {
-    if(option>=5){
+    if (option >= 5) {
       this.dirComercial = true;
-        this.contabilidad = true;
-        this.gerencia = true;
-        this.formEstudio = new FormGroup({
-          'cred_estu_id': new FormControl({ value: '', disabled: true }),
-          'cliente': new FormControl({ value: '', disabled: true }),
-          'tipo': new FormControl({ value: '', disabled: true }),
-          'obserComercial': new FormControl({ value: '', disabled: true }),
-          'cliente_desde': new FormControl({ value: '', disabled: true }),
-          'cupo_actual': new FormControl({ value: '', disabled: true }),
-          'descuento': new FormControl({ value: '', disabled: true }),
-          'cred_esta_id': new FormControl({ value: '', disabled: true }),
-          'obserDirectorCom': new FormControl({ value: '', disabled: true }),
-          'estado_comercial': new FormControl({ value: '', disabled: true }),
-          'obserContabilidad': new FormControl({ value: '', disabled: true }),
-          'plazoAprobado': new FormControl({ value: '', disabled: true }),
-          'cupoAprobado': new FormControl({ value: '', disabled: true }),
-          'obserGerencia': new FormControl({ value: '', disabled: true })
-        });
-    }else{
+      this.contabilidad = true;
+      this.gerencia = true;
+      this.formEstudio = new FormGroup({
+        'cred_estu_id': new FormControl({ value: '', disabled: true }),
+        'cliente': new FormControl({ value: '', disabled: true }),
+        'tipo': new FormControl({ value: '', disabled: true }),
+        'obserComercial': new FormControl({ value: '', disabled: true }),
+        'cliente_desde': new FormControl({ value: '', disabled: true }),
+        'cupo_actual': new FormControl({ value: '', disabled: true }),
+        'descuento': new FormControl({ value: '', disabled: true }),
+        'cred_esta_id': new FormControl({ value: '', disabled: true }),
+        'obserDirectorCom': new FormControl({ value: '', disabled: true }),
+        'estado_comercial': new FormControl({ value: '', disabled: true }),
+        'obserContabilidad': new FormControl({ value: '', disabled: true }),
+        'plazoAprobado': new FormControl({ value: '', disabled: true }),
+        'cupoAprobado': new FormControl({ value: '', disabled: true }),
+        'obserGerencia': new FormControl({ value: '', disabled: true })
+      });
+    } else {
       switch (option) {
         case '0':
           this.dirComercial = true;
@@ -367,10 +379,10 @@ export class AgregarEstudiosCreditosComponent {
   crearCredEstudio() {
     this.spinner.show();
     this.loading = true;
-    let decodeToken:any;
+    let decodeToken: any;
     const token = localStorage.getItem('token');
 
-    if(token){
+    if (token) {
       decodeToken = jwtDecode(token);
     }
 
@@ -410,9 +422,9 @@ export class AgregarEstudiosCreditosComponent {
 
   }
 
-  correoCreaCredEstu(id:any){
+  correoCreaCredEstu(id: any) {
     const user = localStorage.getItem('user');
-    const usuario:any = JSON.parse(user? user:'');
+    const usuario: any = JSON.parse(user ? user : '');
 
     const fecha = new Date();
     const isoString = fecha.toISOString();
@@ -442,14 +454,14 @@ export class AgregarEstudiosCreditosComponent {
     }
 
     console.log(body);
-    this._credEstudio.correoCreaCredEstu(body).subscribe(()=>{
+    this._credEstudio.correoCreaCredEstu(body).subscribe(() => {
       this.toastr.success(`Notificación Enviada al correo: ${usuario.carg_correo}`, 'Notificación Enviada');
     })
   }
 
   modificarCredEstudio() {
     this.spinner.show();
-    this.loading =true;
+    this.loading = true;
     const body = {
       cli_id: this.cliente.value,
       cred_tipo_id: this.tipo.value,
@@ -468,7 +480,7 @@ export class AgregarEstudiosCreditosComponent {
 
       this.toastr.success(mensaje, 'Actualizar Estudio Credito');
       this.router.navigate(['/EstudioCreditos']);
-      this.loading =false;
+      this.loading = false;
       this.spinner.hide();
     });
   }
@@ -481,22 +493,22 @@ export class AgregarEstudiosCreditosComponent {
       this.getInfoCliente();
       this.tipo.setValue(this.data.cred_tipo_id);
       this.obserComercial.setValue(this.data.cred_obser_comercial);
-      this._usuarioServices.getUsuarioInfo(this.data.usu_id).subscribe((data:any)=>{
+      this._usuarioServices.getUsuarioInfo(this.data.usu_id).subscribe((data: any) => {
         [this.dataUsuario] = data;
       });
-      this.contadorDes = this.data.cred_obser_comercial.length||0;
+      this.contadorDes = this.data.cred_obser_comercial.length || 0;
       this.cliente_desde.setValue(this.data.cred_cliente_desde);
       this.cupo_actual.setValue(this.data.cred_cupo_actual);
       this.descuento.setValue(this.data.cred_descuento_otorgado);
       this.obserDirectorCom.setValue(this.data.cred_obser_dirComercial);
       this.contadorObserDirector = this.data.cred_obser_dirComercial.length || 0;
       this.obserContabilidad.setValue(this.data.cred_obser_contabilidad);
-      this.contadorObserContable = this.data.cred_obser_contabilidad.length||0;
+      this.contadorObserContable = this.data.cred_obser_contabilidad.length || 0;
       this.plazoAprobado.setValue(this.data.cred_plazo_aprobado);
       this.cupoAprobado.setValue(this.data.cred_cupo_aprobado);
       this.obserGerencia.setValue(this.data.cred_obser_gerencia);
-      this.contadorObserGerencia = this.data.cred_obser_gerencia||0;
-      
+      this.contadorObserGerencia = this.data.cred_obser_gerencia || 0;
+
     });
   }
 
@@ -613,7 +625,7 @@ export class AgregarEstudiosCreditosComponent {
 
   agregarDocumento(url: any) {
     this.spinner.show();
-    this.loading =true;
+    this.loading = true;
     const body = {
       cred_estu_id: this.cred_estu_id.value,
       cred_doc_id: this.documento.value,
@@ -721,26 +733,26 @@ export class AgregarEstudiosCreditosComponent {
     });
   }
 
-  getListEtapas(){
+  getListEtapas() {
     this.spinner.show();
 
-    this._estadoCredService.getListEstado().subscribe((data:any)=>{
+    this._estadoCredService.getListEstado().subscribe((data: any) => {
       this.dataEtapaOption = data;
       this.spinner.hide();
     })
   }
 
-  getListCargoByArea(id:any) {
+  getListCargoByArea(id: any) {
     this.spinner.show();
 
-    this._cargoServices.getCargoByArea(id).subscribe((data:any)=>{
+    this._cargoServices.getCargoByArea(id).subscribe((data: any) => {
       this.dataCargosOption = data;
       this.spinner.hide();
     });
   }
 
-  traerAreaEmpresa(id:any) {
-    const posicion = Number(id)-1
+  traerAreaEmpresa(id: any) {
+    const posicion = Number(id) - 1
     const area = this.dataEtapaOption[posicion].area_emp_id;
     this.getListCargoByArea(area);
   }
@@ -772,13 +784,13 @@ export class AgregarEstudiosCreditosComponent {
       carg_id: this.cargo.value
     }
     this.getLastEstado();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.modificarCredEstudio();
       this.crearEstadoCred(body);
       this.correoEtapa();
       this.loading = false;
       this.spinner.hide();
-    },1500);
+    }, 1500);
   }
 
   estadoComercial() {
@@ -799,19 +811,19 @@ export class AgregarEstudiosCreditosComponent {
     let ruta = '';
     let cambioEtapa = '';
 
-    if(this.cred_esta_id.value<this.etapa.value){
+    if (this.cred_esta_id.value < this.etapa.value) {
       cambioEtapa = 'ha sido asignado';
-    }else{
+    } else {
       cambioEtapa = 'ha sido devuelto';
     }
 
-    if(this.etapa.value == 1){
+    if (this.etapa.value == 1) {
       ruta = 'ModificarEstudioCreditos';
-    }else if(this.etapa.value == 2){
+    } else if (this.etapa.value == 2) {
       ruta = 'ModificarEstudioCreditosDirComercial/';
-    }else if(this.etapa.value == 3){
+    } else if (this.etapa.value == 3) {
       ruta = 'ModificarEstudioCreditosContabilidad/';
-    }else if(this.etapa.value == 4){
+    } else if (this.etapa.value == 4) {
       ruta = 'ModificarEstudioCreditosGerencia/';
     }
 
@@ -823,15 +835,15 @@ export class AgregarEstudiosCreditosComponent {
       saludo = 'Buenas noches';
     }
     const cargoId = this.cargo.value;
-    const [cargo] =this.dataCargosOption.filter(function (d:any) {
+    const [cargo] = this.dataCargosOption.filter(function (d: any) {
       return d.carg_id.toString().toLowerCase().indexOf(cargoId) !== -1 || !cargoId;
     });
     const etapaId = this.etapa.value;
-    const [etapa] = this.dataEtapaOption.filter(function(d:any) {
-      return d.cred_esta_id.toString().toLowerCase().indexOf(etapaId) !== -1 || !etapaId; 
+    const [etapa] = this.dataEtapaOption.filter(function (d: any) {
+      return d.cred_esta_id.toString().toLowerCase().indexOf(etapaId) !== -1 || !etapaId;
     });
     const tipoId = this.tipo.value;
-    const [tipo] = this.dataTipoEstudioOpcion.filter(function(d:any) {
+    const [tipo] = this.dataTipoEstudioOpcion.filter(function (d: any) {
       return d.cred_tipo_id.toString().toLowerCase().indexOf(tipoId) !== -1 || !tipoId;
     })
     const body = {
@@ -839,11 +851,11 @@ export class AgregarEstudiosCreditosComponent {
       carg_correo: cargo.carg_correo,
       carg_correo_creador: this.dataUsuario.carg_correo,
       cambioEtapa: cambioEtapa,
-      saludos:saludo,
+      saludos: saludo,
       cli_nombre: this.cli_nombre,
       cargo: cargo.carg_nombre,
       cargo_creador: this.dataUsuario.carg_nombre,
-      cred_estu_id:this.cred_estu_id.value,
+      cred_estu_id: this.cred_estu_id.value,
       cred_esta_id: etapaId,
       tipo_estudio: tipo.cred_tipo_nombre,
       obserComercial: this.obserComercial.value,

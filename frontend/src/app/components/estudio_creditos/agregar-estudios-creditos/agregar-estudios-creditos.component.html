@@ -265,7 +265,7 @@
                                 <button class="btn btn btn-outline-light" title="Modificar PQRS"
                                     (click)="traerDocumento(element.cred_estu_doc_id)" *ngIf="botonDocumento">
 
-                                    <img src="../../../assets/img/lapiz.png">
+                                    <img id="iconosTabla" src="../../../assets/img/lapiz.png">
 
                                 </button>
 
@@ -273,7 +273,7 @@
                                     (click)="openDialog(element.cred_estu_doc_id, element.cred_doc_nombre)"
                                     *ngIf="botonDocumento">
 
-                                    <img src="../../../../../assets/img/borrar.png" alt="eliminar">
+                                    <img id="iconosTabla" src="../../../../../assets/img/borrar.png" alt="eliminar">
 
                                 </button>
                             </td>
@@ -406,7 +406,7 @@
             </section>
 
             <!-- Cambiar etapa -->
-            <div class="mb-3" *ngIf="!cambiarEtapa&&crearDoc">
+            <div class="mb-3" *ngIf="!cambiarEtapa&&crearDoc&&!ver">
                 <button id="successButton" class="btn btn-success btn-sm" (click)="cambiarEtapa=true"><i class="bi bi-stack"></i> Cambiar Etapa</button>
             </div>
             <form class="row g-3" *ngIf="cambiarEtapa" [formGroup]="formAreasEmpresa">
@@ -471,7 +471,11 @@
             <!-- Sección de Botones -->
             <section class="row g-3" *ngIf="!cambiarEtapa">
                 <!-- Volver -->
-                <div class="mb-3 col-md-6">
+                <div class="mb-3" *ngIf="ver">
+                    <button title="Volver al listado de Estudios Creditos" type="button" class="btn btn-secondary"
+                        style="width: 100%;" routerLink="/EstudioCreditos">Volver</button>
+                </div>
+                <div class="mb-3 col-md-6" *ngIf="agregar||modificar">
                     <button title="Volver al listado de Estudios Creditos" type="button" class="btn btn-secondary"
                         style="width: 100%;" routerLink="/EstudioCreditos">Volver</button>
                 </div>
@@ -491,7 +495,7 @@
                         : 'Actualizar'}}</button>
                 </div>
 
-                <div class="alert alert-danger" [hidden]="formEstudio.valid">
+                <div class="alert alert-danger" [hidden]="formEstudio.valid" *ngIf="!ver">
                     <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar
                         el
                         formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>

@@ -3,8 +3,8 @@ html, body { height: 100%; }
 body { font-family: Roboto, "Helvetica Neue", sans-serif; }
 #cuerpo {
     margin-top: 60px; /* add a top margin equal to the navbar's height */
-    min-height: 100vh;
-    max-width: 400vh;
+    min-height: 100%;
+    max-height: 400vh;
 }
 
 #iconosTabla {
