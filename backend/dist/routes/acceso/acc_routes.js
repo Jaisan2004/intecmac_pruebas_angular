@@ -32,4 +32,5 @@ router.get('/rutas/:id', ruta_1.getRutasByComponente);
 router.get('/ruta/:id', ruta_1.getRuta);
 router.post('/rutas', ruta_1.postRuta);
 router.put('/rutas/:id', ruta_1.updateRuta);
+router.delete('/rutas/:id', ruta_1.deleteRuta);
 exports.default = router;

@@ -10,6 +10,9 @@ EMAIL_PASSWORD= 'qyehsqvyjcneltfn'
 
 URL_PQRS='http://192.168.1.17/#/Pqrs'
 URL_PLAN_PQRS = 'http://192.168.1.17/#/PlanAccionPqrs/'
+URL_ESTUDIO_CREDITO = 'http://192.168.1.17/#/ModificarEstudioCreditos/'
+URL_ESTUDIO_CREDITO_MODIFICAR = 'http://192.168.1.17/#/'
+URL_VER_ESTUDIO_CREDITO = 'http://192.168.1.17/#/VerEstudioCreditos/'
 
 DIR_COMERCIAL='practicasintecma1@gmail.com'
 ADMINISTRACION= 'jaisansantiago98@gmail.com'

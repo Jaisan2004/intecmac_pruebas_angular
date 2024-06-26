@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from '../../../services/error/error.service';
 import { EstudioCreditosService } from '../../../services/estudio-creditos/estudio-creditos.service';
 import { ProgressBarMode } from '@angular/material/progress-bar';
+import { EstadoCreditoService } from '../../../services/estudio-creditos/estado-credito.service';
 
 @Component({
   selector: 'app-estudios-creditros',
@@ -24,6 +25,7 @@ export class EstudiosCreditrosComponent {
 
   data: any;
   dataCliente: any;
+  dataEstado: any;
 
   temp: any;
 
@@ -81,6 +83,7 @@ export class EstudiosCreditrosComponent {
 
 
   constructor(private _estudioCreditosServices: EstudioCreditosService,
+    private _estadoService: EstadoCreditoService,
     private spinner: NgxSpinnerService,
     private _errorService: ErrorService
   ) { }
@@ -95,6 +98,7 @@ export class EstudiosCreditrosComponent {
 
   ngOnInit(): void {
     this.getListEstudiosCreditos();
+    this.getEstadosCred();
   }
 
 
@@ -109,6 +113,13 @@ export class EstudiosCreditrosComponent {
       this._errorService.msjError(e);
       this.spinner.hide()
     });
+  }
+
+  getEstadosCred(){
+    this.spinner.show();
+    this._estadoService.getListEstado().subscribe((data: any)=>{
+      this.dataEstado = data;
+    })
   }
 
   modificarRutaEstuCred(option:any) {
@@ -134,7 +145,8 @@ export class EstudiosCreditrosComponent {
   }
 
   porcentajeProceso(est_id:any){
-    const porcentaje = est_id * 20;
+    const porcentaje = est_id * (100/(this.dataEstado.length-1))
+    //const porcentaje = est_id * 20;
     if(porcentaje>100){
       return 100
     }else{

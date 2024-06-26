@@ -35,4 +35,8 @@ export class RutasService {
     return this.http.put(`${this.myAppUrl}${this.myApiUrl}${id}`, body);
   }
 
+  deleteRuta(id:any): Observable<any> {
+    return this.http.delete(`${this.myAppUrl}${this.myApiUrl}${id}`);
+  }
+
 }

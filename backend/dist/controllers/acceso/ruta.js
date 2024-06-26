@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRuta = exports.postRuta = exports.getRuta = exports.getRutasByComponente = void 0;
+exports.deleteRuta = exports.updateRuta = exports.postRuta = exports.getRuta = exports.getRutasByComponente = void 0;
 const ruta_1 = __importDefault(require("../../models/acceso/ruta"));
 const getRutasByComponente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
@@ -98,3 +98,27 @@ const updateRuta = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updateRuta = updateRuta;
+const deleteRuta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const ruta = yield ruta_1.default.findByPk(id);
+        if (ruta) {
+            yield ruta_1.default.destroy();
+            res.json({
+                msg: `Ruta eliminada exitosamente ${ruta.ruta_nombre}`
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: `No existe una ruta con el id: ${id}`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error en el servidor al eliminar la ruta'
+        });
+    }
+});
+exports.deleteRuta = deleteRuta;

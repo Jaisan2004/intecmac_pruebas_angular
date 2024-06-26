@@ -289,10 +289,10 @@
             </section>
 
             <!-- Comprobación Comercial -->
-            <section *ngIf="dirComercial">
-                <h4 class="subtitulo">Directora Comercial</h4>
+            <!-- <section *ngIf="dirComercial">
+                <h4 class="subtitulo">Directora Comercial</h4> -->
                 <!-- Observaciones Director Comercial -->
-                <div class="form-floating mb-3">
+                <!-- <div class="form-floating mb-3">
 
                     <textarea class="form-control" id="obserDirectorCom" name="obserDirectorCom"
                         (keyup)="onKeyObserDirector($event)" style="height: 75px"
@@ -310,15 +310,15 @@
                         <span *ngIf="obserDirectorCom.errors?.['maxlength']">Hay mas de 5000 caracteres.</span>
                     </div>
 
-                </div>
+                </div> -->
 
                 <!-- Comprobación Comercial -->
-                <div class="form-check form-switch">
+                <!-- <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
                         formControlName="estado_comercial" (change)="estadoComercial()">
                     <label class="form-check-label" for="flexSwitchCheckDefault">Comprobación Comercial</label>
                 </div>
-            </section>
+            </section> -->
 
             <!-- Comprobación Contabilidad -->
             <section *ngIf="contabilidad">

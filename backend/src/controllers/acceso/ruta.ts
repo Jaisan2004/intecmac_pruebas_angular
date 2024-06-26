@@ -87,3 +87,27 @@ export const updateRuta = async (req: Request, res: Response)=>{
         })
     }
 }
+
+export const deleteRuta = async (req: Request, res: Response)=>{
+    const {id} = req.params;
+
+    try {
+        const ruta = await Rutas.findByPk(id);
+        if(ruta){
+            await Rutas.destroy();
+
+            res.json({
+                msg: `Ruta eliminada exitosamente ${ruta.ruta_nombre}`
+            })
+        }else{
+            res.status(404).json({
+                msg: `No existe una ruta con el id: ${id}`
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error en el servidor al eliminar la ruta'
+        });
+    }
+}

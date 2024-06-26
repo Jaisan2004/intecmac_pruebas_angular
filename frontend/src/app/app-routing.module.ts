@@ -50,13 +50,13 @@ const routes: Routes = [
   {path: "AgregarProductos", component: AgregarProductoComponent, canActivate: [autGuard]},
   {path: "ModificarProductos/:id", component: ModificarProductoComponent, canActivate: [autGuard]},
   //Estudio de Creditos
-  {path: "EstudioCreditos", component: EstudiosCreditrosComponent},
-  {path: "AgregarEstudioCreditos", component: AgregarEstudiosCreditosComponent},
-  {path: "ModificarEstudioCreditos/:id/:estado", component: AgregarEstudiosCreditosComponent},
-  {path: "ModificarEstudioCreditosDirComercial/:id/:estado", component: AgregarEstudiosCreditosComponent},
-  {path: "ModificarEstudioCreditosContabilidad/:id/:estado", component: AgregarEstudiosCreditosComponent},
-  {path: "ModificarEstudioCreditosGerencia/:id/:estado", component: AgregarEstudiosCreditosComponent},
-  {path: "VerEstudioCreditos/:id", component: AgregarEstudiosCreditosComponent},
+  {path: "EstudioCreditos", component: EstudiosCreditrosComponent, canActivate: [autGuard]},
+  {path: "AgregarEstudioCreditos", component: AgregarEstudiosCreditosComponent, canActivate: [autGuard]},
+  {path: "ModificarEstudioCreditos/:id/:estado", component: AgregarEstudiosCreditosComponent, canActivate: [autGuard]},
+  {path: "ModificarEstudioCreditosDirComercial/:id/:estado", component: AgregarEstudiosCreditosComponent, canActivate: [autGuard]},
+  {path: "ModificarEstudioCreditosContabilidad/:id/:estado", component: AgregarEstudiosCreditosComponent, canActivate: [autGuard]},
+  {path: "ModificarEstudioCreditosGerencia/:id/:estado", component: AgregarEstudiosCreditosComponent, canActivate: [autGuard]},
+  {path: "VerEstudioCreditos/:id", component: AgregarEstudiosCreditosComponent, canActivate: [autGuard]},
 
   //Administrasdor (Usuario, Roles,Modulos, Rutas, Permisos)
 

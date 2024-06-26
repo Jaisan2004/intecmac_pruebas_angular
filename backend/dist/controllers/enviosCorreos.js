@@ -204,7 +204,7 @@ const correoEstuCredCreador = (req, res) => __awaiter(void 0, void 0, void 0, fu
             html: `${body.saludos}, Estimad@ ${body.cargo_creador}.
     
             Este es un correo automático de <b>Intecma S.A.S.</b> para informarle que el <b>Estudio de Crédito del Cliente: 
-            ${body.cli_nombre}</b> creado por usted ${body.cambioEtapa} a la etapa ${body.etapa}.
+            ${body.cli_nombre}</b> creado por usted ${body.cambioEtapa} a la etapa ${body.etapa}.<br><br>
             
             A continuación se muestra en detalle la información del estudio de crédito:<br><br>
             
@@ -223,7 +223,7 @@ const correoEstuCredCreador = (req, res) => __awaiter(void 0, void 0, void 0, fu
             <b>- Cupo Aprobado:</b> ${body.cupoAprobado}<br>
             <b>- Observaciones Gerencia:</b> ${body.obserGerencia}<br><br>
     
-            Para ver información del <b>Estudio de Crédito</b> ingrese al siguiente link <a href="${process.env.URL_ESTUDIO_CREDITO_MODIFICAR}${body.ruta}${body.cred_estu_id}/${body.cred_esta_id}">Estudio de Crédito</a><br><br>
+            Para ver información del <b>Estudio de Crédito</b> ingrese al siguiente link <a href="${process.env.URL_VER_ESTUDIO_CREDITO}${body.cred_estu_id}">Estudio de Crédito</a><br><br>
     
             Agradecemos su atención y compromiso con nuestro servicio.<br><br>
     
