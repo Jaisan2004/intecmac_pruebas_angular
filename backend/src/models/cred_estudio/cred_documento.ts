@@ -9,6 +9,9 @@ const CredDocumento = db.define('cred_documento',{
     },
     cred_doc_nombre:{
         type: DataTypes.STRING
+    },
+    cred_doc_descripcion:{
+        type: DataTypes.STRING
     }
 },{
     freezeTableName: true,

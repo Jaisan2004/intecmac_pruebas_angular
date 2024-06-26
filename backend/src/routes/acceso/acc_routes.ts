@@ -3,9 +3,13 @@ import { getRol, getRoles, postRol, updateRol } from '../../controllers/acceso/r
 import { deletePermiso, getPermiso, getPermisosByRol, postPermisos, updatePermiso } from '../../controllers/acceso/permisos';
 import { getComponentes, getModulo, getModulos, postModulo, updateModulo } from '../../controllers/acceso/modulo';
 import { getRuta, getRutasByComponente, postRuta, updateRuta } from '../../controllers/acceso/ruta';
+import { getUserInfo } from '../../controllers/acceso/usuarios';
 
 
 const router = Router();
+
+//Usuarios
+router.get('/usuario/:id', getUserInfo);
 
 //Roles
 router.get('/roles', getRoles);

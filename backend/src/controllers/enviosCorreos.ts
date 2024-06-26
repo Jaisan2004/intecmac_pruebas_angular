@@ -100,6 +100,7 @@ export const correoPlan = async (req: Request, res: Response)=>{
     }
 }
 
+//ESTUDIOS DE CREDITO
 export const correoCreaEstuCred = async (req: Request, res: Response)=>{
     const {body} = req;
     try {
@@ -115,13 +116,13 @@ export const correoCreaEstuCred = async (req: Request, res: Response)=>{
     
             Recuerde que todavia falta adjuntar los archivos para que el <b>Estudio de Crédito</b> pueda avanzar al siguiente cargo correspondiente <br><br>
     
-            Para ver el <b>Estudio de Crédito</b> ingrese al siguiente link <a href="${process.env.URL_ESTUDIO_CREDITO}${body.cred_estu_id}">Estudio de Crédito</a><br><br>
+            Para ver el <b>Estudio de Crédito</b> ingrese al siguiente link <a href="${process.env.URL_ESTUDIO_CREDITO}${body.cred_estu_id}/1">Estudio de Crédito</a><br><br>
     
             Agradecemos su atención y compromiso con nuestro servicio.<br><br>
     
             Atentamente,<br><br>
     
-            Planes de Acción PQRS<br>
+            Estudios de Creditos<br>
             Intecma S.A.S`
         })
         res.status(200).json({ok: true, message: "enviado"});
@@ -129,6 +130,99 @@ export const correoCreaEstuCred = async (req: Request, res: Response)=>{
         console.log(error);
         res.status(500).json({
             msg: 'Error en el servidor al enviar el correo de notificacion Estudio de Crédito hable con soporte'
+        });
+    }
+}
+
+//Correo de cambio de etapa cargo responsable
+export const correoEtapaEstuCred = async (req: Request, res: Response) =>{
+    const {body} = req;
+    try {
+        await enviosCorreos.sendMail({
+            from: `Etapa ${body.etapa} Estudio de Credito ${process.env.EMAIL}`,
+            to: `${body.carg_correo}`,
+            subject: `El Estudio de Credito del cliente ${body.cli_nombre} asignado a la etapa ${body.etapa}`,
+            html: `${body.saludos}, Estimad@ ${body.cargo}.
+    
+            Este es un correo automático de <b>Intecma S.A.S.</b> para informarle que el <b>Estudio de Crédito del Cliente: 
+            ${body.cli_nombre}</b> ${body.cambioEtapa} a la etapa ${body.etapa}, y usted ha sido seleccionado como responsable de esta etapa.<br><br>
+            
+            A continuación se muestra en detalle la información del estudio de crédito:<br><br>
+            
+            <b>- Número de Estudio de Crédito:</b> ${body.cred_estu_id}<br>
+            <b>- Cliente:</b> ${body.cli_nombre}<br>
+            <b>- Tipo de Estudio:</b> ${body.tipo_estudio}<br>
+            <b>- Observaciones del Equipo Comercial:</b> ${body.obserComercial}<br>
+            <b>- Asesor del Cliente:</b> ${body.cli_asesor}<br>
+            <b>- Cliente desde:</b> ${body.cliente_desde}<br>
+            <b>- Cupo Actual:</b> ${body.cupo_actual}<br>
+            <b>- Plazo de Pago Actual:</b> ${body.cli_plazo}<br>
+            <b>- Descuentos Otorgados:</b> ${body.descuento}<br>
+            <b>- Observaciones Directora Comercial:</b> ${body.obserDirectorCom}<br>
+            <b>- Observaciones Contabilidad:</b> ${body.obserContabilidad}<br><br>
+    
+            Para ver el <b>Estudio de Crédito</b> y modificarlo ingrese al siguiente link <a href="${process.env.URL_ESTUDIO_CREDITO_MODIFICAR}${body.ruta}${body.cred_estu_id}/${body.cred_esta_id}">Estudio de Crédito</a><br><br>
+    
+            Agradecemos su atención y compromiso con nuestro servicio.<br><br>
+    
+            Atentamente,<br><br>
+    
+            Estudios de Creditos<br>
+            Intecma S.A.S`
+        });
+        res.status(200).json({ok: true, message: "enviado"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error en el servidor al enviar el correo de notificación del Cambio de Etapa Estudio de Crédito hable con soporte'
+        });
+    }
+}
+
+//Correo de notificacion de avances al creador del estudio de credito
+export const correoEstuCredCreador = async (req: Request, res: Response)=>{
+    const {body} = req;
+    try {
+        await enviosCorreos.sendMail({
+            from: `Cambio de Etapa Estudio de Credito ${process.env.EMAIL}`,
+            to: `${body.carg_correo_creador}`,
+            subject: `Progreso del Estudio de Credito del cliente ${body.cli_nombre}`,
+            html: `${body.saludos}, Estimad@ ${body.cargo_creador}.
+    
+            Este es un correo automático de <b>Intecma S.A.S.</b> para informarle que el <b>Estudio de Crédito del Cliente: 
+            ${body.cli_nombre}</b> creado por usted ${body.cambioEtapa} a la etapa ${body.etapa}.
+            
+            A continuación se muestra en detalle la información del estudio de crédito:<br><br>
+            
+            <b>- Número de Estudio de Crédito:</b> ${body.cred_estu_id}<br>
+            <b>- Cliente:</b> ${body.cli_nombre}<br>
+            <b>- Tipo de Estudio:</b> ${body.tipo_estudio}<br>
+            <b>- Observaciones del Equipo Comercial:</b> ${body.obserComercial}<br>
+            <b>- Asesor del Cliente:</b> ${body.cli_asesor}<br>
+            <b>- Cliente desde:</b> ${body.cliente_desde}<br>
+            <b>- Cupo Actual:</b> ${body.cupo_actual}<br>
+            <b>- Plazo de Pago Actual:</b> ${body.cli_plazo}<br>
+            <b>- Descuentos Otorgados:</b> ${body.descuento}<br>
+            <b>- Observaciones Directora Comercial:</b> ${body.obserDirectorCom}<br>
+            <b>- Observaciones Contabilidad:</b> ${body.obserContabilidad}<br>
+            <b>- Plazo Aprobado:</b> ${body.plazoAprobado}<br>
+            <b>- Cupo Aprobado:</b> ${body.cupoAprobado}<br>
+            <b>- Observaciones Gerencia:</b> ${body.obserGerencia}<br><br>
+    
+            Para ver información del <b>Estudio de Crédito</b> ingrese al siguiente link <a href="${process.env.URL_ESTUDIO_CREDITO_MODIFICAR}${body.ruta}${body.cred_estu_id}/${body.cred_esta_id}">Estudio de Crédito</a><br><br>
+    
+            Agradecemos su atención y compromiso con nuestro servicio.<br><br>
+    
+            Atentamente,<br><br>
+    
+            Estudios de Creditos<br>
+            Intecma S.A.S`
+        });
+        res.status(200).json({ok: true, message: "enviado"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error en el servidor al enviar el correo de notificación del Cambio de Etapa Estudio de Crédito hable con soporte'
         });
     }
 }

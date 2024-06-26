@@ -5,7 +5,10 @@ const roles_1 = require("../../controllers/acceso/roles");
 const permisos_1 = require("../../controllers/acceso/permisos");
 const modulo_1 = require("../../controllers/acceso/modulo");
 const ruta_1 = require("../../controllers/acceso/ruta");
+const usuarios_1 = require("../../controllers/acceso/usuarios");
 const router = (0, express_1.Router)();
+//Usuarios
+router.get('/usuario/:id', usuarios_1.getUserInfo);
 //Roles
 router.get('/roles', roles_1.getRoles);
 router.get('/roles/:id', roles_1.getRol);

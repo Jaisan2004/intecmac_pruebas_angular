@@ -47,12 +47,16 @@
                         <td mat-cell *matCellDef="let element">
                             <button title="Modificar Estudio" class="btn btn btn-outline-light"
                                 routerLink="/{{modificarRutaEstuCred(element.cred_esta_id)}}/{{element.cred_estu_id}}/{{element.cred_esta_id}}">
-                                <img src="../../../assets/img/lapiz.png">
+                                <img id="iconosTabla" src="../../../assets/img/lapiz.png">
+                            </button>
+                            <button title="Modificar Estudio" class="btn btn btn-outline-light"
+                                routerLink="/VerEstudioCreditos/{{element.cred_estu_id}}">
+                                <img id="iconosTabla" src="../../../assets/img/leer.png">
                             </button>
                             <button class="btn btn btn-outline-light" title="Actualizar la informacion"
                                 (click)="getListEstudiosCreditos()">
 
-                                <img src="../../../../assets/img/actualizar.png" alt="actualizar">
+                                <img id="iconosTabla" src="../../../../assets/img/actualizar.png" alt="actualizar">
 
                             </button>
                         </td>

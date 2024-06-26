@@ -5,9 +5,14 @@ body { font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-top: 60px; /* add a top margin equal to the navbar's height */
     min-height: 100vh;
     max-width: 400vh;
-  }
+}
+
+#iconosTabla {
+  max-width: 30px;
+  max-height: 30px;
+}
 .progreso {
-    --mdc-linear-progress-active-indicator-color: green; 
+    --mdc-linear-progress-active-indicator-color: var(--bs-success);
     --mdc-linear-progress-track-color: rgba(255, 0, 0, 0.24);
     --mdc-linear-progress-active-indicator-height: 5px;
     --mdc-linear-progress-track-height: 5px;

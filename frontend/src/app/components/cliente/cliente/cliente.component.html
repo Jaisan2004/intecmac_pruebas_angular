@@ -30,13 +30,13 @@
                     <th mat-header-cell *matHeaderCellDef> Acciones </th>
                     <td mat-cell *matCellDef="let element"> <button title="Modificar Cliente"
                             class="btn btn btn-outline-light"
-                            routerLink="/ModificarClientes/{{element.cli_id}}"><img
+                            routerLink="/ModificarClientes/{{element.cli_id}}"><img id="iconosTabla"
                                 src="../../../assets/img/lapiz.png"></button>
 
                         <button class="btn btn btn-outline-light" title="Actualizar la informacion"
                             (click)="getListCliente()">
 
-                            <img src="../../../../assets/img/actualizar.png" alt="actualizar">
+                            <img id="iconosTabla" src="../../../../assets/img/actualizar.png" alt="actualizar">
 
                         </button>
                     </td>

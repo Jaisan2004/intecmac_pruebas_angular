@@ -9,10 +9,12 @@ import { Observable } from 'rxjs';
 export class UsuariosService {
   private myAppUrl: string;
   private myApiUrl: string;
+  private myApiUrl2: string;
 
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint;
     this.myApiUrl = 'api/usuarios/';
+    this.myApiUrl2 = 'api/accesos/usuario/';
    }
 
    login(body: any): Observable<string>{
@@ -29,6 +31,10 @@ export class UsuariosService {
 
    getUsuario(id: any):Observable<any>{
     return this.http.get(`${this.myAppUrl}${this.myApiUrl}${id}`);
+   }
+
+   getUsuarioInfo(id:any): Observable<any> {
+    return this.http.get(`${this.myAppUrl}${this.myApiUrl2}${id}`);
    }
 
    postUsuarios(body:any):Observable<any>{

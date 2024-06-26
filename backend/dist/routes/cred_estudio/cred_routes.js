@@ -35,4 +35,6 @@ router.delete('/cred_estu_documento/:id', cred_estudio_documento_1.deleteCredDoc
 router.get('/cred_tipo', cred_tipo_1.getCredTipos);
 //Correos de Estudios de Créditos
 router.post('/cred_estudio_creado_correo', enviosCorreos_1.correoCreaEstuCred);
+router.post('/cred_estu_correo_etapa', enviosCorreos_1.correoEtapaEstuCred);
+router.post('/cred_estu_correo_etapa_creador', enviosCorreos_1.correoEstuCredCreador);
 exports.default = router;

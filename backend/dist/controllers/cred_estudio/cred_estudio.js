@@ -20,25 +20,25 @@ const multer_1 = __importDefault(require("multer"));
 const getCredEstudios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const query = `WITH 
     fs AS (
-        SELECT MAX(cee.cred_esta_estu_fecha) AS cred_esta_estu_fecha, cee.cred_estu_id
+        SELECT MAX(cee.cred_esta_estu_fecha_fin) AS cred_esta_estu_fecha, cee.cred_estu_id
         FROM cred_estado_estudio cee
         WHERE cee.cred_esta_id = 1
         GROUP BY cee.cred_estu_id
     ),
     fvcom AS (
-        SELECT MAX(cee.cred_esta_estu_fecha) AS cred_esta_estu_fecha, cee.cred_estu_id
+        SELECT MAX(cee.cred_esta_estu_fecha_fin) AS cred_esta_estu_fecha, cee.cred_estu_id
         FROM cred_estado_estudio cee
         WHERE cee.cred_esta_id = 2
         GROUP BY cee.cred_estu_id
     ),
     fvcon AS (
-        SELECT MAX(cee.cred_esta_estu_fecha) AS cred_esta_estu_fecha, cee.cred_estu_id
+        SELECT MAX(cee.cred_esta_estu_fecha_fin) AS cred_esta_estu_fecha, cee.cred_estu_id
         FROM cred_estado_estudio cee
         WHERE cee.cred_esta_id = 3
         GROUP BY cee.cred_estu_id
     ),
     fvg AS (
-        SELECT MAX(cee.cred_esta_estu_fecha) AS cred_esta_estu_fecha, cee.cred_estu_id
+        SELECT MAX(cee.cred_esta_estu_fecha_fin) AS cred_esta_estu_fecha, cee.cred_estu_id
         FROM cred_estado_estudio cee
         WHERE cee.cred_esta_id = 4
         GROUP BY cee.cred_estu_id

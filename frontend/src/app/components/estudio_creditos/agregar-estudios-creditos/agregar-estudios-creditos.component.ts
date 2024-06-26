@@ -17,6 +17,7 @@ import { EstadoEstudioCreditoService } from '../../../services/estudio-creditos/
 import { jwtDecode } from 'jwt-decode';
 import { EstadoCreditoService } from '../../../services/estudio-creditos/estado-credito.service';
 import { CargosService } from '../../../services/cargos/cargos.service';
+import { UsuariosService } from '../../../services/accesos/usuarios.service';
 
 @Component({
   selector: 'app-agregar-estudios-creditos',
@@ -159,6 +160,7 @@ export class AgregarEstudiosCreditosComponent {
   dataDocumentoOption: any;
   dataDocumento: any;
   dataDocumentoEstu: any;
+  dataUsuario: any;
   dataEtapaOption: any;
   dataCargosOption: any;
   doc_nombre: any;
@@ -190,6 +192,7 @@ export class AgregarEstudiosCreditosComponent {
     private _estadoEstudioCred: EstadoEstudioCreditoService,
     private _estadoCredService:EstadoCreditoService,
     private _cargoServices:CargosService,
+    private _usuarioServices: UsuariosService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -210,10 +213,12 @@ export class AgregarEstudiosCreditosComponent {
     this.cred_estu_id.setValue(this.activatedRoute.snapshot.paramMap.get('id'));
     this.cred_esta_id.setValue(this.activatedRoute.snapshot.paramMap.get('estado'));
 
-    this.crearOrModificarEstudio(this.cred_estu_id.value, this.cred_esta_id.value);
+    this.crearOrModificarOrVerEstudio(this.cred_estu_id.value, this.cred_esta_id.value);
   }
 
-  crearOrModificarEstudio(cred_estu_id: any, cred_esta_id: any) {
+  crearOrModificarOrVerEstudio(cred_estu_id: any, cred_esta_id: any) {
+    const ruta = this.activatedRoute.snapshot.url[0].path;
+    console.log(ruta)
     if (cred_estu_id == null) {
       this.title = 'Agregar';
       this.botonFinal = 'Registrar y Continuar';
@@ -222,23 +227,27 @@ export class AgregarEstudiosCreditosComponent {
       this.getClienteOpcion();
       this.getTipoEstudioOpcion();
     } else {
-      this.title = 'Modificar';
-      this.botonFinal = 'Actualizar';
-      this.crearDoc = true;
-      this.modificar = true;
-      this.documentos = true;
-      this.getClienteOpcion();
-      this.getTipoEstudioOpcion();
-      this.getDocumentosOpcion();
-      this.getCredEstudio();
-      this.getListEtapas();
-      this.getListDocumentos();
-      if (cred_esta_id > 1) {
-        this.botonDocumento = false;
-        this.labelsComercial = true;
-        this.formSwitchByEstado(cred_esta_id);
-        if(cred_esta_id>2) {
-          this.documentos =false;
+      if(ruta=='VerEstudioCreditos'){
+
+      }else{
+        this.title = 'Modificar';
+        this.botonFinal = 'Actualizar';
+        this.crearDoc = true;
+        this.modificar = true;
+        this.documentos = true;
+        this.getClienteOpcion();
+        this.getTipoEstudioOpcion();
+        this.getDocumentosOpcion();
+        this.getCredEstudio();
+        this.getListEtapas();
+        this.getListDocumentos();
+        if (cred_esta_id > 1) {
+          this.botonDocumento = false;
+          this.labelsComercial = true;
+          this.formSwitchByEstado(cred_esta_id);
+          if(cred_esta_id>2) {
+            this.documentos =false;
+          }
         }
       }
     }
@@ -267,6 +276,27 @@ export class AgregarEstudiosCreditosComponent {
         });
     }else{
       switch (option) {
+        case '0':
+          this.dirComercial = true;
+          this.contabilidad = true;
+          this.gerencia = true;
+          this.formEstudio = new FormGroup({
+            'cred_estu_id': new FormControl({ value: '', disabled: true }),
+            'cliente': new FormControl({ value: '', disabled: true }),
+            'tipo': new FormControl({ value: '', disabled: true }),
+            'obserComercial': new FormControl({ value: '', disabled: true }),
+            'cliente_desde': new FormControl({ value: '', disabled: true }),
+            'cupo_actual': new FormControl({ value: '', disabled: true }),
+            'descuento': new FormControl({ value: '', disabled: true }),
+            'cred_esta_id': new FormControl({ value: '', disabled: true }),
+            'obserDirectorCom': new FormControl({ value: '', disabled: true }),
+            'estado_comercial': new FormControl({ value: '', disabled: true }),
+            'obserContabilidad': new FormControl({ value: '', disabled: true }),
+            'plazoAprobado': new FormControl({ value: '', disabled: true }),
+            'cupoAprobado': new FormControl({ value: '', disabled: true }),
+            'obserGerencia': new FormControl({ value: '', disabled: true })
+          });
+          break;
         case '2':
           this.dirComercial = true;
           this.formEstudio = new FormGroup({
@@ -448,8 +478,12 @@ export class AgregarEstudiosCreditosComponent {
     this._credEstudio.getCredEstudio(this.cred_estu_id.value).subscribe((data: any) => {
       this.data = data;
       this.cliente.setValue(this.data.cli_id);
+      this.getInfoCliente();
       this.tipo.setValue(this.data.cred_tipo_id);
       this.obserComercial.setValue(this.data.cred_obser_comercial);
+      this._usuarioServices.getUsuarioInfo(this.data.usu_id).subscribe((data:any)=>{
+        [this.dataUsuario] = data;
+      });
       this.contadorDes = this.data.cred_obser_comercial.length||0;
       this.cliente_desde.setValue(this.data.cred_cliente_desde);
       this.cupo_actual.setValue(this.data.cred_cupo_actual);
@@ -461,13 +495,13 @@ export class AgregarEstudiosCreditosComponent {
       this.plazoAprobado.setValue(this.data.cred_plazo_aprobado);
       this.cupoAprobado.setValue(this.data.cred_cupo_aprobado);
       this.obserGerencia.setValue(this.data.cred_obser_gerencia);
-      this.contadorObserGerencia = this.data.cred_obser_gerencia;
-      this.getInfoCliente();
+      this.contadorObserGerencia = this.data.cred_obser_gerencia||0;
+      
     });
   }
 
   onKeyobserComercial(event: any) {
-    this.contadorDes = event.target.value.length
+    this.contadorDes = event.target.value.length;
   }
 
   onKeyObserDirector(event: any) {
@@ -680,12 +714,10 @@ export class AgregarEstudiosCreditosComponent {
   }
 
   getLastEstado() {
-    this.spinner.show();
 
     this._estadoEstudioCred.getLastEstadoByEstudio(this.cred_estu_id.value).subscribe((data: any) => {
       const [ultimoEstadoId] = data;
       this.modificarEstadoCred(ultimoEstadoId.cred_esta_estu_id);
-      this.spinner.hide();
     });
   }
 
@@ -743,8 +775,10 @@ export class AgregarEstudiosCreditosComponent {
     setTimeout(()=>{
       this.modificarCredEstudio();
       this.crearEstadoCred(body);
+      this.correoEtapa();
       this.loading = false;
-    },5000);
+      this.spinner.hide();
+    },1500);
   }
 
   estadoComercial() {
@@ -756,11 +790,76 @@ export class AgregarEstudiosCreditosComponent {
   }
 
   correoEtapa() {
-    const cargoId = this.cargo.value;
-    const cargo =this.dataCargosOption.filter(function (d:any) {
-      return d.carg_id.toLowerCase().indexOf(cargoId) !== -1 || !cargoId;
-    })
+    const fecha = new Date();
+    const isoString = fecha.toISOString();
+    const dateString = isoString.slice(0, 10);
 
-    console.log(cargo);
+    const hora = fecha.getHours();
+    let saludo = '';
+    let ruta = '';
+    let cambioEtapa = '';
+
+    if(this.cred_esta_id.value<this.etapa.value){
+      cambioEtapa = 'ha sido asignado';
+    }else{
+      cambioEtapa = 'ha sido devuelto';
+    }
+
+    if(this.etapa.value == 1){
+      ruta = 'ModificarEstudioCreditos';
+    }else if(this.etapa.value == 2){
+      ruta = 'ModificarEstudioCreditosDirComercial/';
+    }else if(this.etapa.value == 3){
+      ruta = 'ModificarEstudioCreditosContabilidad/';
+    }else if(this.etapa.value == 4){
+      ruta = 'ModificarEstudioCreditosGerencia/';
+    }
+
+    if (hora < 12) {
+      saludo = 'Buenos días';
+    } else if (hora < 18) {
+      saludo = 'Buenas tardes';
+    } else {
+      saludo = 'Buenas noches';
+    }
+    const cargoId = this.cargo.value;
+    const [cargo] =this.dataCargosOption.filter(function (d:any) {
+      return d.carg_id.toString().toLowerCase().indexOf(cargoId) !== -1 || !cargoId;
+    });
+    const etapaId = this.etapa.value;
+    const [etapa] = this.dataEtapaOption.filter(function(d:any) {
+      return d.cred_esta_id.toString().toLowerCase().indexOf(etapaId) !== -1 || !etapaId; 
+    });
+    const tipoId = this.tipo.value;
+    const [tipo] = this.dataTipoEstudioOpcion.filter(function(d:any) {
+      return d.cred_tipo_id.toString().toLowerCase().indexOf(tipoId) !== -1 || !tipoId;
+    })
+    const body = {
+      etapa: etapa.cred_esta_nombre,
+      carg_correo: cargo.carg_correo,
+      carg_correo_creador: this.dataUsuario.carg_correo,
+      cambioEtapa: cambioEtapa,
+      saludos:saludo,
+      cli_nombre: this.cli_nombre,
+      cargo: cargo.carg_nombre,
+      cargo_creador: this.dataUsuario.carg_nombre,
+      cred_estu_id:this.cred_estu_id.value,
+      cred_esta_id: etapaId,
+      tipo_estudio: tipo.cred_tipo_nombre,
+      obserComercial: this.obserComercial.value,
+      cli_asesor: this.cli_asesor,
+      cliente_desde: this.cliente_desde.value,
+      cupo_actual: this.cupo_actual.value,
+      cli_plazo: this.cli_plazo,
+      descuento: this.descuento.value,
+      obserDirectorCom: this.obserDirectorCom.value,
+      obserContabilidad: this.obserContabilidad.value,
+      plazoAprobado: this.plazoAprobado.value,
+      cupoAprobado: this.cupoAprobado.value,
+      obserGerencia: this.obserGerencia.value,
+      ruta: ruta
+    }
+    this._credEstudio.correoEtapaEstuCred(body).subscribe();
+    this._credEstudio.correoEtapaEstuCredCreador(body).subscribe();
   }
 }

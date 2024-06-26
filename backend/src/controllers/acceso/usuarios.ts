@@ -24,7 +24,31 @@ export const getUsers = async (req: Request, res: Response) => {
     }
 }
 
-const getUserInfo = async (id:any)=>{
+export const getUserInfo = async (req: Request, res: Response) => {
+    const {id} = req.params;
+
+    const query = `SELECT usu.username, c.carg_nombre, c.carg_correo FROM usuarios usu join cargos c on c.carg_id=usu.carg_id join acc_roles ar 
+    on ar.rol_id = usu.rol_id WHERE usu.usu_id = ${id} ORDER BY usu.username,usu.usu_status;`
+
+    try {
+        const user = await sequelize.query(query,{
+            type: QueryTypes.SELECT,
+        });
+        if(user&&user.length>0){
+            res.json(user);
+        }else{
+            res.status(404).json({
+                msg: `No existe ningun usuario con el id: ${id}`
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Error en el servidor al enviar la info. del usuario'
+        });
+    }
+}
+
+const getUserData = async (id:any)=>{
     const query = `SELECT usu.username, c.carg_nombre, c.carg_correo FROM usuarios usu join cargos c on c.carg_id=usu.carg_id join acc_roles ar 
     on ar.rol_id = usu.rol_id WHERE usu.usu_id = ${id} ORDER BY usu.username,usu.usu_status;`
 
@@ -158,7 +182,7 @@ export const loginUsuario = async (req: Request, res: Response) => {
         })
     }
 
-    const [userInfo] = await getUserInfo(user.usu_id);
+    const [userInfo] = await getUserData(user.usu_id);
 
 
     const rol = user.rol_id

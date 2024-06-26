@@ -13,6 +13,9 @@ const CredDocumento = connection_1.default.define('cred_documento', {
     },
     cred_doc_nombre: {
         type: sequelize_1.DataTypes.STRING
+    },
+    cred_doc_descripcion: {
+        type: sequelize_1.DataTypes.STRING
     }
 }, {
     freezeTableName: true,

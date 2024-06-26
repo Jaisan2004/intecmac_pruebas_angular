@@ -191,7 +191,7 @@
 
                             <option disabled selected>---Seleccione un documento---</option>
                             <option *ngFor="let option of dataDocumentoOption" [value]="option.cred_doc_id">
-                                {{option.cred_doc_nombre}}</option>
+                                {{option.cred_doc_nombre}} ({{option.cred_doc_descripcion}})</option>
 
                         </select>
 
@@ -436,7 +436,7 @@
                 <div class="form-floating mb-3 col-md-6">
 
                     <select id="cargo" class="form-select" *ngIf="dataCargosOption" aria-label="Default select example"
-                        name="cargo" formControlName="cargo" (click)="correoEtapa()">
+                        name="cargo" formControlName="cargo">
 
                         <option disabled selected>---Seleccione un Cargo Responsable---</option>
                         <option *ngFor="let option of dataCargosOption" [value]="option.carg_id">
