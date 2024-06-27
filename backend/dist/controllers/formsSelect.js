@@ -56,15 +56,23 @@ const getInfoProducto = (req, res) => __awaiter(void 0, void 0, void 0, function
     const { id } = req.params;
     const query = 'SELECT pp.pqrs_productos_id, pr.prod_ref, pr.prod_descripcion, pp.lote, pp.cantidad FROM pqrs_productos pp INNER JOIN pqrs p on pp.pqrs_id = p.pqrs_id '
         + 'INNER JOIN productos pr on pp.prod_id = pr.prod_id where p.pqrs_id = ' + id + ';';
-    const listProducto = yield connection_1.default.query(query, {
-        type: sequelize_1.QueryTypes.SELECT
-    });
-    if (listProducto) {
-        res.json(listProducto);
+    try {
+        const listProducto = yield connection_1.default.query(query, {
+            type: sequelize_1.QueryTypes.SELECT
+        });
+        if (listProducto) {
+            res.json(listProducto);
+        }
+        else {
+            res.status(404).json({
+                msg: 'No existe PQRS'
+            });
+        }
     }
-    else {
-        res.status(404).json({
-            msg: 'No existe PQRS'
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error en el servidor al traer los productos'
         });
     }
 });

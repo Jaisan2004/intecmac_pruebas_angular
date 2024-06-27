@@ -218,7 +218,6 @@ export class AgregarEstudiosCreditosComponent {
 
   crearOrModificarOrVerEstudio(cred_estu_id: any, cred_esta_id: any) {
     const ruta = this.activatedRoute.snapshot.url[0].path;
-    console.log(ruta)
     if (cred_estu_id == null) {
       this.title = 'Agregar';
       this.botonFinal = 'Registrar y Continuar';

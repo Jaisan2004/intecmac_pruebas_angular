@@ -21,14 +21,22 @@ export const getPQRSs = async (req: Request, res: Response) => {
 
 export const getPQRS = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const pqrs = await Pqrs.findByPk(id)
 
-    if (pqrs) {
-        res.json(pqrs)
-    } else {
-        res.status(404).json({
-            msg: 'No existe PQRS'
-        })
+    try {
+        const pqrs = await Pqrs.findByPk(id)
+    
+        if (pqrs) {
+            res.json(pqrs);
+        } else {
+            res.status(404).json({
+                msg: 'No existe PQRS'
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error en el servidor al traer PQRS hable con soporte'
+        });
     }
 
 }

@@ -144,6 +144,9 @@ export class ModificarPqrsComponent {
   public cambiarImg: boolean = false;
   public productoNuevo: boolean = false;
   public productoModificar: boolean = false;
+  public pqrsModificar: boolean = false;
+  public pqrsVer: boolean = false;
+
 
 
   contadorDes = 0;
@@ -187,12 +190,46 @@ export class ModificarPqrsComponent {
     this.getCargosOption();
     this.getPqrsTipoOption();
     this.getInfoProducto();
+    this.modificarOrVerPqrs();
 
     if (this.paginator) {
       this.paginator._intl.itemsPerPageLabel = "Registros por página";
       this.dataSource.paginator = this.paginator;
     }
     this.dataSource.sort = this.sort;
+  }
+
+  modificarOrVerPqrs() {
+    const ruta = this.activatedRoute.snapshot.url[0].path;
+    if(ruta == 'VerPqrs'){
+      this.pqrsVer=true;
+      this.pqrsModificar = false;
+      this.formPqrs = new FormGroup({
+        'id_pqrs': new FormControl({ value: '', disabled: true }),
+        'fecha_recepcion': new FormControl({ value: '', disabled: true }),
+        'cliente': new FormControl({ value: '', disabled: true }),
+        'documento': new FormControl({ value: '', disabled: true }),
+        'imagen': new FormControl({ value: '', disabled: true }),
+        'descripcion': new FormControl({ value: '', disabled: true }),
+        'analisis': new FormControl({ value: '', disabled: true }),
+        'costo': new FormControl({ value: '', disabled: true }),
+        'causa': new FormControl({ value: '', disabled: true }),
+        'cargo': new FormControl({ value: '', disabled: true }),
+        'tipo': new FormControl({ value: '', disabled: true }),
+        'fecha_respuesta': new FormControl({ value: '', disabled: true }),
+        'doc_cruce': new FormControl({ value: '', disabled: true }),
+        'estado': new FormControl({ value: '', disabled: true })
+      });
+      this.formProductoPqrs = new FormGroup({
+        'pqrs_prod_id': new FormControl({ value: '', disabled: true }),
+        'producto': new FormControl({ value: '', disabled: true }),
+        'lote': new FormControl({ value: '', disabled: true }),
+        'cantidad': new FormControl({ value: '', disabled: true })
+      });
+    }else{
+      this.pqrsVer = false;
+      this.pqrsModificar = true;
+    }
   }
 
   modificarPqrs() {

@@ -31,13 +31,21 @@ const getPQRSs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getPQRSs = getPQRSs;
 const getPQRS = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const pqrs = yield pqrs_1.default.findByPk(id);
-    if (pqrs) {
-        res.json(pqrs);
+    try {
+        const pqrs = yield pqrs_1.default.findByPk(id);
+        if (pqrs) {
+            res.json(pqrs);
+        }
+        else {
+            res.status(404).json({
+                msg: 'No existe PQRS'
+            });
+        }
     }
-    else {
-        res.status(404).json({
-            msg: 'No existe PQRS'
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error en el servidor al traer PQRS hable con soporte'
         });
     }
 });

@@ -11,16 +11,16 @@
         <h5>Sistema de Peticiones, Quejas, Reclamos y Sugerencias</h5>
       </div>
       <div class="col-md-4">
-        <button class="btn btn-light" title="Exportar PQRS a Excel"
-          (click)="exportAsXLSX()"><img src="../../../../assets/img/excel.png" alt=""></button>
+        <button class="btn btn-light" title="Exportar PQRS a Excel" (click)="exportAsXLSX()"><img
+            src="../../../../assets/img/excel.png" alt=""></button>
       </div>
       <div class="col-md-1">
-        <button class="btn btn-light" title="Borrar Filtro Y Actualizar"
-          (click)="borrarFiltros()"><img src="../../../../assets/img/codigo-limpio.png" alt="Limpiar Filtros"></button>
+        <button class="btn btn-light" title="Borrar Filtro Y Actualizar" (click)="borrarFiltros()"><img
+            src="../../../../assets/img/codigo-limpio.png" alt="Limpiar Filtros"></button>
       </div>
       <div class="col-md-1"><button class="btn btn-success" title="Agregar PQRS Nueva"
           routerLink="/AgregarPqrs">Agregar</button>
-          
+
       </div>
     </div>
     <form [formGroup]="formFiltros">
@@ -40,15 +40,17 @@
               </select>
             </div>
             <div class="col-md-10">
-              <input type="text" class="form-control" [title]="placeholderFiltro" [placeholder]="placeholderFiltro+'. Use `, ` para filtrar por más de uno.'"
-                formControlName="filtros" (keyup)="updateFilter()" />
+              <input type="text" class="form-control" [title]="placeholderFiltro"
+                [placeholder]="placeholderFiltro+'. Use `, ` para filtrar por más de uno.'" formControlName="filtros"
+                (keyup)="updateFilter()" />
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="input-group mb-3">
             <div class="form-floating">
-              <input type="date" class="form-control" (change)="updateFilter()" formControlName="fecha_recepcion_inicio">
+              <input type="date" class="form-control" (change)="updateFilter()"
+                formControlName="fecha_recepcion_inicio">
               <label for="fecha_recepcion_inicio">Fecha de Recepción Inicio</label>
             </div>
             <div class="form-floating">
@@ -124,6 +126,10 @@
 
             </button>
 
+            <button title="Ver Estudio de Credíto" class="btn btn btn-outline-light" routerLink="/VerPqrs/{{element.pqrs_id}}">
+              <img id="iconosTabla" src="../../../assets/img/leer.png">
+            </button>
+
             <button class="btn btn btn-outline-light" title="Actualizar la informacion" (click)="getListPqrs()">
 
               <img id="iconosTabla" src="../../../../assets/img/actualizar.png" alt="actualizar">
@@ -147,7 +153,7 @@
                 <li id="lote" class="list-group-item">{{item.lote}}</li>
                 <li id="cantidad" class="list-group-item">{{item.cantidad}}</li>
               </ul>
-              <ul class="list-group list-group-horizontal" *ngIf="dataProducto?.length === 0">
+              <ul class="list-group list-group-horizontal" *ngIf="dataProducto?.length == 0">
                 <li id="productos" class="list-group-item">No hay Productos</li>
                 <li id="lote" class="list-group-item">0</li>
                 <li id="cantidad" class="list-group-item">0</li>

@@ -37,6 +37,8 @@ const routes: Routes = [
   {path: "Pqrs", component: PqrsComponent, canActivate: [autGuard]},
   {path: "AgregarPqrs", component: AgregarPqrsComponent,canActivate: [autGuard]},
   {path: "ModificarPqrs/:id", component: ModificarPqrsComponent, canActivate: [autGuard]},
+  {path: "VerPqrs/:id", component: ModificarPqrsComponent/*, canActivate: [autGuard]*/},
+
   //Planes de acción PQRS
   {path: "PlanAccionPqrs/:id", component: PlanAccionComponent,canActivate: [autGuard]},
   {path: "AgregarPlanAccionPqrs/:id", component: PlanAccionAgregarComponent,canActivate: [autGuard]},
