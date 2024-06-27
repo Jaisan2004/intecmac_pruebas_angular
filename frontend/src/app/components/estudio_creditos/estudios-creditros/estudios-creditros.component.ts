@@ -40,8 +40,8 @@ export class EstudiosCreditrosComponent {
     { name: 'Plazo Pago', prop: 'cli_pp_sistema' },
     { name: 'Descuento Otorgado', prop: 'cred_descuento_otorgado' },
     { name: 'Fecha Solicitud', prop: 'fecha_solicitud' },
-    { name: 'Verificacion Comercial', prop: 'cred_obser_dirComercial' },
-    { name: 'Fecha Verificacion Comercial', prop: 'fecha_comercial' },
+    //{ name: 'Verificacion Comercial', prop: 'cred_obser_dirComercial' },
+    //{ name: 'Fecha Verificacion Comercial', prop: 'fecha_comercial' },
     { name: 'Observaciones Contabilidad', prop: 'cred_obser_contabilidad' },
     { name: 'Fecha Verificación Contabilidad', prop: 'fecha_contabilidad' },
     { name: 'Plazo Pago Aprobado', prop: 'cred_plazo_aprobado' },
@@ -65,8 +65,8 @@ export class EstudiosCreditrosComponent {
     'Plazo Pago',
     'Descuento Otorgado',
     'Fecha Solicitud', 
-    'Verificacion Comercial',
-    'Fecha Verificacion Comercial',
+    //'Verificacion Comercial',
+    //'Fecha Verificacion Comercial',
     'Observaciones Contabilidad',
     'Fecha Verificación Contabilidad',
     'Plazo Pago Aprobado',
@@ -129,12 +129,9 @@ export class EstudiosCreditrosComponent {
         this.rutaModificar = 'ModificarEstudioCreditos';
         return this.rutaModificar;
       case 2:
-        this.rutaModificar = 'ModificarEstudioCreditosDirComercial';
-        return this.rutaModificar;
-      case 3:
         this.rutaModificar = 'ModificarEstudioCreditosContabilidad';
         return this.rutaModificar;
-      case 4:
+      case 3:
         this.rutaModificar = 'ModificarEstudioCreditosGerencia';
         return this.rutaModificar;
       default:

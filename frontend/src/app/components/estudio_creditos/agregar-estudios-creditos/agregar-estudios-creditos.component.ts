@@ -256,7 +256,7 @@ export class AgregarEstudiosCreditosComponent {
           this.botonDocumento = false;
           this.labelsComercial = true;
           this.formSwitchByEstado(cred_esta_id);
-          if (cred_esta_id > 2) {
+          if (cred_esta_id >= 2) {
             this.documentos = false;
           }
         }
@@ -265,7 +265,7 @@ export class AgregarEstudiosCreditosComponent {
   }
 
   formSwitchByEstado(option: any) {
-    if (option >= 5) {
+    if (option >= 4) {
       this.dirComercial = true;
       this.contabilidad = true;
       this.gerencia = true;
@@ -310,25 +310,6 @@ export class AgregarEstudiosCreditosComponent {
           break;
         case '2':
           this.dirComercial = true;
-          this.formEstudio = new FormGroup({
-            'cred_estu_id': new FormControl({ value: '', disabled: true }),
-            'cliente': new FormControl({ value: '', disabled: true }),
-            'tipo': new FormControl({ value: '', disabled: true }),
-            'obserComercial': new FormControl({ value: '', disabled: true }),
-            'cliente_desde': new FormControl({ value: '', disabled: true }),
-            'cupo_actual': new FormControl({ value: '', disabled: true }),
-            'descuento': new FormControl({ value: '', disabled: true }),
-            'cred_esta_id': new FormControl({ value: '', disabled: true }),
-            'obserDirectorCom': new FormControl('', Validators.max(5000)),
-            'estado_comercial': new FormControl(''),
-            'obserContabilidad': new FormControl(''),
-            'plazoAprobado': new FormControl(''),
-            'cupoAprobado': new FormControl(''),
-            'obserGerencia': new FormControl('')
-          });
-          break;
-        case '3':
-          this.dirComercial = true;
           this.contabilidad = true;
           this.formEstudio = new FormGroup({
             'cred_estu_id': new FormControl({ value: '', disabled: true }),
@@ -347,7 +328,7 @@ export class AgregarEstudiosCreditosComponent {
             'obserGerencia': new FormControl('')
           });
           break;
-        case '4':
+        case '3':
           this.dirComercial = true;
           this.contabilidad = true;
           this.gerencia = true;

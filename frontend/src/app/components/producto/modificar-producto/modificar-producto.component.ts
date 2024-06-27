@@ -37,7 +37,7 @@ export class ModificarProductoComponent {
   }
 
   formProducto = new FormGroup({
-    'pro_id': new FormControl({value:'', disable: true}),
+    'pro_id': new FormControl({value:'', disabled: true}),
     'prod_ref': new FormControl('', [Validators.required, Validators.maxLength(100)]),
     'prod_descripcion': new FormControl('', [Validators.required, Validators.maxLength(500)]),
     'prod_presentacion': new FormControl('', [Validators.required, Validators.maxLength(500)]),
@@ -49,8 +49,13 @@ export class ModificarProductoComponent {
   cli_zona: string = '';
   cli_asesor: string = '';
   cli_nombre: string = '';
+  title: string = '';
 
   public loading: boolean | any;
+  public productoModificar: boolean = false;
+  public productoVer: boolean = false;
+  public labelProduc: boolean = false;
+
 
   dataProducto: any;
   data: any;
@@ -66,6 +71,30 @@ export class ModificarProductoComponent {
     this.pro_id.setValue(this.activatedRoute.snapshot.paramMap.get('id'));
 
     this.traerProducto();
+    this.modificarOrVerProducto();
+  }
+
+  modificarOrVerProducto() {
+    const ruta = this.activatedRoute.snapshot.url[0].path;
+    if(ruta=='VerProductos'){
+      this.title = 'Ver';
+      this.productoModificar = false;
+      this.labelProduc = true
+      this.productoVer = true;
+      this.formProducto = new FormGroup({
+        'pro_id': new FormControl({ value:'', disabled: true }),
+        'prod_ref': new FormControl({ value:'', disabled: true }),
+        'prod_descripcion': new FormControl({ value:'', disabled: true }),
+        'prod_presentacion': new FormControl({ value:'', disabled: true }),
+        'prod_und_vta_x_carton': new FormControl({ value:'', disabled: true }),
+        'prod_iva': new FormControl({ value:'', disabled: true })
+      });
+    }else{
+      this.title = 'Modificar';
+      this.productoModificar = true;
+      this.labelProduc = false
+      this.productoVer = false;
+    }
   }
 
   modificarProducto() {

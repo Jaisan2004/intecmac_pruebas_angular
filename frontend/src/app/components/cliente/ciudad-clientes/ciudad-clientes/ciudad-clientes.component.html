@@ -8,12 +8,12 @@
         <br>
         <div class="row">
             <div class="col-md-11">
-                <h1>PRODUCTOS</h1>
+                <h1>Ciudades</h1>
             </div>
-            <div class="col-md-1"><button title="Agregar nuevo Productos" class="btn btn-success" type="submit"
-                    routerLink="/AgregarProductos">Agregar</button></div>
+            <div class="col-md-1"><button title="Agregar nueva Ciudad" class="btn btn-success" type="submit"
+                    routerLink="/AgregarCiudades">Agregar</button></div>
         </div>
-        <input type="text" class="form-control" placeholder="Filtrar por la Descripción del Producto"
+        <input type="text" class="form-control" placeholder="Filtrar por Nombre de la Ciudad"
             (keyup)="updateFilter($event)" />
     </div>
     <div>
@@ -28,17 +28,17 @@
 
                 <ng-container matColumnDef="Acciones" stickyEnd>
                     <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                    <td mat-cell *matCellDef="let element"> <button title="Modificar Producto"
-                            class="btn btn btn-outline-light" routerLink="/ModificarProductos/{{element.prod_id}}"><img
+                    <td id="columnas" mat-cell *matCellDef="let element"> <button title="Modificar Ciudad"
+                            class="btn btn btn-outline-light" routerLink="/ModificarCiudades/{{element.c_c_id}}"><img
                                 id="iconosTabla" src="../../../assets/img/lapiz.png"></button>
 
                         <button title="Ver Estudio de Credíto" class="btn btn btn-outline-light"
-                            routerLink="/VerProductos/{{element.prod_id}}">
-                            <img id="iconosTabla" src="../../../assets/img/leer.png">
+                            routerLink="/VerCiudads/{{element.c_c_id}}">
+                            <img id="iconosTabla" src="../../../../../assets/img/barrio (1).png">
                         </button>
 
                         <button class="btn btn btn-outline-light" title="Actualizar la informacion"
-                            (click)="getListProducto()">
+                            (click)="getListCiudades()">
 
                             <img id="iconosTabla" src="../../../../assets/img/actualizar.png" alt="actualizar">
 
@@ -46,12 +46,12 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
             <br>
             <div *ngIf="dataSource.data.length === 0">
-                <h2>No Existen Productos en la Base de Datos</h2>
+                <h2>No Existen Ciudades en la Base de Datos</h2>
             </div>
             <br>
             <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons

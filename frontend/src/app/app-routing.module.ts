@@ -26,6 +26,8 @@ import { AgregarProductoComponent } from './components/producto/agregar-producto
 import { ModificarProductoComponent } from './components/producto/modificar-producto/modificar-producto.component';
 import { EstudiosCreditrosComponent } from './components/estudio_creditos/estudios-creditros/estudios-creditros.component';
 import { AgregarEstudiosCreditosComponent } from './components/estudio_creditos/agregar-estudios-creditos/agregar-estudios-creditos.component';
+import { CiudadClientesComponent } from './components/cliente/ciudad-clientes/ciudad-clientes/ciudad-clientes.component';
+import { CiudadClientesAgregarComponent } from './components/cliente/ciudad-clientes/ciudad-clientes-agregar/ciudad-clientes-agregar.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/Login', pathMatch: 'full'},
@@ -37,8 +39,7 @@ const routes: Routes = [
   {path: "Pqrs", component: PqrsComponent, canActivate: [autGuard]},
   {path: "AgregarPqrs", component: AgregarPqrsComponent,canActivate: [autGuard]},
   {path: "ModificarPqrs/:id", component: ModificarPqrsComponent, canActivate: [autGuard]},
-  {path: "VerPqrs/:id", component: ModificarPqrsComponent/*, canActivate: [autGuard]*/},
-
+  {path: "VerPqrs/:id", component: ModificarPqrsComponent, canActivate: [autGuard]},
   //Planes de acción PQRS
   {path: "PlanAccionPqrs/:id", component: PlanAccionComponent,canActivate: [autGuard]},
   {path: "AgregarPlanAccionPqrs/:id", component: PlanAccionAgregarComponent,canActivate: [autGuard]},
@@ -47,10 +48,16 @@ const routes: Routes = [
   {path: "Clientes", component: ClienteComponent, canActivate: [autGuard]},
   {path: "AgregarClientes", component: ClienteAgregarComponent, canActivate: [autGuard]},
   {path: "ModificarClientes/:id", component: ClienteModificarComponent, canActivate: [autGuard]},
+  {path: "VerClientes/:id", component: ClienteModificarComponent, canActivate: [autGuard]},
+  //Ciudad de los clientes
+  {path: "Ciudades", component: CiudadClientesComponent},
+  {path: "AgregarCiudades", component: CiudadClientesAgregarComponent},
+  {path: "ModificarCiudades/:id", component: CiudadClientesAgregarComponent},
   //Productos
   {path: "Productos", component: ProductoComponent, canActivate: [autGuard]},
   {path: "AgregarProductos", component: AgregarProductoComponent, canActivate: [autGuard]},
   {path: "ModificarProductos/:id", component: ModificarProductoComponent, canActivate: [autGuard]},
+  {path: "VerProductos/:id", component: ModificarProductoComponent, canActivate: [autGuard]},
   //Estudio de Creditos
   {path: "EstudioCreditos", component: EstudiosCreditrosComponent, canActivate: [autGuard]},
   {path: "AgregarEstudioCreditos", component: AgregarEstudiosCreditosComponent, canActivate: [autGuard]},

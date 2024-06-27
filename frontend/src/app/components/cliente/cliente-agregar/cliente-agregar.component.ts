@@ -130,7 +130,7 @@ export class ClienteAgregarComponent {
   }
 
   getCiudadOption() {
-    this._clienteCiudadService.getClienteCiudad().subscribe((data) => {
+    this._clienteCiudadService.getClienteCiudades().subscribe((data) => {
       this.dataCiudad = data;
     })
   }

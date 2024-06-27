@@ -33,7 +33,6 @@ export class ProductoComponent {
 
   pqrs_id: any;
 
-
   displayedColumns: string[] = ['#', 
     'Ref.',
     'Descripción',

@@ -45,6 +45,8 @@ import { AgregarProductoComponent } from './components/producto/agregar-producto
 import { ModificarProductoComponent } from './components/producto/modificar-producto/modificar-producto.component';
 import { EstudiosCreditrosComponent } from './components/estudio_creditos/estudios-creditros/estudios-creditros.component';
 import { AgregarEstudiosCreditosComponent } from './components/estudio_creditos/agregar-estudios-creditos/agregar-estudios-creditos.component';
+import { CiudadClientesComponent } from './components/cliente/ciudad-clientes/ciudad-clientes/ciudad-clientes.component';
+import { CiudadClientesAgregarComponent } from './components/cliente/ciudad-clientes/ciudad-clientes-agregar/ciudad-clientes-agregar.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +77,9 @@ import { AgregarEstudiosCreditosComponent } from './components/estudio_creditos/
     AgregarProductoComponent,
     ModificarProductoComponent,
     EstudiosCreditrosComponent,
-    AgregarEstudiosCreditosComponent
+    AgregarEstudiosCreditosComponent,
+    CiudadClientesComponent,
+    CiudadClientesAgregarComponent
   ],
   imports: [
     BrowserModule,

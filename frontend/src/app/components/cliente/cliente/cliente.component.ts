@@ -14,11 +14,6 @@ import { ErrorService } from '../../../services/error/error.service';
   styleUrl: './cliente.component.css'
 })
 export class ClienteComponent {
-  resultsLength = 0;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-
-
   data: any;
   dataCliente: any;
 

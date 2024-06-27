@@ -9,7 +9,7 @@
 
         <button title="Volver al listado PQRS" class="btn btn-outline-dark" routerLink="/Pqrs"><i
                 class="bi bi-box-arrow-left"></i></button>
-        <h1>Modificar PQRS</h1>
+        <h1>{{title}} PQRS</h1>
         <br>
 
         <form class="row  g-3" [formGroup]="formPqrs">
@@ -34,6 +34,7 @@
                 </select>
 
                 <label class="form-label" for="cliente" style="color: green;" *ngIf="cliente.valid">* Cliente</label>
+                <label class="form-label" for="cliente" *ngIf="labelPqrs">* Cliente</label>
                 <label class="form-label" for="cliente" style="color: red;" *ngIf="cliente.invalid">* Cliente</label>
 
                 <div class="alert alert-danger" [hidden]="cliente.untouched || cliente.valid">
@@ -63,6 +64,7 @@
 
                 <label class="form-label" for="documento" style="color: green;" *ngIf="documento.valid">*
                     Documento</label>
+                <label class="form-label" for="documento" *ngIf="labelPqrs">* Documento</label>
                 <label class="form-label" for="documento" style="color: red;" *ngIf="documento.invalid">*
                     Documento</label>
 
@@ -73,28 +75,30 @@
 
             </div>
             <!-- evidencia (previsualizacion evidencia, subir archivo, evidencia ya cargada, cambiar evidencia)-->
-            <div class="form-floating mb-3" *ngIf="!imagen.value || cambiarImg">
+            <div class="form-floating mb-3" *ngIf="!imagen.value&&pqrsModificar || cambiarImg">
                 <input class="form-control" type="file" (change)="capturarFile($event)" id="formFile">
                 <label for="formFile" class="form-label">Evidencia</label>
             </div>
             <!-- previsualizacion evidencia -->
-            <div class="mb-3 col-md-6" *ngIf="previsualizacion" style="text-align: center;">
+            <div class="mb-3 col-md-6" *ngIf="previsualizacion&&pqrsModificar" style="text-align: center;">
                 <img id="evidencia" [src]="previsualizacion" alt="" width="70%">
             </div>
             <!-- subir archivo -->
-            <div class="mb-3 col-md-6 d-flex flex-column align-items-center" *ngIf="previsualizacion">
+            <div class="mb-3 col-md-6 d-flex flex-column align-items-center" *ngIf="previsualizacion&&pqrsModificar">
                 <button class="btn btn-success" title="Subir imagen de evidencia" [disabled]="loading"
                     (click)="subirArchivo()">{{(loading)?'Cargando...'
                     : 'Subir Archivo'}}</button>
                 <br>
-                <button class="btn btn-danger" title="Cancelar" (click)="cancelarCapturarFile()">Cancelar</button>
+                <button class="btn btn-danger" *ngIf="pqrsModificar" title="Cancelar"
+                    (click)="cancelarCapturarFile()">Cancelar</button>
             </div>
             <!-- evidencia ya cargada -->
             <div class="mb-3 col-md-6" *ngIf="imagen.value&&!previsualizacion&&!cambiarImg" style="text-align: center;">
                 <img id="evidencia" [src]="imagen.value" alt="" width="70%">
             </div>
             <!-- cambiar evidencia -->
-            <div id="buttons-image" class="mb-3 col-md-6" *ngIf="imagen.value&&!previsualizacion&&!cambiarImg">
+            <div id="buttons-image" class="mb-3 col-md-6"
+                *ngIf="imagen.value&&!previsualizacion&&!cambiarImg&&pqrsModificar">
 
                 <button title="Cambiar la imagen de evidencia" class="btn btn-warning"
                     (click)="cambiarImg = true">Cambiar Evidencia</button>
@@ -108,6 +112,7 @@
 
                 <label class="form-label" for="descripcion" style="color: green;" *ngIf="descripcion.valid">*
                     Descripcion {{contadorDes}}/5000</label>
+                <label class="form-label" for="descripcion" *ngIf="labelPqrs">* Descripcion {{contadorDes}}/5000</label>
                 <label class="form-label" for="descripcion" style="color: red;" *ngIf="descripcion.invalid">*
                     Descripcion {{contadorDes}}/5000</label>
 
@@ -191,8 +196,7 @@
 
                     <!-- Cancelar -->
                     <div class="mb-3 col-md-6">
-                        <button title="Cancelar" type="submit" class="btn btn-secondary btn-sm"
-                            style="width: 100%;"
+                        <button title="Cancelar" type="submit" class="btn btn-secondary btn-sm" style="width: 100%;"
                             (click)="cancelarProductoBoton()">Cancelar</button>
                     </div>
                     <!-- Registrar Prodcuto -->
@@ -262,6 +266,7 @@
 
                 <label class="form-label" for="analisis" *ngIf="analisis.valid">Analisis
                     {{contadorAnalisis}}/5000</label>
+                <label class="form-label" for="analisis" *ngIf="labelPqrs">Analisis {{contadorAnalisis}}/5000</label>
                 <label class="form-label" for="analisis" style="color: red;" *ngIf="analisis.invalid">Analisis
                     {{contadorAnalisis}}/5000</label>
 
@@ -276,6 +281,7 @@
                 <input class="form-control" name="costo" type="number" id="costo" formControlName="costo">
 
                 <label class="form-label" for="costo" *ngIf="costo.valid">Costo</label>
+                <label class="form-label" for="costo" *ngIf="labelPqrs">Costo</label>
                 <label class="form-label" for="costo" style="color: red;" *ngIf="costo.invalid">Costo</label>
 
                 <div class="alert alert-danger" [hidden]="costo.pristine || costo.valid">
@@ -351,6 +357,7 @@
                 <input class="form-control" name="doc_cruce" type="text" id="doc_cruce" formControlName="doc_cruce">
 
                 <label class="form-label" for="doc_cruce" *ngIf="doc_cruce.valid">Documento Cruce</label>
+                <label class="form-label" for="doc_cruce" *ngIf="labelPqrs">Documento Cruce</label>
                 <label class="form-label" for="doc_cruce" style="color: red;" *ngIf="doc_cruce.invalid">Documento
                     Cruce</label>
 
@@ -372,6 +379,7 @@
                 </select>
 
                 <label class="form-label" for="estado" *ngIf="estado.valid">Estado</label>
+                <label class="form-label" for="estado" *ngIf="labelPqrs">Estado</label>
                 <label class="form-label" for="estado" style="color: red;" *ngIf="estado.invalid">Estado</label>
 
                 <div class="alert alert-danger" [hidden]="estado.pristine || estado.valid">

@@ -1,0 +1,54 @@
+<app-menu></app-menu>
+
+<ngx-spinner size="medium" color="#fff" type="square-jelly-box">
+    <p style="color: white"> Cargando... </p>
+  </ngx-spinner>
+  
+<div id="cuerpo">
+    <div class="container">
+
+        <button class="btn btn-outline-dark" title="Volver al listado de Modulos" routerLink="/Ciudades"><i class="bi bi-box-arrow-left"></i></button>
+        <h1>{{title}} Ciudad</h1>
+        <br>
+        <form class="row  g-3" [formGroup]="formCiudad">
+
+            <!-- Ciudad Nombre -->
+            <div class="form-floating mb-3">
+
+                <input class="form-control" type="text" id="c_c_nombre" formControlName="c_c_nombre">
+                <label class="form-label" for="c_c_nombre" style="color: green;" *ngIf="c_c_nombre.valid">* Nombre de la Ciudad</label>
+                <label class="form-label" for="c_c_nombre" style="color: red;" *ngIf="c_c_nombre.invalid">* Nombre de la Ciudad</label>
+
+                <div class="alert alert-danger" [hidden]="c_c_nombre.pristine || c_c_nombre.valid">
+                    <span *ngIf="c_c_nombre.errors?.['required']">Por favor ingrese el Nombre de la Ciudad.</span>
+                    <span *ngIf="c_c_nombre.errors?.['maxlength']">Hay mas de 200 caracteres.</span>
+                </div>
+
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <button type="submit" title="Volver al listado de Ciudades" class="btn btn-secondary" style="width: 100%;" routerLink="/Ciudades">Volver</button>
+            </div>
+            
+            <div *ngIf="ciudadCrear" class="mb-3 col-md-6">
+                <button type="submit" title="Registrar la Ciudad" class="btn btn-primary" style="width: 100%;" (click)="AgregarCiudad()"
+                    [disabled]="formCiudad.invalid||loading">{{(loading)?'Cargando...'
+                    : 'Registrar'}}</button>
+            </div>
+
+            <div *ngIf="ciudadModificar" class="mb-3 col-md-6">
+                <button type="submit" title="Registrar la Ciudad" class="btn btn-primary" style="width: 100%;" (click)="modificarCiudad()"
+                    [disabled]="formCiudad.invalid||loading">{{(loading)?'Cargando...'
+                    : 'Actualizar'}}</button>
+            </div>
+
+            <div class="alert alert-danger"  [hidden]="formCiudad.valid">
+                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+

@@ -15,46 +15,46 @@ import { ClienteService } from '../../../services/cliente/cliente.service';
 })
 export class ClienteModificarComponent {
   get cli_id() {
-    return this.formPqrs.get('cli_id') as FormControl
+    return this.formCliente.get('cli_id') as FormControl
   }
 
   get cli_nombre() {
-    return this.formPqrs.get('cli_nombre') as FormControl
+    return this.formCliente.get('cli_nombre') as FormControl
   }
 
   get cli_nit() {
-    return this.formPqrs.get('cli_nit') as FormControl
+    return this.formCliente.get('cli_nit') as FormControl
   }
 
   get cli_clasificacion() {
-    return this.formPqrs.get('cli_clasificacion') as FormControl
+    return this.formCliente.get('cli_clasificacion') as FormControl
   }
 
   get cli_ciudad() {
-    return this.formPqrs.get('cli_ciudad') as FormControl
+    return this.formCliente.get('cli_ciudad') as FormControl
   }
 
   get cli_zona() {
-    return this.formPqrs.get('cli_zona') as FormControl
+    return this.formCliente.get('cli_zona') as FormControl
   }
 
   get cli_direccion() {
-    return this.formPqrs.get('cli_direccion') as FormControl
+    return this.formCliente.get('cli_direccion') as FormControl
   }
 
   get cli_telefono() {
-    return this.formPqrs.get('cli_telefono') as FormControl
+    return this.formCliente.get('cli_telefono') as FormControl
   }
 
   get cli_asesor() {
-    return this.formPqrs.get('cli_asesor') as FormControl
+    return this.formCliente.get('cli_asesor') as FormControl
   }
 
   get cli_pp_sistema() {
-    return this.formPqrs.get('cli_pp_sistema') as FormControl
+    return this.formCliente.get('cli_pp_sistema') as FormControl
   }
 
-  formPqrs = new FormGroup({
+  formCliente = new FormGroup({
     'cli_id': new FormControl({ value: '', disabled: true }),
     'cli_nombre': new FormControl('', [Validators.required, Validators.maxLength(500)]),
     'cli_nit': new FormControl('', [Validators.required, Validators.maxLength(100)]),
@@ -68,9 +68,13 @@ export class ClienteModificarComponent {
   });
 
   public loading: boolean | any;
+  public clienteModificar: boolean=false;
+  public clienteVer: boolean=false;
+  public labelCliente: boolean=false;
 
   carg_correo: any;
   contadorDirecc = 0;
+  title: string = '';
 
   dataCliente: any;
   dataCiudad: any;
@@ -92,6 +96,34 @@ export class ClienteModificarComponent {
     this.getCliente();
     this.getClasificacionOption();
     this.getCiudadOption();
+    this.modificarOrVerCliente();
+  }
+
+  modificarOrVerCliente() {
+    const ruta = this.activatedRoute.snapshot.url[0].path;
+    if(ruta=='VerClientes'){
+      this.clienteModificar = false;
+      this.title = 'Ver';
+      this.clienteVer = true;
+      this.labelCliente = true;
+      this.formCliente = new FormGroup({
+        'cli_id': new FormControl({ value: '', disabled: true }),
+        'cli_nombre': new FormControl({ value: '', disabled: true }),
+        'cli_nit': new FormControl({ value: '', disabled: true }),
+        'cli_clasificacion': new FormControl({ value: '', disabled: true }),
+        'cli_ciudad': new FormControl({ value: '', disabled: true }),
+        'cli_zona': new FormControl({ value: '', disabled: true }),
+        'cli_direccion': new FormControl({ value: '', disabled: true }),
+        'cli_telefono': new FormControl({ value: '', disabled: true }),
+        'cli_asesor': new FormControl({ value: '', disabled: true }),
+        'cli_pp_sistema': new FormControl({ value: '', disabled: true })
+      });
+    }else{
+      this.title = 'Modificar';
+      this.clienteModificar = true;
+      this.clienteVer = false;
+      this.labelCliente = false;
+    }
   }
 
   ModificarCliente() {
@@ -152,7 +184,7 @@ export class ClienteModificarComponent {
   }
 
   getCiudadOption() {
-    this._clienteCiudadService.getClienteCiudad().subscribe((data) => {
+    this._clienteCiudadService.getClienteCiudades().subscribe((data) => {
       this.dataCiudad = data;
     })
   }

@@ -7,15 +7,16 @@
     <div class="container">
 
         <button class="btn btn-outline-dark" title="Volver al listado de Clientes" routerLink="/Clientes"><i class="bi bi-box-arrow-left"></i></button>
-        <h1>Modificar Cliente</h1>
+        <h1>{{title}} Cliente</h1>
         <br>
-        <form class="row  g-3" [formGroup]="formPqrs">
+        <form class="row  g-3" [formGroup]="formCliente">
 
             <!-- Nombre Cliente -->
             <div class="form-floating mb-3">
 
                 <input class="form-control" type="text" id="cli_nombre" formControlName="cli_nombre">
                 <label class="form-label" for="cli_nombre" style="color: green;" *ngIf="cli_nombre.valid">* Nombre Cliente</label>
+                <label class="form-label" for="cli_nombre" *ngIf="labelCliente">* Nombre Cliente</label>
                 <label class="form-label" for="cli_nombre" style="color: red;" *ngIf="cli_nombre.invalid">* Nombre Cliente</label>
 
                 <div class="alert alert-danger" [hidden]="cli_nombre.pristine || cli_nombre.valid">
@@ -30,6 +31,7 @@
 
                 <input class="form-control" type="text" id="cli_nit" formControlName="cli_nit">
                 <label class="form-label" for="cli_nit" style="color: green;" *ngIf="cli_nit.valid">* NIT</label>
+                <label class="form-label" for="cli_nit" *ngIf="labelCliente">* NIT</label>
                 <label class="form-label" for="cli_nit" style="color: red;" *ngIf="cli_nit.invalid">* NIT</label>
 
                 <div class="alert alert-danger" [hidden]="cli_nit.pristine || cli_nit.valid">
@@ -50,8 +52,9 @@
 
                 </select>
 
-                <label class="form-label" for="cargo" style="color: green;" *ngIf="cli_clasificacion.valid">* Clasificación</label>
-                <label class="form-label" for="cargo" style="color: red;" *ngIf="cli_clasificacion.invalid">* Clasificación</label>
+                <label class="form-label" for="cli_clasificacion" style="color: green;" *ngIf="cli_clasificacion.valid">* Clasificación</label>
+                <label class="form-label" for="cli_clasificacion" *ngIf="labelCliente">* Clasificación</label>
+                <label class="form-label" for="cli_clasificacion" style="color: red;" *ngIf="cli_clasificacion.invalid">* Clasificación</label>
 
                 <div class="alert alert-danger" [hidden]="cli_clasificacion.untouched || cli_clasificacion.valid">
                     <span>Por favor seleccione la Clasificación del Cliente.</span>
@@ -70,8 +73,9 @@
 
                 </select>
 
-                <label class="form-label" for="cargo" style="color: green;" *ngIf="cli_ciudad.valid">* Ciudad</label>
-                <label class="form-label" for="cargo" style="color: red;" *ngIf="cli_ciudad.invalid">* Ciudad</label>
+                <label class="form-label" for="cli_ciudad" style="color: green;" *ngIf="cli_ciudad.valid">* Ciudad</label>
+                <label class="form-label" for="cli_ciudad" *ngIf="labelCliente">* Ciudad</label>
+                <label class="form-label" for="cli_ciudad" style="color: red;" *ngIf="cli_ciudad.invalid">* Ciudad</label>
 
                 <div class="alert alert-danger" [hidden]="cli_ciudad.untouched || cli_ciudad.valid">
                     <span>Por favor seleccione la Ciudad del Cliente.</span>
@@ -90,8 +94,9 @@
 
                 </select>
 
-                <label class="form-label" for="cargo" style="color: green;" *ngIf="cli_zona.valid">* Zona</label>
-                <label class="form-label" for="cargo" style="color: red;" *ngIf="cli_zona.invalid">* Zona</label>
+                <label class="form-label" for="cli_zona" style="color: green;" *ngIf="cli_zona.valid">* Zona</label>
+                <label class="form-label" for="cli_zona" *ngIf="labelCliente">* Zona</label>
+                <label class="form-label" for="cli_zona" style="color: red;" *ngIf="cli_zona.invalid">* Zona</label>
 
                 <div class="alert alert-danger" [hidden]="cli_zona.untouched || cli_zona.valid">
                     <span>Por favor seleccione la Zona del Cliente.</span>
@@ -105,8 +110,9 @@
                 <textarea class="form-control" id="observaciones" name="observaciones" formControlName="cli_direccion"
                     (keyup)="onKeyDireccion($event)" style="height: 100px"></textarea>
 
-                <label class="form-label" for="observaciones" style="color: green;" *ngIf="cli_direccion.valid">* Direccion {{contadorDirecc}}/5000</label>
-                <label class="form-label" for="observaciones" style="color: red;" *ngIf="cli_direccion.invalid">* Direccion {{contadorDirecc}}/5000</label>
+                <label class="form-label" for="observaciones" style="color: green;" *ngIf="cli_direccion.valid">* Dirección {{contadorDirecc}}/5000</label>
+                <label class="form-label" for="observaciones" *ngIf="labelCliente">* Dirección {{contadorDirecc}}/5000</label>
+                <label class="form-label" for="observaciones" style="color: red;" *ngIf="cli_direccion.invalid">* Dirección {{contadorDirecc}}/5000</label>
 
                 <div class="alert alert-danger" [hidden]="cli_direccion.pristine || cli_direccion.valid">
                     <span *ngIf="cli_clasificacion.errors?.['required']">Por favor ingrese la dirección de la empresa.</span>
@@ -120,6 +126,7 @@
 
                 <input class="form-control" type="text" id="cli_telefono" formControlName="cli_telefono">
                 <label class="form-label" for="cli_telefono" style="color: green;" *ngIf="cli_telefono.valid">* Telefono</label>
+                <label class="form-label" for="cli_telefono" *ngIf="labelCliente">* Telefono</label>
                 <label class="form-label" for="cli_telefono" style="color: red;" *ngIf="cli_telefono.invalid">* Telefono</label>
 
                 <div class="alert alert-danger" [hidden]="cli_telefono.pristine || cli_telefono.valid">
@@ -152,6 +159,7 @@
                 </select>
 
                 <label class="form-label" for="cargo" style="color: green;" *ngIf="cli_asesor.valid">* Asesor</label>
+                <label class="form-label" for="cargo" *ngIf="labelCliente">* Asesor</label>
                 <label class="form-label" for="cargo" style="color: red;" *ngIf="cli_asesor.invalid">* Asesor</label>
 
                 <div class="alert alert-danger" [hidden]="cli_asesor.untouched || cli_asesor.valid">
@@ -165,6 +173,7 @@
 
                 <input class="form-control" type="number" id="cli_pp_sistema" formControlName="cli_pp_sistema">
                 <label class="form-label" for="cli_pp_sistema" style="color: green;" *ngIf="cli_pp_sistema.valid">* PP Sistema</label>
+                <label class="form-label" for="cli_pp_sistema" *ngIf="labelCliente">* PP Sistema</label>
                 <label class="form-label" for="cli_pp_sistema" style="color: red;" *ngIf="cli_pp_sistema.invalid">* PP Sistema</label>
 
                 <div class="alert alert-danger" [hidden]="cli_pp_sistema.pristine || cli_pp_sistema.valid">
@@ -174,17 +183,22 @@
 
             </div>
 
-
-            <div class="mb-3 col-md-6">
+            <!-- Botones -->
+             <!-- Volver -->
+             <div *ngIf="clienteVer" class="mb-3">
                 <button type="submit" title="Volver al listado de Clientes" class="btn btn-secondary" style="width: 100%;" routerLink="/Clientes">Volver</button>
             </div>
-            <div class="mb-3 col-md-6">
+            <div *ngIf="clienteModificar" class="mb-3 col-md-6">
+                <button type="submit" title="Volver al listado de Clientes" class="btn btn-secondary" style="width: 100%;" routerLink="/Clientes">Volver</button>
+            </div>
+            <!-- Actualizar -->
+            <div *ngIf="clienteModificar" class="mb-3 col-md-6">
                 <button type="submit" class="btn btn-primary" title="Modificar información del Cliente" style="width: 100%;" (click)="ModificarCliente()"
-                    [disabled]="formPqrs.invalid||loading">{{(loading)?'Cargando...'
+                    [disabled]="formCliente.invalid||loading">{{(loading)?'Cargando...'
                     : 'Modificar'}}</button>
             </div>
 
-            <div class="alert alert-danger"  [hidden]="formPqrs.valid">
+            <div class="alert alert-danger" *ngIf="clienteModificar" [hidden]="formCliente.valid">
                 <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
             </div>
         </form>

@@ -138,10 +138,12 @@ export class ModificarPqrsComponent {
 
   cli_zona: string = '';
   cli_asesor: string = '';
+  title: string = '';
   public fileTmp: any;
   public previsualizacion: string | any;
   public loading: boolean | any;
   public cambiarImg: boolean = false;
+  public labelPqrs: boolean = false;
   public productoNuevo: boolean = false;
   public productoModificar: boolean = false;
   public pqrsModificar: boolean = false;
@@ -202,8 +204,10 @@ export class ModificarPqrsComponent {
   modificarOrVerPqrs() {
     const ruta = this.activatedRoute.snapshot.url[0].path;
     if(ruta == 'VerPqrs'){
+      this.title = 'Ver';
       this.pqrsVer=true;
       this.pqrsModificar = false;
+      this.labelPqrs = true;
       this.formPqrs = new FormGroup({
         'id_pqrs': new FormControl({ value: '', disabled: true }),
         'fecha_recepcion': new FormControl({ value: '', disabled: true }),
@@ -227,8 +231,10 @@ export class ModificarPqrsComponent {
         'cantidad': new FormControl({ value: '', disabled: true })
       });
     }else{
+      this.title = 'Modificar';
       this.pqrsVer = false;
       this.pqrsModificar = true;
+      this.labelPqrs = false;
     }
   }
 

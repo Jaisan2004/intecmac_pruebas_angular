@@ -159,7 +159,7 @@ export const correoEtapaEstuCred = async (req: Request, res: Response) =>{
             <b>- Cupo Actual:</b> ${body.cupo_actual}<br>
             <b>- Plazo de Pago Actual:</b> ${body.cli_plazo}<br>
             <b>- Descuentos Otorgados:</b> ${body.descuento}<br>
-            <b>- Observaciones Directora Comercial:</b> ${body.obserDirectorCom}<br>
+            <!--<b>- Observaciones Directora Comercial:</b> ${body.obserDirectorCom}<br>-->
             <b>- Observaciones Contabilidad:</b> ${body.obserContabilidad}<br><br>
     
             Para ver el <b>Estudio de Crédito</b> y modificarlo ingrese al siguiente link <a href="${process.env.URL_ESTUDIO_CREDITO_MODIFICAR}${body.ruta}${body.cred_estu_id}/${body.cred_esta_id}">Estudio de Crédito</a><br><br>
@@ -204,7 +204,7 @@ export const correoEstuCredCreador = async (req: Request, res: Response)=>{
             <b>- Cupo Actual:</b> ${body.cupo_actual}<br>
             <b>- Plazo de Pago Actual:</b> ${body.cli_plazo}<br>
             <b>- Descuentos Otorgados:</b> ${body.descuento}<br>
-            <b>- Observaciones Directora Comercial:</b> ${body.obserDirectorCom}<br>
+            <!--<b>- Observaciones Directora Comercial:</b> ${body.obserDirectorCom}<br>-->
             <b>- Observaciones Contabilidad:</b> ${body.obserContabilidad}<br>
             <b>- Plazo Aprobado:</b> ${body.plazoAprobado}<br>
             <b>- Cupo Aprobado:</b> ${body.cupoAprobado}<br>

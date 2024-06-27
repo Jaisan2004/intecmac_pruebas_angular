@@ -1,11 +1,14 @@
 <app-menu></app-menu>
 
-<ngx-spinner size = "medium" color = "#fff" type="square-jelly-box" ><p style="color: white" > Cargando... </p></ngx-spinner>
+<ngx-spinner size="medium" color="#fff" type="square-jelly-box">
+    <p style="color: white"> Cargando... </p>
+</ngx-spinner>
 
 <div id="cuerpo">
     <div class="container mt-3">
-        <button title="Volver al listado Productos" class="btn btn-outline-dark" routerLink="/Productos"><i class="bi bi-box-arrow-left"></i></button>
-        <h1>Modificar Producto</h1>
+        <button title="Volver al listado Productos" class="btn btn-outline-dark" routerLink="/Productos"><i
+                class="bi bi-box-arrow-left"></i></button>
+        <h1>{{title}} Producto</h1>
         <br>
         <form class="row  g-3" [formGroup]="formProducto">
 
@@ -16,6 +19,7 @@
 
                 <label class="form-label" for="prod_ref" style="color: green;" *ngIf="prod_ref.valid">*
                     Referencia Producto</label>
+                <label class="form-label" for="prod_ref" *ngIf="labelProduc">* Referencia Producto</label>
                 <label class="form-label" for="prod_ref" style="color: red;" *ngIf="prod_ref.invalid">*
                     Referencia Producto</label>
 
@@ -29,16 +33,20 @@
             <!-- Descripcion Producto -->
             <div class="form-floating mb-3">
 
-                <input class="form-control" name="prod_descripcion" type="text" id="prod_descripcion" formControlName="prod_descripcion">
+                <input class="form-control" name="prod_descripcion" type="text" id="prod_descripcion"
+                    formControlName="prod_descripcion">
 
                 <label class="form-label" for="prod_descripcion" style="color: green;" *ngIf="prod_descripcion.valid">*
                     Descripcion Producto</label>
+                <label class="form-label" for="prod_descripcion" *ngIf="labelProduc">* Descripcion Producto</label>
                 <label class="form-label" for="prod_descripcion" style="color: red;" *ngIf="prod_descripcion.invalid">*
                     Descripcion Producto</label>
 
                 <div class="alert alert-danger" [hidden]="prod_descripcion.pristine || prod_descripcion.valid">
-                    <span *ngIf="prod_descripcion.errors?.['required']">Por favor ingrese la Descripcion del Producto.</span>
-                    <span *ngIf="prod_descripcion.errors?.['maxlength']">La Descripcion del Producto supera los 500 caracteres.</span>
+                    <span *ngIf="prod_descripcion.errors?.['required']">Por favor ingrese la Descripcion del
+                        Producto.</span>
+                    <span *ngIf="prod_descripcion.errors?.['maxlength']">La Descripcion del Producto supera los 500
+                        caracteres.</span>
                 </div>
 
             </div>
@@ -46,16 +54,22 @@
             <!-- Persentacion Producto -->
             <div class="form-floating mb-3">
 
-                <input class="form-control" name="prod_presentacion" type="text" id="prod_presentacion" formControlName="prod_presentacion">
+                <input class="form-control" name="prod_presentacion" type="text" id="prod_presentacion"
+                    formControlName="prod_presentacion">
 
-                <label class="form-label" for="prod_presentacion" style="color: green;" *ngIf="prod_presentacion.valid">*
-                    Persentacion Producto</label>
-                <label class="form-label" for="prod_presentacion" style="color: red;" *ngIf="prod_presentacion.invalid">*
-                    Persentacion Producto</label>
+                <label class="form-label" for="prod_presentacion" style="color: green;"
+                    *ngIf="prod_presentacion.valid">*
+                    Presentacion Producto</label>
+                <label class="form-label" for="prod_presentacion" *ngIf="labelProduc">* Presentacion Producto</label>
+                <label class="form-label" for="prod_presentacion" style="color: red;"
+                    *ngIf="prod_presentacion.invalid">*
+                    Presentacion Producto</label>
 
                 <div class="alert alert-danger" [hidden]="prod_presentacion.pristine || prod_presentacion.valid">
-                    <span *ngIf="prod_presentacion.errors?.['required']">Por favor ingrese la Persentacion del Producto.</span>
-                    <span *ngIf="prod_presentacion.errors?.['maxlength']">La Persentacion del Producto supera los 500 caracteres.</span>
+                    <span *ngIf="prod_presentacion.errors?.['required']">Por favor ingrese la Presentacion del
+                        Producto.</span>
+                    <span *ngIf="prod_presentacion.errors?.['maxlength']">La Presentacion del Producto supera los 500
+                        caracteres.</span>
                 </div>
 
             </div>
@@ -63,16 +77,24 @@
             <!-- prod_und_vta_x_carton Producto -->
             <div class="form-floating mb-3 col-md-6">
 
-                <input class="form-control" name="prod_und_vta_x_carton" type="number" id="prod_und_vta_x_carton" formControlName="prod_und_vta_x_carton">
+                <input class="form-control" name="prod_und_vta_x_carton" type="number" id="prod_und_vta_x_carton"
+                    formControlName="prod_und_vta_x_carton">
 
-                <label class="form-label" for="prod_und_vta_x_carton" style="color: green;" *ngIf="prod_und_vta_x_carton.valid">*
+                <label class="form-label" for="prod_und_vta_x_carton" style="color: green;"
+                    *ngIf="prod_und_vta_x_carton.valid">*
                     Unidades de venta por caja</label>
-                <label class="form-label" for="prod_und_vta_x_carton" style="color: red;" *ngIf="prod_und_vta_x_carton.invalid">*
+                <label class="form-label" for="prod_und_vta_x_carton" *ngIf="labelProduc">* Unidades de venta por
+                    caja</label>
+                <label class="form-label" for="prod_und_vta_x_carton" style="color: red;"
+                    *ngIf="prod_und_vta_x_carton.invalid">*
                     Unidades de venta por caja</label>
 
-                <div class="alert alert-danger" [hidden]="prod_und_vta_x_carton.pristine || prod_und_vta_x_carton.valid">
-                    <span *ngIf="prod_und_vta_x_carton.errors?.['required']">Por favor ingrese las Unidades de venta por caja.</span>
-                    <span *ngIf="prod_und_vta_x_carton.errors?.['max']">Las Unidades de venta por caja supera los 999999 caracteres.</span>
+                <div class="alert alert-danger"
+                    [hidden]="prod_und_vta_x_carton.pristine || prod_und_vta_x_carton.valid">
+                    <span *ngIf="prod_und_vta_x_carton.errors?.['required']">Por favor ingrese las Unidades de venta por
+                        caja.</span>
+                    <span *ngIf="prod_und_vta_x_carton.errors?.['max']">Las Unidades de venta por caja supera los 999999
+                        caracteres.</span>
                 </div>
 
             </div>
@@ -84,6 +106,7 @@
 
                 <label class="form-label" for="prod_iva" style="color: green;" *ngIf="prod_iva.valid">*
                     IVA Producto</label>
+                <label class="form-label" for="prod_iva" *ngIf="labelProduc">* IVA Producto</label>
                 <label class="form-label" for="prod_iva" style="color: red;" *ngIf="prod_iva.invalid">*
                     IVA Producto</label>
 
@@ -94,16 +117,24 @@
 
             </div>
 
-            <div class="mb-3 col-md-6">
-                <button title="Volver al listado Productos" type="submit" class="btn btn-secondary" style="width: 100%;" routerLink="/Productos">Volver</button>
+            <!-- Botones -->
+            <!-- Volver -->
+            <div *ngIf="productoVer" class="mb-3">
+                <button title="Volver al listado Productos" type="submit" class="btn btn-secondary" style="width: 100%;"
+                    routerLink="/Productos">Volver</button>
             </div>
-            <div class="mb-3 col-md-6">
-                <button title="Actualizar el Productos" type="submit" class="btn btn-primary" style="width: 100%;" (click)="modificarProducto()"
-                    [disabled]="formProducto.invalid || loading">{{(loading)?'Cargando...'
+            <div *ngIf="productoModificar" class="mb-3 col-md-6">
+                <button title="Volver al listado Productos" type="submit" class="btn btn-secondary" style="width: 100%;"
+                    routerLink="/Productos">Volver</button>
+            </div>
+            <!-- Actualizar -->
+            <div *ngIf="productoModificar" class="mb-3 col-md-6">
+                <button title="Actualizar el Productos" type="submit" class="btn btn-primary" style="width: 100%;"
+                    (click)="modificarProducto()" [disabled]="formProducto.invalid || loading">{{(loading)?'Cargando...'
                     : 'Actualizar'}}</button>
             </div>
 
-            <div class="alert alert-danger" [hidden]="formProducto.valid">
+            <div *ngIf="productoModificar" class="alert alert-danger" [hidden]="formProducto.valid">
                 <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el
                     formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
             </div>
