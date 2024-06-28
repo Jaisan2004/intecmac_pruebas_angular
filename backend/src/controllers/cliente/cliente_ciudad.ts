@@ -62,6 +62,9 @@ export const updateClienteCiudad = async (req:Request, res: Response)=>{
         const ciudad = await Cliente_Ciudad.findByPk(id);
         if(ciudad){
             ciudad.update(body);
+            res.json({
+                msg: `Ciudad: "${body.c_c_nombre}" modificada exitosamente`
+            });
         }else{
             res.status(404).json({
                 msg: `No existe una ciudad con el id: ${id}`

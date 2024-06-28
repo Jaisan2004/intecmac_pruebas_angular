@@ -189,8 +189,8 @@ export class ClienteModificarComponent {
     })
   }
 
-  getZonaCiudadOption(cz_id: any) {
-    this._clienteZonaService.getClienteZonaCiudad(cz_id).subscribe((data) => {
+  getZonaCiudadOption(c_c_id: any) {
+    this._clienteZonaService.getClienteZonasByCiudad(c_c_id).subscribe((data) => {
       this.dataZona = data;
     })
   }

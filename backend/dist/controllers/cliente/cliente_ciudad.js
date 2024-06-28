@@ -73,6 +73,9 @@ const updateClienteCiudad = (req, res) => __awaiter(void 0, void 0, void 0, func
         const ciudad = yield cliente_ciudad_1.default.findByPk(id);
         if (ciudad) {
             ciudad.update(body);
+            res.json({
+                msg: `Ciudad: "${body.c_c_nombre}" modificada exitosamente`
+            });
         }
         else {
             res.status(404).json({

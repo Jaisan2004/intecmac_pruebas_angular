@@ -7,13 +7,15 @@
     <div class="container">
         <br>
         <div class="row">
-            <div class="col-md-11">
-                <h1>Ciudades</h1>
+            <div class="col-md-1"><button title="Volver al listado de Ciudades" class="btn btn-secondary" type="submit"
+                routerLink="/Ciudades">Volver</button></div>
+            <div class="col-md-10">
+                <h1>Barrios</h1>
             </div>
-            <div class="col-md-1"><button title="Agregar nueva Ciudad" class="btn btn-success" type="submit"
-                    routerLink="/AgregarCiudades">Agregar</button></div>
+            <div class="col-md-1"><button title="Agregar nuevo Barrio" class="btn btn-success" type="submit"
+                    routerLink="/AgregarBarrios/{{c_c_id}}">Agregar</button></div>
         </div>
-        <input type="text" class="form-control" placeholder="Filtrar por Nombre de la Ciudad"
+        <input type="text" class="form-control" placeholder="Filtrar por Nombre del Barrio"
             (keyup)="updateFilter($event)" />
     </div>
     <div>
@@ -28,17 +30,12 @@
 
                 <ng-container matColumnDef="Acciones" stickyEnd>
                     <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                    <td id="columnas" mat-cell *matCellDef="let element"> <button title="Modificar Ciudad"
-                            class="btn btn btn-outline-light" routerLink="/ModificarCiudades/{{element.c_c_id}}"><img
+                    <td id="columnas" mat-cell *matCellDef="let element"> <button title="Modificar Barrio"
+                            class="btn btn btn-outline-light" routerLink="/ModificarBarrios/{{element.cz_id}}"><img
                                 id="iconosTabla" src="../../../assets/img/lapiz.png"></button>
 
-                        <button title="Barrios de la Ciudad" class="btn btn btn-outline-light"
-                            routerLink="/Barrios/{{element.c_c_id}}">
-                            <img id="iconosTabla" src="../../../../../assets/img/barrio (1).png">
-                        </button>
-
                         <button class="btn btn btn-outline-light" title="Actualizar la informacion"
-                            (click)="getListCiudades()">
+                            (click)="getListBarrios()">
 
                             <img id="iconosTabla" src="../../../../assets/img/actualizar.png" alt="actualizar">
 
@@ -51,7 +48,7 @@
             </table>
             <br>
             <div *ngIf="dataSource.data.length === 0">
-                <h2>No Existen Ciudades en la Base de Datos</h2>
+                <h2>No Existen Barrios para esta ciudad en la Base de Datos</h2>
             </div>
             <br>
             <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons

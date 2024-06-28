@@ -91,8 +91,8 @@ export class CiudadClientesAgregarComponent {
     this._clienteCiudadService.updateClienteCiudad(this.c_c_id.value, body).subscribe((data:any)=>{
       const mensaje = data.msg;
       this.toastr.success(mensaje, 'Modificación Ciudad');
-      this.loading = false;
       this.router.navigate(['/Ciudades']);
+      this.loading = false;
       this.spinner.hide();
     },
     (error)=>{

@@ -28,6 +28,8 @@ import { EstudiosCreditrosComponent } from './components/estudio_creditos/estudi
 import { AgregarEstudiosCreditosComponent } from './components/estudio_creditos/agregar-estudios-creditos/agregar-estudios-creditos.component';
 import { CiudadClientesComponent } from './components/cliente/ciudad-clientes/ciudad-clientes/ciudad-clientes.component';
 import { CiudadClientesAgregarComponent } from './components/cliente/ciudad-clientes/ciudad-clientes-agregar/ciudad-clientes-agregar.component';
+import { BarrioClienteComponent } from './components/cliente/barrio-cliente/barrio-cliente/barrio-cliente.component';
+import { BarrioClienteAgregarComponent } from './components/cliente/barrio-cliente/barrio-cliente-agregar/barrio-cliente-agregar.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/Login', pathMatch: 'full'},
@@ -53,6 +55,10 @@ const routes: Routes = [
   {path: "Ciudades", component: CiudadClientesComponent},
   {path: "AgregarCiudades", component: CiudadClientesAgregarComponent},
   {path: "ModificarCiudades/:id", component: CiudadClientesAgregarComponent},
+  //Barriros de los clientes
+  {path: "Barrios/:id", component: BarrioClienteComponent},
+  {path: "AgregarBarrios/:id", component: BarrioClienteAgregarComponent},
+  {path: "ModificarBarrios/:id", component: BarrioClienteAgregarComponent},
   //Productos
   {path: "Productos", component: ProductoComponent, canActivate: [autGuard]},
   {path: "AgregarProductos", component: AgregarProductoComponent, canActivate: [autGuard]},

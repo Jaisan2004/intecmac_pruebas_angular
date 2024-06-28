@@ -1,0 +1,54 @@
+<app-menu></app-menu>
+
+<ngx-spinner size="medium" color="#fff" type="square-jelly-box">
+    <p style="color: white"> Cargando... </p>
+  </ngx-spinner>
+  
+<div id="cuerpo">
+    <div class="container">
+
+        <button class="btn btn-outline-dark" title="Volver al listado de Barrios" routerLink="/Barrios/{{c_c_id.value}}"><i class="bi bi-box-arrow-left"></i></button>
+        <h1>{{title}} Barrio</h1>
+        <br>
+        <form class="row  g-3" [formGroup]="formBarrio">
+
+            <!-- Barrio Nombre -->
+            <div class="form-floating mb-3">
+
+                <input class="form-control" type="text" id="cz_nombre" formControlName="cz_nombre">
+                <label class="form-label" for="cz_nombre" style="color: green;" *ngIf="cz_nombre.valid">* Nombre del barrio</label>
+                <label class="form-label" for="cz_nombre" style="color: red;" *ngIf="cz_nombre.invalid">* Nombre del barrio</label>
+
+                <div class="alert alert-danger" [hidden]="cz_nombre.pristine || cz_nombre.valid">
+                    <span *ngIf="cz_nombre.errors?.['required']">Por favor ingrese el Nombre de la Barrio.</span>
+                    <span *ngIf="cz_nombre.errors?.['maxlength']">Hay mas de 200 caracteres.</span>
+                </div>
+
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <button type="submit" title="Volver al listado de Barrios" class="btn btn-secondary" style="width: 100%;" routerLink="/Barrios/{{c_c_id.value}}">Volver</button>
+            </div>
+            
+            <div *ngIf="barrioCrear" class="mb-3 col-md-6">
+                <button type="submit" title="Registrar la Ciudad" class="btn btn-primary" style="width: 100%;" (click)="AgregarZona()"
+                    [disabled]="formBarrio.invalid||loading">{{(loading)?'Cargando...'
+                    : 'Registrar'}}</button>
+            </div>
+
+            <div *ngIf="barrioModificar" class="mb-3 col-md-6">
+                <button type="submit" title="Registrar la Ciudad" class="btn btn-primary" style="width: 100%;" (click)="modificarZona()"
+                    [disabled]="formBarrio.invalid||loading">{{(loading)?'Cargando...'
+                    : 'Actualizar'}}</button>
+            </div>
+
+            <div class="alert alert-danger"  [hidden]="formBarrio.valid">
+                <p>Por favor, complete todos los campos obligatorios marcados con un asterisco (*) antes de enviar el formulario. Además, asegúrese de que no quede ningún campo resaltado en rojo.</p>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+

@@ -47,6 +47,8 @@ import { EstudiosCreditrosComponent } from './components/estudio_creditos/estudi
 import { AgregarEstudiosCreditosComponent } from './components/estudio_creditos/agregar-estudios-creditos/agregar-estudios-creditos.component';
 import { CiudadClientesComponent } from './components/cliente/ciudad-clientes/ciudad-clientes/ciudad-clientes.component';
 import { CiudadClientesAgregarComponent } from './components/cliente/ciudad-clientes/ciudad-clientes-agregar/ciudad-clientes-agregar.component';
+import { BarrioClienteComponent } from './components/cliente/barrio-cliente/barrio-cliente/barrio-cliente.component';
+import { BarrioClienteAgregarComponent } from './components/cliente/barrio-cliente/barrio-cliente-agregar/barrio-cliente-agregar.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import { CiudadClientesAgregarComponent } from './components/cliente/ciudad-clie
     EstudiosCreditrosComponent,
     AgregarEstudiosCreditosComponent,
     CiudadClientesComponent,
-    CiudadClientesAgregarComponent
+    CiudadClientesAgregarComponent,
+    BarrioClienteComponent,
+    BarrioClienteAgregarComponent
   ],
   imports: [
     BrowserModule,
