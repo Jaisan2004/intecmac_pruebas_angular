@@ -52,13 +52,13 @@ const routes: Routes = [
   {path: "ModificarClientes/:id", component: ClienteModificarComponent, canActivate: [autGuard]},
   {path: "VerClientes/:id", component: ClienteModificarComponent, canActivate: [autGuard]},
   //Ciudad de los clientes
-  {path: "Ciudades", component: CiudadClientesComponent},
-  {path: "AgregarCiudades", component: CiudadClientesAgregarComponent},
-  {path: "ModificarCiudades/:id", component: CiudadClientesAgregarComponent},
+  {path: "Ciudades", component: CiudadClientesComponent, canActivate: [autGuard]},
+  {path: "AgregarCiudades", component: CiudadClientesAgregarComponent, canActivate: [autGuard]},
+  {path: "ModificarCiudades/:id", component: CiudadClientesAgregarComponent, canActivate: [autGuard]},
   //Barriros de los clientes
-  {path: "Barrios/:id", component: BarrioClienteComponent},
-  {path: "AgregarBarrios/:id", component: BarrioClienteAgregarComponent},
-  {path: "ModificarBarrios/:id", component: BarrioClienteAgregarComponent},
+  {path: "Barrios/:id", component: BarrioClienteComponent, canActivate: [autGuard]},
+  {path: "AgregarBarrios/:id", component: BarrioClienteAgregarComponent, canActivate: [autGuard]},
+  {path: "ModificarBarrios/:id", component: BarrioClienteAgregarComponent, canActivate: [autGuard]},
   //Productos
   {path: "Productos", component: ProductoComponent, canActivate: [autGuard]},
   {path: "AgregarProductos", component: AgregarProductoComponent, canActivate: [autGuard]},
