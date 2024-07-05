@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-06-2024 a las 23:31:54
+-- Tiempo de generación: 05-07-2024 a las 14:28:50
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -49,7 +49,14 @@ INSERT INTO `acc_modulos` (`mod_id`, `mod_nombre`, `mod_id_padre`) VALUES
 (9, 'Módulos', 6),
 (10, 'Componentes', 6),
 (11, 'PRODUCTOS', NULL),
-(12, 'Productos', 11);
+(12, 'Productos', 11),
+(13, 'CREDITOS', NULL),
+(14, 'Estudios de Créditos', 13),
+(15, 'Ciudad', 3),
+(16, 'Barrio', 3),
+(17, 'ModuloPruebaCambio', NULL),
+(18, 'Componente', 17),
+(19, 'ComponentePruebaCambio', 17);
 
 -- --------------------------------------------------------
 
@@ -100,7 +107,31 @@ INSERT INTO `acc_permisos` (`per_id`, `rol_id`, `ruta_id`) VALUES
 (31, 1, 3),
 (32, 1, 23),
 (33, 1, 3),
-(34, 1, 24);
+(34, 1, 24),
+(35, 1, 25),
+(36, 1, 26),
+(37, 1, 27),
+(38, 1, 28),
+(39, 1, 29),
+(40, 1, 30),
+(41, 1, 31),
+(42, 2, 25),
+(43, 2, 26),
+(44, 2, 27),
+(45, 2, 31),
+(46, 1, 32),
+(47, 2, 32),
+(48, 1, 33),
+(49, 1, 34),
+(50, 1, 35),
+(51, 1, 36),
+(52, 1, 37),
+(53, 1, 38),
+(54, 1, 39),
+(55, 1, 40),
+(57, 3, 1),
+(58, 3, 3),
+(59, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -119,7 +150,8 @@ CREATE TABLE `acc_roles` (
 
 INSERT INTO `acc_roles` (`rol_id`, `rol_nombre`) VALUES
 (1, 'SUPER_ADMIN'),
-(2, 'Asesor');
+(2, 'Asesor'),
+(3, 'rolPrueba');
 
 -- --------------------------------------------------------
 
@@ -162,7 +194,24 @@ INSERT INTO `acc_rutas` (`ruta_id`, `ruta_nombre`, `ruta_descripcion`, `mod_id`)
 (21, 'ModificarComponentes', 'Permite a usuario modificar el nombre de los componentes y añadir rutas de la aplicación que pertenezcan al Componente del modulo.', 10),
 (22, 'Productos', 'Permite al usuario acceder al listado de productos', 12),
 (23, 'AgregarProductos', 'Permite al usuario agregar producto nuevos a la base de datos', 12),
-(24, 'ModificarProductos', 'Permite al usuario modificar los productos ya existentes', 12);
+(24, 'ModificarProductos', 'Permite al usuario modificar los productos ya existentes', 12),
+(25, 'EstudioCreditos', 'Permite al usuario poder visualizar el lista con todos loa estudios de créditos.', 14),
+(26, 'AgregarEstudioCreditos', 'Permite al asesor comercial comenzar un estudio de crédito nuevo.', 14),
+(27, 'ModificarEstudioCreditos', 'Permite al asesor comercial modificar la información del estudio de crédito y añadir los documento requeridos para pasar de etapa.', 14),
+(28, 'ModificarEstudioCreditosDirComercial', 'Permite al director comercial verificar que el estudio de crédito esta bien para pasar a la etapa contable.', 14),
+(29, 'ModificarEstudioCreditosContabilidad', 'Permite al contador dejar observaciones sobre el estudio de crédito y pasar a la etapa de aprobación gerencia.', 14),
+(30, 'ModificarEstudioCreditosGerencia', 'Permite al gerente poner el plazo de pago aprobado, cupo de crédito y observaciones para pasar el estudio de crédito a aprobado o denegado.', 14),
+(31, 'VerEstudioCreditos', 'Permite al usuario ver solamente la información del estudio de crédito y los documentos relacionado sin poder modificarlos.', 14),
+(32, 'VerPqrs', 'Permite al usuario poder ver la información de una PQRS especifica pero no modificarla. ', 4),
+(33, 'VerProductos', 'Permite al usuario ver la información de un producto especifico pero no modificarla.', 12),
+(34, 'VerClientes', 'Permite al usuario ver la información de un cliente en especifico pero no modificarla.', 5),
+(35, 'Ciudades', 'Permite al usuario acceder al listado de ciudades de los clientes.', 15),
+(36, 'AgregarCiudades', 'Permite al usuario agregar nuevas ciudades para los clientes', 15),
+(37, 'ModificarCiudades', 'Permite al usuario modificar las ciudades ya existentes', 15),
+(38, 'Barrios', 'Permite al usuario acceder al listado de barrios de una ciudad en especifico.', 16),
+(39, 'AgregarBarrios', 'Permite al usuario agregar nuevos barrios para una ciudad en especifico.', 16),
+(40, 'ModificarBarrios', 'Permite al usuario modificar los barrios ya existentes de una ciudad en especifico.', 16),
+(41, 'PruebaRuta', 'Permite al usuario ver la prueba de ruta y probar la modificación de rutas', 19);
 
 -- --------------------------------------------------------
 
@@ -205,23 +254,23 @@ CREATE TABLE `cargos` (
 --
 
 INSERT INTO `cargos` (`carg_id`, `carg_nombre`, `carg_celular`, `carg_correo`, `area_emp_id`) VALUES
-(0, 'N.A', 'N.A', 'N.A', 0),
-(1, 'RECURSOS HUMANOS', '3105731592', 'RECURSOSHUMANOS@INTECMA.COM.CO', 2),
-(2, 'ASESORA 4', '3132525354', 'VENTAS4@INTECMA.COM.CO', 3),
-(3, 'DIRECTORA COMERCIAL', '3133483027', 'DIRECTORCOMERCIAL@INTECMA.COM.CO', 3),
-(4, 'GERENTE', '3133483027', 'GERENCIA@INTECMA.COM.CO', 1),
-(5, 'ASESORA 1', '3134207016', 'VENTAS1@INTECMA.COM.CO', 3),
-(6, 'AUXILIAR ADMINISTRATIVA', '3105731592', 'AUXILIARADMINISTRATIVO@INTECMA.COM.CO', 2),
-(7, 'ASESORA 3', '3132525354', 'VENTAS3@INTECMA.COM.CO', 3),
-(8, 'SERVICIO AL CLIENTE', '3134207060', 'SERVICLIENTE@INTECMA.COM.CO', 3),
-(9, 'ASISTENTE DE GERENCIA', '3132525417', 'ADMINISTRACION@INTECMA.COM.CO', 1),
-(10, 'ASESORA 2', '3134207085', 'VENTAS2@INTECMA.COM.CO', 3),
-(11, 'CONTADOR', '3167674801', 'CONTABILIDAD@INTECMA.COM.CO', 5),
-(12, 'JEFE DE BODEGA', '3124901339', 'ADMINISTRACION@INTECMA.COM.CO', 4),
+(0, 'N.A', 'N.A', 'practicasintecma1@gmail.com', 0),
+(1, 'RECURSOS HUMANOS', '3105731592', 'practicasintecma1@gmail.com', 2),
+(2, 'ASESORA 4', '3132525354', 'practicasintecma1@gmail.com', 3),
+(3, 'DIRECTORA COMERCIAL', '3133483027', 'practicasintecma1@gmail.com', 3),
+(4, 'GERENTE', '3133483027', 'practicasintecma1@gmail.com', 1),
+(5, 'ASESORA 1', '3134207016', 'practicasintecma1@gmail.com', 3),
+(6, 'AUXILIAR ADMINISTRATIVA', '3105731592', 'practicasintecma1@gmail.com', 2),
+(7, 'ASESORA 3', '3132525354', 'practicasintecma1@gmail.com', 3),
+(8, 'SERVICIO AL CLIENTE', '3134207060', 'practicasintecma1@gmail.com', 3),
+(9, 'ASISTENTE DE GERENCIA', '3132525417', 'practicasintecma1@gmail.com', 1),
+(10, 'ASESORA 2', '3134207085', 'practicasintecma1@gmail.com', 3),
+(11, 'CONTADOR', '3167674801', 'practicasintecma1@gmail.com', 5),
+(12, 'JEFE DE BODEGA', '3124901339', 'practicasintecma1@gmail.com', 4),
 (13, 'TRANSPORTADOR EXTERNO', 'N.A', 'practicasintecma1@gmail.com', 0),
-(14, 'TRANSPORTADOR INTERNO', 'N.A', 'N.A', 0),
-(15, 'PROVEEDOR EXTERIOR', 'N.A', 'N.A', 0),
-(16, 'CLIENTE', 'N.A', 'N.A', 0);
+(14, 'TRANSPORTADOR INTERNO', 'N.A', 'practicasintecma1@gmail.com', 0),
+(15, 'PROVEEDOR EXTERIOR', 'N.A', 'practicasintecma1@gmail.com', 0),
+(16, 'CLIENTE', 'N.A', 'practicasintecma1@gmail.com', 0);
 
 -- --------------------------------------------------------
 
@@ -254,20 +303,20 @@ INSERT INTO `cliente` (`cli_id`, `cli_nombre`, `cli_nit`, `id_clasificacion`, `c
 (4, 'ADRIANA CABEZAS CORREDOR', '52391591', 1, 'KR 92 128 68', '312 5311548', 5, 34, 'YENNY CATALINA RAMIREZ BUSTOS', 0, 0),
 (5, 'ALBA FLOR FORERO', '38255449', 4, 'KR 21 SUR 145-77 AP 601 T 21  ARBOLEDA DEL CAMPESTRE', '3143391737', 20, 49, 'VENTAS TOLIMA - HUILA', 0, 0),
 (6, 'ALENO  S.A.S.', '901043022', 1, 'CL  3   11  E  39   LC 2  BRR QUINTA ORIENTAL', '5704456', 12, 41, 'VENTAS SANTANDERES', 0, 0),
-(7, 'ALEXANDER URIBE LONDOÑO', '71783076', 1, 'CL 106 64 D 36', '2678327', 27, 1, 'VENTAS ANTIOQUIA', 0, 0),
-(8, 'ALEXANDRA CIFUENTES ANTURI', '38361856', 1, 'CL  33   4  A  69    BRR LA FRANCIA', '2665346', 20, 1, 'VENTAS TOLIMA - HUILA', 0, 0),
-(9, 'ALFA LATINA S.A.S', '901001978', 1, 'CR  32  A   17  51  BRR SAN ALONSO', '3016702478', 6, 1, 'VENTAS SANTANDERES', 0, 30),
+(7, 'ALEXANDER URIBE LONDOÑO', '71783076', 1, 'CL 106 64 D 36', '2678327', 27, 56, 'VENTAS ANTIOQUIA', 0, 0),
+(8, 'ALEXANDRA CIFUENTES ANTURI', '38361856', 1, 'CL  33   4  A  69    BRR LA FRANCIA', '2665346', 20, 49, 'VENTAS TOLIMA - HUILA', 0, 0),
+(9, 'ALFA LATINA S.A.S', '901001978', 1, 'CR  32  A   17  51  BRR SAN ALONSO', '3016702478', 6, 35, 'VENTAS SANTANDERES', 0, 30),
 (10, 'ALFAMEDICAL JE S A S', '900776657', 1, 'CL  50   3  42   BRR LAGOS II ', ' CALLE 29 11-18;6483297', 16, 1, 'VENTAS SANTANDERES', 0, 30),
-(11, 'ALFONSO TRIBIN GOMEZ', '79786994', 5, 'CR  9   116  20  CONS  830', '3118093253', 5, 1, 'ELIANA MARCELA VARGAS CORREA', 0, 0),
+(11, 'ALFONSO TRIBIN GOMEZ', '79786994', 5, 'CR  9   116  20  CONS  830', '3118093253', 5, 34, 'ELIANA MARCELA VARGAS CORREA', 0, 0),
 (12, 'ALLERS S.A.', '890312452', 1, 'KR 67 1 B 35 BRR EL REFUGIO', '7043725', 7, 36, 'VENTAS VALLE', 0, 30),
 (13, 'ALMACEN DE ELEMENTOS MEDICOS (ELEMED) LIMITADA', '830084368', 1, 'CL  42   8  A  19', '2323862', 5, 10, 'YENNY CATALINA RAMIREZ BUSTOS', 0, 15),
 (14, 'ALMACEN ORTOPEDICO OLAYA SAS', '901017982', 1, 'CR  16   48  23', '2885849', 5, 26, 'YENNY CATALINA RAMIREZ BUSTOS', 0, 15),
 (15, 'ALMACENADORA Y DEPOSITO MEDICAL LIVING S.A.S.', '901333074', 1, 'CL  68   13  30   BRR LA VICTORIA', '3227634321', 12, 41, 'VENTAS SANTANDERES', 0, 30),
 (16, 'ALPROTEC S.A.S.', '900318900', 1, 'CR  15   79  65   LC  402  B', '3196828949', 5, 10, 'YENNY CATALINA RAMIREZ BUSTOS', 0, 0),
 (17, 'ALVARO ORTIZ SOTO', '17643538', 1, 'KR  4   5  81   BRR PAEZ', '3146266648', 23, 1, 'VENTAS TOLIMA - HUILA', 0, 0),
-(18, 'AMANDA URIBE SAAVEDRA', '28403756', 5, 'KR  17   6  24   AP  103   ED  GONSIL 15   BRR ALGARRA 3', '3192671099', 50, 1, 'MERCADEO', 0, 0),
+(18, 'AMANDA URIBE SAAVEDRA', '28403756', 5, 'KR  17   6  24   AP  103   ED  GONSIL 15   BRR ALGARRA 3', '3192671099', 50, 79, 'MERCADEO', 0, 0),
 (19, 'ANA MAGDA SOSA RODRIGUEZ', '52229008', 5, 'CR 14 Q BIS A 73 C 08 SUR', '3012405777', 5, 3, 'ELIANA MARCELA VARGAS CORREA', 0, 0),
-(20, 'ANA YINETH GOMEZ CASTRO', '1057578380', 5, 'CL  158   96  A  25', '3223446859', 5, 1, 'MERCADEO', 0, 0),
+(20, 'ANA YINETH GOMEZ CASTRO', '1057578380', 5, 'CL  158   96  A  25', '3223446859', 5, 34, 'MERCADEO', 0, 0),
 (21, 'ANALICORP SAS', '900615475', 1, 'CL  73  A   70  A  45   P  3', '4551705', 5, 3, 'YENNY CATALINA RAMIREZ BUSTOS', 0, 0),
 (22, 'ANDERSON TOLEDO ROCHA', '1075237899-6', 4, 'CRA 12 No. 22 A 33', '3022224694', 30, 1, 'VENTAS TOLIMA - HUILA', 0, 0),
 (23, 'ANDREA ALDANA SANDOVAL', '52938440-3', 4, 'DIAGONAL 44 G SUR # 72 A 75 P.1', '3214713983', 5, 1, 'YENNY CATALINA RAMIREZ BUSTOS', 0, 0),
@@ -725,7 +774,8 @@ INSERT INTO `cliente` (`cli_id`, `cli_nombre`, `cli_nit`, `id_clasificacion`, `c
 (474, 'YOMA INVERSIONES Y DISTRIBUCIONES SAS', '901156099', 1, 'CL 48 N 99 A 74', '2530760', 27, 1, 'VENTAS ANTIOQUIA', 0, 0),
 (475, 'YORLY YAMIRA MESA URREA', '20750453', 1, 'TV 74 F  40 B  45  SUR', '2640246', 5, 15, 'YENNY CATALINA RAMIREZ BUSTOS', 0, 0),
 (476, 'YULI MARCELA GIL PEREZ', '1110535815', 1, 'KR  4  C   37  12   BRR MAGISTERIO', '3197265684', 20, 1, 'VENTAS TOLIMA - HUILA', 0, 30),
-(477, 'ZEGEN SUMINISTROS MEDICOS SAS', '901261261', 1, 'CL  173   45  96', '3134058917', 5, 25, 'YENNY CATALINA RAMIREZ BUSTOS', 0, 30);
+(477, 'ZEGEN SUMINISTROS MEDICOS SAS', '901261261', 1, 'CL  173   45  96', '3134058917', 5, 25, 'YENNY CATALINA RAMIREZ BUSTOS', 0, 30),
+(480, 'prueba', '11111111111', 3, 'calle numero bodega', '7777777', 5, 80, 'MERCADEO', 0, 90);
 
 -- --------------------------------------------------------
 
@@ -792,7 +842,10 @@ INSERT INTO `cliente_ciudad` (`c_c_id`, `c_c_nombre`) VALUES
 (47, 'Valledupar'),
 (48, 'Villavicencio'),
 (49, 'Yopal'),
-(50, 'Zipaquira');
+(50, 'Zipaquira'),
+(51, 'Prueba'),
+(52, 'Prueba2'),
+(53, 'ALAMO');
 
 -- --------------------------------------------------------
 
@@ -908,7 +961,8 @@ INSERT INTO `cliente_zona` (`cz_id`, `cz_nombre`, `c_c_id`) VALUES
 (76, 'N.A', 47),
 (77, 'N.A', 48),
 (78, 'N.A', 49),
-(79, 'N.A', 50);
+(79, 'N.A', 50),
+(80, 'ALAMOS', 5);
 
 -- --------------------------------------------------------
 
@@ -945,20 +999,19 @@ INSERT INTO `cred_documento` (`cred_doc_id`, `cred_doc_nombre`, `cred_doc_descri
 CREATE TABLE `cred_estado` (
   `cred_esta_id` int(5) NOT NULL,
   `cred_esta_nombre` varchar(200) NOT NULL,
-  `carg_id` int(5) NOT NULL
+  `area_emp_id` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `cred_estado`
 --
 
-INSERT INTO `cred_estado` (`cred_esta_id`, `cred_esta_nombre`, `carg_id`) VALUES
+INSERT INTO `cred_estado` (`cred_esta_id`, `cred_esta_nombre`, `area_emp_id`) VALUES
 (1, 'Solicitando', 3),
-(2, 'Verificacion Comercial', 3),
-(3, 'Verificacion Contabilidad', 5),
-(4, 'Aprobación Gerencia', 1),
-(5, 'Aprobado', 1),
-(6, 'Denegado', 1);
+(2, 'Verificación Contabilidad', 5),
+(3, 'Aprobación Gerencia', 1),
+(4, 'Aprobado', 1),
+(5, 'Denegado', 1);
 
 -- --------------------------------------------------------
 
@@ -987,7 +1040,6 @@ INSERT INTO `cred_estado_estudio` (`cred_esta_estu_id`, `cred_estu_id`, `cred_es
 (5, 1, 3, '2024-06-17', '2024-06-19', 0),
 (6, 1, 4, '2024-06-19', '2024-06-20', 0),
 (7, 1, 5, '2024-06-20', '2024-06-21', 0),
-(8, 1, 6, '2024-06-21', '2024-06-21', 0),
 (9, 2, 1, '2024-06-12', NULL, 0),
 (10, 1, 5, '2024-06-26', NULL, 0),
 (11, 2, 2, '2024-06-13', NULL, 0),
@@ -1014,14 +1066,56 @@ INSERT INTO `cred_estado_estudio` (`cred_esta_estu_id`, `cred_estu_id`, `cred_es
 (32, 7, 2, '2024-06-20', '2024-06-20', 0),
 (33, 7, 3, '2024-06-20', '2024-06-20', 0),
 (34, 7, 4, '2024-06-20', '2024-06-20', 0),
-(35, 7, 5, '2024-06-20', NULL, 0),
+(35, 7, 5, '2024-06-20', '2024-06-28', 0),
 (36, 6, 2, '2024-06-20', '2024-06-20', 0),
-(37, 6, 3, '2024-06-20', NULL, 0),
-(38, 8, 1, '2024-06-20', NULL, 0),
+(37, 6, 3, '2024-06-20', '2024-06-28', 0),
+(38, 8, 1, '2024-06-20', '2024-06-24', 0),
 (39, 9, 1, '2024-06-21', NULL, 0),
 (40, 10, 1, '2024-06-21', NULL, 0),
 (41, 11, 1, '2024-06-21', NULL, 0),
-(42, 12, 1, '2024-06-21', NULL, 0);
+(42, 12, 1, '2024-06-21', NULL, 0),
+(43, 8, 2, '2024-06-24', NULL, 0),
+(44, 8, 1, '2024-06-24', '2024-06-24', 0),
+(45, 8, 1, '2024-06-24', '2024-06-24', 0),
+(46, 8, 2, '2024-06-24', '2024-06-24', 0),
+(47, 8, 1, '2024-06-24', '2024-06-24', 5),
+(48, 8, 2, '2024-06-24', '2024-06-24', 5),
+(49, 8, 1, '2024-06-24', '2024-06-24', 5),
+(50, 8, 2, '2024-06-24', '2024-06-24', 5),
+(51, 8, 3, '2024-06-24', '2024-06-24', 11),
+(52, 8, 2, '2024-06-24', '2024-06-24', 5),
+(53, 8, 3, '2024-06-24', '2024-06-24', 11),
+(54, 8, 4, '2024-06-24', '2024-06-24', 4),
+(55, 8, 3, '2024-06-24', '2024-06-24', 11),
+(56, 8, 4, '2024-06-24', '2024-06-25', 4),
+(57, 13, 1, '2024-06-25', NULL, 0),
+(58, 8, 1, '2024-06-25', NULL, 5),
+(59, 8, 1, '2024-06-25', '2024-06-25', 5),
+(60, 8, 2, '2024-06-25', '2024-06-25', 3),
+(61, 8, 3, '2024-06-25', '2024-06-25', 3),
+(62, 8, 4, '2024-06-25', '2024-06-25', 4),
+(63, 8, 2, '2024-06-25', '2024-06-25', 3),
+(64, 8, 3, '2024-06-25', '2024-06-25', 11),
+(65, 8, 2, '2024-06-25', '2024-06-25', 3),
+(66, 8, 3, '2024-06-25', '2024-06-25', 11),
+(67, 8, 4, '2024-06-25', '2024-06-25', 4),
+(68, 8, 5, '2024-06-25', '2024-06-26', 4),
+(69, 8, 2, '2024-06-26', '2024-06-26', 3),
+(70, 8, 3, '2024-06-26', '2024-06-26', 11),
+(71, 8, 2, '2024-06-26', '2024-06-26', 3),
+(72, 8, 2, '2024-06-26', '2024-06-26', 3),
+(73, 8, 2, '2024-06-26', '2024-06-26', 3),
+(74, 8, 3, '2024-06-26', '2024-06-26', 11),
+(75, 8, 2, '2024-06-26', '2024-06-26', 3),
+(76, 8, 4, '2024-06-26', '2024-06-26', 4),
+(77, 8, 3, '2024-06-26', '2024-06-26', 11),
+(78, 8, 4, '2024-06-26', '2024-06-26', 4),
+(79, 8, 3, '2024-06-26', '2024-06-27', 11),
+(80, 8, 2, '2024-06-27', '2024-06-28', 11),
+(81, 8, 1, '2024-06-28', NULL, 3),
+(82, 7, 1, '2024-06-28', NULL, 3),
+(83, 6, 1, '2024-06-28', NULL, 3),
+(84, 14, 1, '2024-07-02', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1051,17 +1145,19 @@ CREATE TABLE `cred_estudio` (
 --
 
 INSERT INTO `cred_estudio` (`cred_estu_id`, `cred_fecha_creacion`, `cli_id`, `cred_tipo_id`, `cred_obser_comercial`, `cred_cliente_desde`, `cred_cupo_actual`, `cred_descuento_otorgado`, `cred_obser_dirComercial`, `cred_obser_contabilidad`, `cred_plazo_aprobado`, `cred_cupo_aprobado`, `cred_obser_gerencia`, `usu_id`) VALUES
-(1, '2024-06-12', 56, 4, 'Se observa un observador', '22-junio-2024', '20000000', '0', 'Todo en orden', 'Se observa contabilidad', 90, '10000000', 'Se observa gerencia', 0),
-(2, '2024-06-12', 80, 9, 'Se observa un observador 2', 'marzo-2017', '60000000', '8% en menos de 90 dias', 'Todo en orden', 'Se observa contabilidad 2', 90, '60000000', 'Se observa gerencia 2', 0),
-(4, '2024-06-13', 126, 7, 'Observacion comercial 3', 'julio-2020', '0', '0', 'Todo en orden', 'Observacion contabilidad 3', 0, '50000000', 'Observacion Gerencia 3', 0),
-(5, '2024-06-13', 256, 2, 'Observacion comercial 4', 'nov-2022', '0', '0', 'Todo en orden', 'Observacion contabilidad 4', 35, '10000000', 'Observacion Gerencia 4', 0),
-(6, '2024-06-13', 472, 1, 'Observacion comercial 5', 'oct-2022', '0', '0', 'Todo en orden', 'Observacion contabilidad 5', 40, '8000000', 'Observacion Gerencia 5', 0),
-(7, '2024-06-19', 236, 2, 'Se necesita una ampliacion de cupo para la proxima venta', 'sep-2015', '30000000', '5% antes de 90 días', 'Todo en orden', 'Observación contabilidad 4 si funciona', 60, '25000000', 'Observación Gerencia por fin', 0),
-(8, '2024-06-20', 187, 6, 'Observacion equipo comercial cuando ya esta acabando esto pero todavia falta', 'ene-2022', '0', 'Ninguno', NULL, NULL, NULL, NULL, NULL, 0),
+(1, '2024-06-12', 56, 4, 'Se observa un observador', '22-junio-2024', '20000000', '0', 'Todo en orden', 'Se observa contabilidad', 90, '10000000', 'Se observa gerencia', 1),
+(2, '2024-06-12', 80, 9, 'Se observa un observador 2', 'marzo-2017', '60000000', '8% en menos de 90 dias', 'Todo en orden', 'Se observa contabilidad 2', 90, '60000000', 'Se observa gerencia 2', 1),
+(4, '2024-06-13', 126, 7, 'Observacion comercial 3', 'julio-2020', '0', '0', 'Todo en orden', 'Observacion contabilidad 3', 0, '50000000', 'Observacion Gerencia 3', 1),
+(5, '2024-06-13', 256, 2, 'Observacion comercial 4', 'nov-2022', '0', '0', 'Todo en orden', 'Observacion contabilidad 4', 35, '10000000', 'Observacion Gerencia 4', 1),
+(6, '2024-06-13', 472, 1, 'Observacion comercial 5', 'oct-2022', '0', '0', 'Todo en orden', 'Observacion contabilidad 5', 40, '8000000', 'Observacion Gerencia 5', 1),
+(7, '2024-06-19', 236, 2, 'Se necesita una ampliacion de cupo para la proxima venta', 'sep-2015', '30000000', '5% antes de 90 días', 'Todo en orden', 'Observación contabilidad 4 si funciona', 60, '25000000', 'Observación Gerencia por fin', 1),
+(8, '2024-06-20', 187, 6, 'Observacion equipo comercial cuando ya esta acabando esto pero todavia falta', 'ene-2022', '0', 'Ninguno', 'Todo en orden', 'SE DEVUELVE POR FALTA DEL CC POR FECHA', NULL, '', '', 1),
 (9, '2024-06-21', 365, 7, 'Comprobacion de usuario', 'nov-2022', '0', 'Ninguno', NULL, NULL, NULL, NULL, NULL, 1),
 (10, '2024-06-21', 383, 3, 'Plazo necesita ser ampliado', 'dic-2019', '50000000', 'Ninguno', NULL, NULL, NULL, NULL, NULL, 1),
-(11, '2024-06-21', 267, 5, 'Siuuuu', 'jun-2018', '90000000', '30% antes de 15 dias', NULL, NULL, NULL, NULL, NULL, 1),
-(12, '2024-06-21', 57, 7, 'Siuuuuu', 'ene-2022', '20000000', '5% antes de 90 días', NULL, NULL, NULL, NULL, NULL, 1);
+(11, '2024-06-21', 267, 5, 'Pruebas', 'jun-2018', '90000000', '30% antes de 15 dias', NULL, '', 0, '', '', 1),
+(12, '2024-06-21', 57, 7, 'Pruebas', 'ene-2022', '20000000', '5% antes de 90 días', NULL, '', 0, '', '', 1),
+(13, '2024-06-25', 30, 6, 'observacion', 'sep-2015', '0', 'Ninguno', NULL, NULL, NULL, NULL, NULL, 1),
+(14, '2024-07-02', 8, 9, 'Pruebas en los correos por segunda vez', 'oct-2022', '24000000', 'Ninguno', NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1081,26 +1177,33 @@ CREATE TABLE `cred_estudio_documento` (
 --
 
 INSERT INTO `cred_estudio_documento` (`cred_estu_doc_id`, `cred_estu_doc_url`, `cred_estu_id`, `cred_doc_id`) VALUES
-(4, 'http://localhost:3000/credEstuPDFs/FORMATO_CREACION_DE_CLIENTES7.pdf', 7, 1),
-(5, 'http://localhost:3000/credEstuPDFs/RUT_VIGENTE7.pdf ', 7, 2),
+(4, 'http://192.168.1.18:3000/credEstuPDFs/FORMATO_CREACION_DE_CLIENTES7.pdf', 7, 1),
+(5, 'http://192.168.1.18:3000/credEstuPDFs/RUT_VIGENTE7.pdf ', 7, 2),
 (6, 'http://localhost:3000/credEstuPDFs/CERTIFICADO_DE_CAMARA_Y_COMERCIO7.pdf', 7, 3),
 (7, 'http://localhost:3000/credEstuPDFs/ULTIMOS_ESTADOS_FINANCIEROS7.pdf', 7, 4),
-(8, 'http://localhost:3000/credEstuPDFs/ULTIMA_DECLARACION_DE_RENTA7.pdf', 7, 5),
+(8, 'http://192.168.1.18:3000/credEstuPDFs/ULTIMA_DECLARACION_DE_RENTA7.pdf', 7, 5),
 (9, 'http://localhost:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(1)7.pdf', 7, 6),
-(10, 'http://localhost:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(2)7.pdf', 7, 7),
-(11, 'http://localhost:3000/credEstuPDFs/REFERENCIA_BANCARIA7.pdf', 7, 8),
-(13, 'http://localhost:3000/credEstuPDFs/FORMATO_CREACION_DE_CLIENTES6.pdf', 6, 1),
+(10, 'http://192.168.1.18:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(2)7.pdf', 7, 7),
+(11, 'http://192.168.1.18:3000/credEstuPDFs/REFERENCIA_BANCARIA7.pdf', 7, 8),
+(13, 'http://192.168.1.18:3000/credEstuPDFs/FORMATO_CREACION_DE_CLIENTES6.pdf', 6, 1),
 (14, 'http://localhost:3000/credEstuPDFs/RUT_VIGENTE6.pdf', 6, 2),
-(15, 'http://localhost:3000/credEstuPDFs/CERTIFICADO_DE_CAMARA_Y_COMERCIO6.pdf', 6, 3),
-(16, 'http://localhost:3000/credEstuPDFs/ULTIMOS_ESTADOS_FINANCIEROS6.pdf', 6, 4),
-(17, 'http://localhost:3000/credEstuPDFs/ULTIMA_DECLARACION_DE_RENTA6.pdf', 6, 5),
-(18, 'http://localhost:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(1)6.pdf', 6, 6),
-(19, 'http://localhost:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(2)6.pdf', 6, 7),
-(20, 'http://localhost:3000/credEstuPDFs/REFERENCIA_BANCARIA6.pdf', 6, 8),
-(22, 'http://localhost:3000/credEstuPDFs/FORMATO_CREACION_DE_CLIENTES8.pdf', 8, 1),
+(15, 'http://192.168.1.18:3000/credEstuPDFs/CERTIFICADO_DE_CAMARA_Y_COMERCIO6.pdf', 6, 3),
+(16, 'http://192.168.1.18:3000/credEstuPDFs/ULTIMOS_ESTADOS_FINANCIEROS6.pdf', 6, 4),
+(17, 'http://192.168.1.18:3000/credEstuPDFs/ULTIMA_DECLARACION_DE_RENTA6.pdf', 6, 5),
+(18, 'http://192.168.1.18:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(1)6.pdf', 6, 6),
+(19, 'http://192.168.1.18:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(2)6.pdf', 6, 7),
+(20, 'http://192.168.1.18:3000/credEstuPDFs/REFERENCIA_BANCARIA6.pdf', 6, 8),
+(22, 'http://192.168.1.18:3000/credEstuPDFs/FORMATO_CREACION_DE_CLIENTES8.pdf', 8, 1),
 (23, 'http://localhost:3000/credEstuPDFs/CERTIFICADO_DE_CAMARA_Y_COMERCIO8.pdf', 8, 3),
-(24, 'http://localhost:3000/credEstuPDFs/REFERENCIA_BANCARIA8.pdf', 8, 8),
-(25, 'http://localhost:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(1)8.pdf', 8, 6);
+(24, 'http://192.168.1.18:3000/credEstuPDFs/REFERENCIA_BANCARIA8.pdf', 8, 8),
+(25, 'http://192.168.1.18:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(1)8.pdf', 8, 6),
+(26, 'http://192.168.1.18:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(2)8.pdf', 8, 7),
+(27, 'http://192.168.1.18:3000/credEstuPDFs/RUT_VIGENTE8.pdf', 8, 2),
+(28, 'http://192.168.1.18:3000/credEstuPDFs/ULTIMA_DECLARACION_DE_RENTA8.pdf', 8, 5),
+(29, 'http://192.168.1.18:3000/credEstuPDFs/ULTIMOS_ESTADOS_FINANCIEROS8.pdf', 8, 4),
+(30, 'http://192.168.1.18:3000/credEstuPDFs/CERTIFICADO_DE_CAMARA_Y_COMERCIO9.pdf', 9, 3),
+(31, 'http://192.168.1.18:3000/credEstuPDFs/REFERENCIAS_COMERCIALES(1)13.pdf', 13, 6),
+(32, 'http://localhost:3000/credEstuPDFs/REFERENCIA_BANCARIA13.pdf', 13, 8);
 
 -- --------------------------------------------------------
 
@@ -1163,8 +1266,8 @@ INSERT INTO `pqrs` (`pqrs_id`, `pqrs_fecha_recepcion`, `cli_id`, `pqrs_doc`, `pq
 (68, '2024-05-29', 77, 'Documento-001', '', 'Prueba de correos de creacion PQRS', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
 (69, '2024-05-29', 299, 'Documento prueba', '', 'Prueba que se cree ser la Ultima fallara algo? :o', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
 (70, '2024-05-29', 296, 'dac', '', 'Prueba en la version de ´Produccion de desarrollo', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
-(71, '2024-05-29', 14, 'FV', 'http://192.168.1.18:3000/EvidenciaPqrs71.png?t=1717017653338', 'Prueba con correos en el .env', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
-(72, '2024-06-06', 11, 'FV', '', 'Se envia a gerencia', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1);
+(71, '2024-05-29', 14, 'FV', 'http://localhost:3000/EvidenciaPqrs71.png?t=1719495721051', 'Prueba con correos en el .env', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1),
+(72, '2024-06-06', 11, 'FV', 'http://localhost:3000/EvidenciaPqrs72.png?t=1719495687837', 'Se envia a gerencia', NULL, NULL, 0, 0, 0, '0000-00-00', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1278,7 +1381,8 @@ INSERT INTO `pqrs_productos` (`pqrs_productos_id`, `pqrs_id`, `prod_id`, `lote`,
 (5, 1, 4, '852', 26),
 (14, 65, 69, '230701B', 1),
 (15, 71, 51, 'N.A', 13),
-(17, 70, 73, '698', 13);
+(17, 70, 73, '698', 13),
+(24, 68, 52, '255', 15);
 
 -- --------------------------------------------------------
 
@@ -1397,7 +1501,7 @@ INSERT INTO `productos` (`prod_id`, `prod_ref`, `prod_descripcion`, `prod_presen
 (73, 'R133SS', 'BATA PACIENTE MANGA LARGA PUÑO RIB', 'UNID ', 0, 19),
 (74, 'R133ML-AZUL', 'BATA PACIENTE MANGA LARGA PUÑO RESORTADO AZUL', 'UNID ', 0, 19),
 (75, 'R133ML-BLANCA', 'BATA PACIENTE MANGA LARGA PUÑO RESORTADO BLANCA', 'UNID ', 0, 19),
-(76, 'Prueba', 'Prueba de producto', 'UNID', 10, 19),
+(76, 'Prueba', 'Prueba de producto de modificacion', 'UNID', 10, 19),
 (77, 'Prueba2', 'Prueba de producto 2', 'UNID', 20, 0);
 
 -- --------------------------------------------------------
@@ -1421,7 +1525,8 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`usu_id`, `username`, `carg_id`, `usu_contrasena`, `rol_id`, `usu_status`) VALUES
 (1, 'admin', 13, '$2b$10$RGPQk3m5YNUbZMLZBkkNhO2c9x1Sic/JTybzMZ5K/a.15Tv1xEDr.', 1, 1),
-(2, 'asesor', 13, '$2b$10$6YQguDlTcyLpNYTAlLA1xu8ViifmnXoT6/z/8jNE7rNsf.Wgf8CLy', 2, 1);
+(2, 'asesor', 13, '$2b$10$6YQguDlTcyLpNYTAlLA1xu8ViifmnXoT6/z/8jNE7rNsf.Wgf8CLy', 2, 0),
+(3, 'pruebaCambio', 13, '$2b$10$BhapdinvYrPdXeRTKY0jSOA5zJxfJFEChCbFGxChNWn.NF8xziU5K', 2, 1);
 
 --
 -- Índices para tablas volcadas
@@ -1504,7 +1609,7 @@ ALTER TABLE `cred_documento`
 --
 ALTER TABLE `cred_estado`
   ADD PRIMARY KEY (`cred_esta_id`),
-  ADD KEY `fk_cred_esta_carg` (`carg_id`);
+  ADD KEY `fk_esta_area` (`area_emp_id`);
 
 --
 -- Indices de la tabla `cred_estado_estudio`
@@ -1600,25 +1705,25 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `acc_modulos`
 --
 ALTER TABLE `acc_modulos`
-  MODIFY `mod_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `mod_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `acc_permisos`
 --
 ALTER TABLE `acc_permisos`
-  MODIFY `per_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `per_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `acc_roles`
 --
 ALTER TABLE `acc_roles`
-  MODIFY `rol_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `rol_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `acc_rutas`
 --
 ALTER TABLE `acc_rutas`
-  MODIFY `ruta_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `ruta_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de la tabla `area_empresa`
@@ -1636,13 +1741,13 @@ ALTER TABLE `cargos`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `cli_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=480;
+  MODIFY `cli_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=481;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente_ciudad`
 --
 ALTER TABLE `cliente_ciudad`
-  MODIFY `c_c_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `c_c_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente_clasificacion`
@@ -1654,7 +1759,7 @@ ALTER TABLE `cliente_clasificacion`
 -- AUTO_INCREMENT de la tabla `cliente_zona`
 --
 ALTER TABLE `cliente_zona`
-  MODIFY `cz_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `cz_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de la tabla `cred_documento`
@@ -1666,25 +1771,25 @@ ALTER TABLE `cred_documento`
 -- AUTO_INCREMENT de la tabla `cred_estado`
 --
 ALTER TABLE `cred_estado`
-  MODIFY `cred_esta_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `cred_esta_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `cred_estado_estudio`
 --
 ALTER TABLE `cred_estado_estudio`
-  MODIFY `cred_esta_estu_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `cred_esta_estu_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT de la tabla `cred_estudio`
 --
 ALTER TABLE `cred_estudio`
-  MODIFY `cred_estu_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `cred_estu_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `cred_estudio_documento`
 --
 ALTER TABLE `cred_estudio_documento`
-  MODIFY `cred_estu_doc_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `cred_estu_doc_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `cred_tipo`
@@ -1720,7 +1825,7 @@ ALTER TABLE `pqrs_plan_accion`
 -- AUTO_INCREMENT de la tabla `pqrs_productos`
 --
 ALTER TABLE `pqrs_productos`
-  MODIFY `pqrs_productos_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `pqrs_productos_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `pqrs_tipologia`
@@ -1738,7 +1843,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `usu_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `usu_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
@@ -1774,7 +1879,7 @@ ALTER TABLE `cliente_zona`
 -- Filtros para la tabla `cred_estado`
 --
 ALTER TABLE `cred_estado`
-  ADD CONSTRAINT `fk_cred_esta_carg` FOREIGN KEY (`carg_id`) REFERENCES `cargos` (`carg_id`);
+  ADD CONSTRAINT `fk_esta_area` FOREIGN KEY (`area_emp_id`) REFERENCES `area_empresa` (`area_emp_id`);
 
 --
 -- Filtros para la tabla `cred_estado_estudio`

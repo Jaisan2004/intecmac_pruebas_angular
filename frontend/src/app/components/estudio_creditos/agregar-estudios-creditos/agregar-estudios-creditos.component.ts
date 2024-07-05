@@ -72,13 +72,13 @@ export class AgregarEstudiosCreditosComponent {
     return this.formEstudio.get('cred_esta_id') as FormControl
   }
 
-  get obserDirectorCom() {
-    return this.formEstudio.get('obserDirectorCom') as FormControl
-  }
+  // get obserDirectorCom() {
+  //   return this.formEstudio.get('obserDirectorCom') as FormControl
+  // }
 
-  get estado_comercial() {
-    return this.formEstudio.get('estado_comercial') as FormControl
-  }
+  // get estado_comercial() {
+  //   return this.formEstudio.get('estado_comercial') as FormControl
+  // }
 
   get obserContabilidad() {
     return this.formEstudio.get('obserContabilidad') as FormControl
@@ -105,8 +105,8 @@ export class AgregarEstudiosCreditosComponent {
     'cupo_actual': new FormControl('', [Validators.required, Validators.max(999999999)]),
     'descuento': new FormControl('', [Validators.required, Validators.maxLength(500)]),
     'cred_esta_id': new FormControl({ value: '', disabled: true }),
-    'obserDirectorCom': new FormControl(''),
-    'estado_comercial': new FormControl(''),
+    //'obserDirectorCom': new FormControl(''),
+    // 'estado_comercial': new FormControl(''),
     'obserContabilidad': new FormControl(''),
     'plazoAprobado': new FormControl(''),
     'cupoAprobado': new FormControl(''),
@@ -278,8 +278,8 @@ export class AgregarEstudiosCreditosComponent {
         'cupo_actual': new FormControl({ value: '', disabled: true }),
         'descuento': new FormControl({ value: '', disabled: true }),
         'cred_esta_id': new FormControl({ value: '', disabled: true }),
-        'obserDirectorCom': new FormControl({ value: '', disabled: true }),
-        'estado_comercial': new FormControl({ value: '', disabled: true }),
+        // 'obserDirectorCom': new FormControl({ value: '', disabled: true }),
+        // 'estado_comercial': new FormControl({ value: '', disabled: true }),
         'obserContabilidad': new FormControl({ value: '', disabled: true }),
         'plazoAprobado': new FormControl({ value: '', disabled: true }),
         'cupoAprobado': new FormControl({ value: '', disabled: true }),
@@ -300,8 +300,8 @@ export class AgregarEstudiosCreditosComponent {
             'cupo_actual': new FormControl({ value: '', disabled: true }),
             'descuento': new FormControl({ value: '', disabled: true }),
             'cred_esta_id': new FormControl({ value: '', disabled: true }),
-            'obserDirectorCom': new FormControl({ value: '', disabled: true }),
-            'estado_comercial': new FormControl({ value: '', disabled: true }),
+            // 'obserDirectorCom': new FormControl({ value: '', disabled: true }),
+            // 'estado_comercial': new FormControl({ value: '', disabled: true }),
             'obserContabilidad': new FormControl({ value: '', disabled: true }),
             'plazoAprobado': new FormControl({ value: '', disabled: true }),
             'cupoAprobado': new FormControl({ value: '', disabled: true }),
@@ -320,8 +320,8 @@ export class AgregarEstudiosCreditosComponent {
             'cupo_actual': new FormControl({ value: '', disabled: true }),
             'descuento': new FormControl({ value: '', disabled: true }),
             'cred_esta_id': new FormControl({ value: '', disabled: true }),
-            'obserDirectorCom': new FormControl({ value: '', disabled: true }),
-            'estado_comercial': new FormControl({ value: '', disabled: true }),
+            // 'obserDirectorCom': new FormControl({ value: '', disabled: true }),
+            // 'estado_comercial': new FormControl({ value: '', disabled: true }),
             'obserContabilidad': new FormControl('', Validators.max(5000)),
             'plazoAprobado': new FormControl(''),
             'cupoAprobado': new FormControl(''),
@@ -341,8 +341,8 @@ export class AgregarEstudiosCreditosComponent {
             'cupo_actual': new FormControl({ value: '', disabled: true }),
             'descuento': new FormControl({ value: '', disabled: true }),
             'cred_esta_id': new FormControl({ value: '', disabled: true }),
-            'obserDirectorCom': new FormControl({ value: '', disabled: true }),
-            'estado_comercial': new FormControl({ value: '', disabled: true }),
+            // 'obserDirectorCom': new FormControl({ value: '', disabled: true }),
+            // 'estado_comercial': new FormControl({ value: '', disabled: true }),
             'obserContabilidad': new FormControl({ value: '', disabled: true }),
             'plazoAprobado': new FormControl('', Validators.max(999)),
             'cupoAprobado': new FormControl('', Validators.max(999999999)),
@@ -449,7 +449,7 @@ export class AgregarEstudiosCreditosComponent {
       cred_cliente_desde: this.cliente_desde.value,
       cred_cupo_actual: this.cupo_actual.value,
       cred_descuento_otorgado: this.descuento.value,
-      cred_obser_dirComercial: this.obserDirectorCom.value,
+      //cred_obser_dirComercial: this.obserDirectorCom.value,
       cred_obser_contabilidad: this.obserContabilidad.value,
       cred_plazo_aprobado: this.plazoAprobado.value,
       cred_cupo_aprobado: this.cupoAprobado.value,
@@ -480,8 +480,8 @@ export class AgregarEstudiosCreditosComponent {
       this.cliente_desde.setValue(this.data.cred_cliente_desde);
       this.cupo_actual.setValue(this.data.cred_cupo_actual);
       this.descuento.setValue(this.data.cred_descuento_otorgado);
-      this.obserDirectorCom.setValue(this.data.cred_obser_dirComercial);
-      this.contadorObserDirector = this.data.cred_obser_dirComercial.length || 0;
+      //this.obserDirectorCom.setValue(this.data.cred_obser_dirComercial);
+      //this.contadorObserDirector = this.data.cred_obser_dirComercial.length || 0;
       this.obserContabilidad.setValue(this.data.cred_obser_contabilidad);
       this.contadorObserContable = this.data.cred_obser_contabilidad.length || 0;
       this.plazoAprobado.setValue(this.data.cred_plazo_aprobado);
@@ -773,13 +773,13 @@ export class AgregarEstudiosCreditosComponent {
     }, 1500);
   }
 
-  estadoComercial() {
-    if (this.estado_comercial.value) {
-      this.obserDirectorCom.setValue('Todo en orden')
-    } else {
-      this.obserDirectorCom.setValue('');
-    }
-  }
+  // estadoComercial() {
+  //   if (this.estado_comercial.value) {
+  //     this.obserDirectorCom.setValue('Todo en orden')
+  //   } else {
+  //     this.obserDirectorCom.setValue('');
+  //   }
+  // }
 
   correoEtapa() {
     const fecha = new Date();
@@ -844,7 +844,7 @@ export class AgregarEstudiosCreditosComponent {
       cupo_actual: this.cupo_actual.value,
       cli_plazo: this.cli_plazo,
       descuento: this.descuento.value,
-      obserDirectorCom: this.obserDirectorCom.value,
+      //obserDirectorCom: this.obserDirectorCom.value,
       obserContabilidad: this.obserContabilidad.value,
       plazoAprobado: this.plazoAprobado.value,
       cupoAprobado: this.cupoAprobado.value,

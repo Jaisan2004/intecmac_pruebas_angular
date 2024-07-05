@@ -102,8 +102,6 @@ export const updatePQRS = async (req: Request, res: Response) => {
 
 }
 
-
-
 export const updatePQRSImage = async (req: Request, res: Response) => {
 
     const filePath = req.body.filePath;
