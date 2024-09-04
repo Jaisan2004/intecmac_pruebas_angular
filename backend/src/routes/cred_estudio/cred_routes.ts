@@ -2,7 +2,7 @@ import {Router} from 'express';
 import { getEstadosByEstudio, getLastEstadoByEstudio, postEstadoEstudio, updateEstadoEstudio } from '../../controllers/cred_estudio/cred_estado_estudio';
 import { getCredTipos } from '../../controllers/cred_estudio/cred_tipo';
 import { getCredDocumento, getCredDocumentos } from '../../controllers/cred_estudio/cred_documento';
-import { deleteCredDocEstudio, getCredDocByEstudio, getCredDocEstudio, postCredDocEstudio, prueba, updateCredDocEstudio } from '../../controllers/cred_estudio/cred_estudio_documento';
+import { deleteCredDocEstudio, getCredDocByEstudio, getCredDocEstudio, postCredDocEstudio, updateCredDocEstudio } from '../../controllers/cred_estudio/cred_estudio_documento';
 import { getLastCredEstu } from '../../controllers/cred_estudio/cred_estudio';
 import validarToken from '../validad_token';
 import { correoCreaEstuCred, correoEstuCredCreador, correoEtapaEstuCred } from '../../controllers/enviosCorreos';
